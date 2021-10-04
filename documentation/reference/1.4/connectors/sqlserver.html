@@ -4,7 +4,7 @@
         <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Debezium connector for SQL Server :: Debezium Documentation</title>
-    <link rel="canonical" href="https://www.debezium.io/documentation/reference/connectors/sqlserver.html">
+    <link rel="canonical" href="https://www.debezium.io/documentation/reference/1.7/connectors/sqlserver.html">
     <meta name="generator" content="Antora 2.3.4">
 <link rel="stylesheet" href="../../../debezium-antora/css/site.css">
 <link rel="stylesheet" href="../../../debezium-antora/css/debezium-antora.css">
@@ -205,8 +205,14 @@
     <li class="component is-current">
       <span class="title">Debezium Documentation</span>
       <ul class="versions">
+        <li class="version">
+          <a href="../../index.html">nightly</a>
+        </li>
         <li class="version is-latest">
-          <a href="../../index.html">master</a>
+          <a href="../../1.7/index.html">1.7</a>
+        </li>
+        <li class="version">
+          <a href="../../1.6/index.html">1.6</a>
         </li>
         <li class="version">
           <a href="../../1.5/index.html">1.5</a>
@@ -242,7 +248,7 @@
 <main role="main" class="main">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="../../index.html" class="home-link"></a>
+  <a href="../../1.7/index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../index.html">Debezium Documentation</a></li>
@@ -256,7 +262,9 @@
         <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">1.4</button>
         <!--<button class="version-menu-toggle versions-menu-select" title="Select other versions">Select</button>-->
         <div class="version-menu">
-                <a class="version" href="../../connectors/sqlserver.html">master</a>
+                <a class="version" href="../../connectors/sqlserver.html">nightly</a>
+                <a class="version" href="../../1.7/connectors/sqlserver.html">1.7</a>
+                <a class="version" href="../../1.6/connectors/sqlserver.html">1.6</a>
                 <a class="version" href="../../1.5/connectors/sqlserver.html">1.5</a>
                 <a class="version is-current" href="sqlserver.html">1.4</a>
                 <a class="version" href="../../1.3/connectors/sqlserver.html">1.3</a>
@@ -274,10 +282,10 @@
 <div class="article-grid">
 <div class="article-cell1">
 <article class="doc">
-            <div class="version-banner version-banner-development">
-    You are viewing documentation for the current development version of Debezium.
+            <div class="version-banner version-banner-outdated">
+    You are viewing documentation for an outdated version of Debezium.
     <br/>
-            If you want to view the latest stable version of this page, please go <a href="../../1.3/connectors/sqlserver.html">here</a>.
+            If you want to view the latest stable version of this page, please go <a href="../../1.6/connectors/sqlserver.html">here</a>.
             
 </div>            <h1 class="page">Debezium connector for SQL Server</h1>
         <div id="preamble">
@@ -318,13 +326,28 @@
 <li><a href="#_verifying_that_the_user_has_access_to_the_cdc_table">Verifying that the user has access to the CDC table</a></li>
 <li><a href="#sqlserver-on-azure">SQL Server on Azure</a></li>
 <li><a href="#sqlserver-always-on-replica">SQL Server Always On</a></li>
+<li><a href="#_effect_of_sql_server_capture_job_agent_configuration_on_server_load_and_latency">Effect of SQL Server capture job agent configuration on server load and latency</a></li>
+<li><a href="#_sql_server_capture_job_agent_configuration_parameters">SQL Server capture job agent configuration parameters</a></li>
 </ul>
 </li>
-<li><a href="#_deployment_and_management_of_debezium_sql_server_connectors">Deployment and management of Debezium SQL Server connectors</a>
+<li><a href="#sqlserver-deploying-a-connector">Deployment</a>
 <ul class="sectlevel2">
-<li><a href="#sqlserver-deploying-a-connector">Deployment</a></li>
-<li><a href="#sqlserver-schema-evolution">Database schema evolution</a></li>
-<li><a href="#sqlserver-monitoring">Monitoring</a></li>
+<li><a href="#sqlserver-example-configuration">SQL Server connector configuration example</a></li>
+<li><a href="#sqlserver-adding-connector-configuration">Adding connector configuration</a></li>
+<li><a href="#sqlserver-connector-properties">Connector properties</a></li>
+</ul>
+</li>
+<li><a href="#sqlserver-schema-evolution">Database schema evolution</a>
+<ul class="sectlevel2">
+<li><a href="#offline-schema-updates">Offline schema updates</a></li>
+<li><a href="#online-schema-updates">Online schema updates</a></li>
+</ul>
+</li>
+<li><a href="#sqlserver-monitoring">Monitoring</a>
+<ul class="sectlevel2">
+<li><a href="#sqlserver-snapshot-metrics">Snapshot metrics</a></li>
+<li><a href="#sqlserver-streaming-metrics">Streaming metrics</a></li>
+<li><a href="#sqlserver-schema-history-metrics">Schema history metrics</a></li>
 </ul>
 </li>
 </ul>
@@ -573,7 +596,7 @@ The connector writes all of these events to a Kafka topic named <code>&lt;server
   },
   "payload": {
     "source": {
-      "version": "1.4.1.Final",
+      "version": "1.4.2.Final",
       "connector": "sqlserver",
       "name": "server1",
       "ts_ms": 1588252618953,
@@ -770,7 +793,7 @@ In the following example, the <code>payload</code> field contains the key:</p>
 <p>Debezium and Kafka Connect are designed around <em>continuous streams of event messages</em>. However, the structure of these events may change over time, which can be difficult for consumers to handle. To address this, each event contains the schema for its content or, if you are using a schema registry, a schema ID that a consumer can use to obtain the schema from the registry. This makes each event self-contained.</p>
 </div>
 <div class="paragraph">
-<p>The following skeleton JSON shows the basic four parts of a change event. However, how you configure the Kafka Connect converter that you choose to use in your application determines the representation of these four parts in change events. A <code>schema</code> field is in a change event only when you configure the converter to produce it. Likewise, the event key and event payload are in a change event only if you configure a converter to produce it. If you use the JSON converver and you configure it to produce all four basic change event parts, change events have this structure:</p>
+<p>The following skeleton JSON shows the basic four parts of a change event. However, how you configure the Kafka Connect converter that you choose to use in your application determines the representation of these four parts in change events. A <code>schema</code> field is in a change event only when you configure the converter to produce it. Likewise, the event key and event payload are in a change event only if you configure a converter to produce it. If you use the JSON converter and you configure it to produce all four basic change event parts, change events have this structure:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -925,7 +948,7 @@ It is possible to override the table&#8217;s primary key by setting the <a href=
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>server1.dbo&#8203;.customers&#8203;.Key</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>server1.dbo.customers.Key</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Name of the schema that defines the structure of the key&#8217;s payload. This schema describes the structure of the primary key for the table that was changed. Key schema names have the format <em>connector-name</em>.<em>database-schema-name</em>.<em>table-name</em>.<code>Key</code>. In this example:<br></p>
 </div>
@@ -1154,7 +1177,7 @@ It is possible to override the table&#8217;s primary key by setting the <a href=
       "email": "john.doe@example.org"
     },
     "source": { <i class="conum" data-value="8"></i><b>(8)</b>
-      "version": "1.4.1.Final",
+      "version": "1.4.2.Final",
       "connector": "sqlserver",
       "name": "server1",
       "ts_ms": 1559729468470,
@@ -1327,7 +1350,7 @@ By comparing the value for <code>payload.source.ts_ms</code> with the value for 
       "email": "noreply@example.org"
     },
     "source": { <i class="conum" data-value="3"></i><b>(3)</b>
-      "version": "1.4.1.Final",
+      "version": "1.4.2.Final",
       "connector": "sqlserver",
       "name": "server1",
       "ts_ms": 1559729995937,
@@ -1470,7 +1493,7 @@ By comparing the value for <code>payload.source.ts_ms</code> with the value for 
     },
     "after": null, <i class="conum" data-value="2"></i><b>(2)</b>
     "source": { <i class="conum" data-value="3"></i><b>(3)</b>
-      "version": "1.4.1.Final",
+      "version": "1.4.2.Final",
       "connector": "sqlserver",
       "name": "server1",
       "ts_ms": 1559730445243,
@@ -2442,29 +2465,139 @@ If the result is empty, verify that the user has privileges to access both the c
 <div class="sect2">
 <h3 id="sqlserver-always-on-replica"><a class="anchor" href="#sqlserver-always-on-replica"></a>SQL Server Always On</h3>
 <div class="paragraph">
-<p>The SQL Server connector can capture changes from an Always On read-only replica.
-A few pre-requisities are necessary to be fulfilled:</p>
+<p>The SQL Server connector can capture changes from an Always On read-only replica.</p>
 </div>
 <div class="ulist">
+<div class="title">Prerequisites</div>
 <ul>
 <li>
 <p>Change data capture is configured and enabled on the primary node.
 SQL Server does not support CDC directly on replicas.</p>
 </li>
 <li>
-<p>The configuration option <code>database.applicationIntent</code> must be set to <code>ReadOnly</code>.
+<p>The configuration option <code>database.applicationIntent</code> is set to <code>ReadOnly</code>.
 This is required by SQL Server.
-When Debezium detects this configuration option then it will:</p>
+When Debezium detects this configuration option, it responds by taking the following actions:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>set <code>snapshot.isolation.mode</code> to <code>snapshot</code> as this is the only one transaction isolation mode supported by read-only replicas</p>
+<p>Sets <code>snapshot.isolation.mode</code> to <code>snapshot</code>, which is the only one transaction isolation mode supported for read-only replicas.</p>
 </li>
 <li>
-<p>commit the (read-only) transaction in every execution of the streaming query loop, as this is necessary to get the latest view on CDC data</p>
+<p>Commits the (read-only) transaction in every execution of the streaming query loop, which is necessary to get the latest view of CDC data.</p>
 </li>
 </ul>
 </div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_effect_of_sql_server_capture_job_agent_configuration_on_server_load_and_latency"><a class="anchor" href="#_effect_of_sql_server_capture_job_agent_configuration_on_server_load_and_latency"></a>Effect of SQL Server capture job agent configuration on server load and latency</h3>
+<div class="paragraph">
+<p>When a database administrator enables change data capture for a source table, the capture job agent begins to run.
+The agent reads new change event records from the transaction log and replicates the event records to a change data table.
+Between the time that a change is committed in the source table, and the time that the change appears in the corresponding change table, there is always a small latency interval.
+This latency interval represents a gap between when changes occur in the source table and when they become available for Debezium to stream to Apache Kafka.</p>
+</div>
+<div class="paragraph">
+<p>Ideally, for applications that must respond quickly to changes in data, you want to maintain close synchronization between the source and change tables.
+You might imagine that running the capture agent to continuously process change events as rapidly as possible might result in increased throughput and reduced latency&#8201;&#8212;&#8201;populating change tables with new event records as soon as possible after the events occur, in near real time.
+However, this is not necessarily the case.
+There is a performance penalty to pay in the pursuit of more immediate synchronization.
+Each time that the capture job agent queries the database for new event records, it increases the CPU load on the database host.
+The additional load on the server can have a negative effect on overall database performance, and potentially reduce transaction efficiency, especially during times of peak database use.</p>
+</div>
+<div class="paragraph">
+<p>It&#8217;s important to monitor database metrics so that you know if the database reaches the point where the server can no longer support the capture agent&#8217;s level of activity.
+If you notice performance problems, there are SQL Server capture agent settings that you can modify to help balance the overall CPU load on the database host with a tolerable degree of latency.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sql_server_capture_job_agent_configuration_parameters"><a class="anchor" href="#_sql_server_capture_job_agent_configuration_parameters"></a>SQL Server capture job agent configuration parameters</h3>
+<div class="paragraph">
+<p>On SQL Server, parameters that control the behavior of the capture job agent are defined in the SQL Server table <a href="https://docs.microsoft.com/en-us/sql/relational-databases/system-tables/dbo-cdc-jobs-transact-sql?view=latest"><code>msdb.dbo.cdc_jobs</code></a>.
+If you experience performance issues while running the capture job agent, adjust capture jobs settings to reduce CPU load by running the <a href="https://docs.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/sys-sp-cdc-change-job-transact-sql?view=latest"><code>sys.sp_cdc_change_job</code></a> stored procedure and supplying new values.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Specific guidance about how to configure SQL Server capture job agent parameters is beyond the scope of this documentation.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The following parameters are the most significant for modifying capture agent behavior for use with the Debezium SQL Server connector:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>pollinginterval</code></dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>Specifies the number of seconds that the capture agent waits between log scan cycles.</p>
+</li>
+<li>
+<p>A higher value reduces the load on the database host and increases latency.</p>
+</li>
+<li>
+<p>A value of <code>0</code> specifies no wait between scans.</p>
+</li>
+<li>
+<p>The default value is <code>5</code>.</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1"><code>maxtrans</code></dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>Specifies the maximum number of transactions to process during each log scan cycle.
+After the capture job processes the specified number of transactions, it pauses for the length of time that the <code>pollinginterval</code> specifies before the next scan begins.</p>
+</li>
+<li>
+<p>A lower value reduces the load on the database host and increases latency.</p>
+</li>
+<li>
+<p>The default value is <code>500</code>.</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1"><code>maxscans</code></dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>Specifies a limit on the number of scan cycles that the capture job can attempt in capturing the full contents of the database transaction log.
+If the <code>continuous</code> parameter is set to <code>1</code>, the job pauses for the length of time that the <code>pollinginterval</code> specifies before it resumes scanning.</p>
+</li>
+<li>
+<p>A lower values reduces the load on the database host and increases latency.</p>
+</li>
+<li>
+<p>The default value is <code>10</code>.</p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+<div class="ulist">
+<div class="title">Additional resources</div>
+<ul>
+<li>
+<p>For more information about capture agent parameters, see the SQL Server documentation.</p>
 </li>
 </ul>
 </div>
@@ -2472,57 +2605,75 @@ When Debezium detects this configuration option then it will:</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_deployment_and_management_of_debezium_sql_server_connectors"><a class="anchor" href="#_deployment_and_management_of_debezium_sql_server_connectors"></a>Deployment and management of Debezium SQL Server connectors</h2>
+<h2 id="sqlserver-deploying-a-connector"><a class="anchor" href="#sqlserver-deploying-a-connector"></a>Deployment</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="sqlserver-deploying-a-connector"><a class="anchor" href="#sqlserver-deploying-a-connector"></a>Deployment</h3>
 <div class="paragraph">
-<p>With <a href="https://zookeeper.apache.org">Zookeeper</a>, <a href="http://kafka.apache.org/">Kafka</a>, and <a href="https://kafka.apache.org/documentation.html#connect">Kafka Connect</a> installed, the remaining tasks to deploy a Debezium SQL Server connector are to download the <a href="https://repo1.maven.org/maven2/io/debezium/debezium-connector-sqlserver/1.4.1.Final/debezium-connector-sqlserver-1.4.1.Final-plugin.tar.gz">connector&#8217;s plug-in archive</a>, extract the JAR files into your Kafka Connect environment, and add the directory with the JAR files to <a href="https://kafka.apache.org/documentation/#connectconfigs">Kafka Connect&#8217;s <code>plugin.path</code></a>.
-Restart your Kafka Connect process to pick up the new JAR files.</p>
+<p>To deploy a Debezium SQL Server connector, you install the Debezium SQL Server connector archive, configure the connector, and start the connector by adding its configuration to Kafka Connect.</p>
 </div>
-<div class="paragraph">
-<p>If you are working with immutable containers, see <a href="https://hub.docker.com/r/debezium/">Debezium&#8217;s container images</a> for Zookeeper, Kafka, SQL Server and Kafka Connect with the SQL Server connector already installed and ready to run. You can also <a href="../operations/openshift.html" class="page">run Debezium on Kubernetes and OpenShift</a>.</p>
-</div>
-<div class="sect3">
-<h4 id="sqlserver-example-configuration"><a class="anchor" href="#sqlserver-example-configuration"></a>Example configuration</h4>
-<div class="paragraph">
-<p>To use the connector to produce change events for a particular SQL Server database or cluster:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="ulist">
+<div class="title">Prerequisites</div>
+<ul>
 <li>
-<p>Enable the <a href="#setting-up-sqlserver">CDC on SQL Server</a> to publish the <em>CDC</em> events in the database.</p>
+<p><a href="https://zookeeper.apache.org/">Apache ZooKeeper</a>, <a href="http://kafka.apache.org/">Apache Kafka</a>, and <a href="https://kafka.apache.org/documentation.html#connect">Kafka Connect</a> are installed.</p>
 </li>
 <li>
-<p>Create a configuration file for the SQL Server connector.</p>
+<p>SQL Server is installed, is <a href="#setting-up-sqlserver">configured for CDC</a>, and is ready to be used with the Debezium connector].</p>
+</li>
+</ul>
+</div>
+<div class="olist arabic">
+<div class="title">Procedure</div>
+<ol class="arabic">
+<li>
+<p>Download the Debezium <a href="https://repo1.maven.org/maven2/io/debezium/debezium-connector-sqlserver/1.4.2.Final/debezium-connector-sqlserver-1.4.2.Final-plugin.tar.gz">SQL Server connector plug-in archive</a></p>
+</li>
+<li>
+<p>Extract the files into your Kafka Connect environment.</p>
+</li>
+<li>
+<p>Add the directory with the JAR files to <a href="https://kafka.apache.org/documentation/#connectconfigs">Kafka Connect&#8217;s <code>plugin.path</code></a>.</p>
+</li>
+<li>
+<p><a href="#sqlserver-example-configuration">Configure the connector</a> and <a href="#sqlserver-adding-connector-configuration">add the configuration to your Kafka Connect cluster.</a></p>
+</li>
+<li>
+<p>Restart your Kafka Connect process to pick up the new JAR files.</p>
 </li>
 </ol>
 </div>
 <div class="paragraph">
-<p>When the connector starts, it will create a consistent snapshot of the schemas in your SQL Server database and start streaming changes, producing change event records for every row in which data was inserted, updated, or deleted.
-Optionally, you can configure the connector to produce change events for a subset of the schemas and tables in a database.
-For example you can ignore, mask, or truncate columns that contain sensitive data, that are larger than a specified size, or that you do not need.</p>
+<p>If you are working with immutable containers, see <a href="https://hub.docker.com/r/debezium/">Debezium&#8217;s container images</a> for Åpache ZooKeeper, Apache Kafka, and Kafka Connect.
+You can pull the official <a href="https://hub.docker.com/_/microsoft-mssql-server">container images for Microsoft SQL Server on Linux</a> from Docker Hub.</p>
 </div>
 <div class="paragraph">
+<p>You can also <a href="../operations/openshift.html" class="page">run Debezium on Kubernetes and OpenShift</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="sqlserver-example-configuration"><a class="anchor" href="#sqlserver-example-configuration"></a>SQL Server connector configuration example</h3>
+<div class="paragraph">
 <p>Following is an example of the configuration for a connector instance that captures data from a SQL Server server at port 1433 on 192.168.99.100, which we logically name <code>fullfillment</code>.
-Typically, you configure the Debezium SQL Server connector in a <code>.json</code> file using the configuration properties available for the connector.</p>
+Typically, you configure the Debezium SQL Server connector in a JSON file by setting the configuration properties that are available for the connector.</p>
+</div>
+<div class="paragraph">
+<p>You can choose to produce events for a subset of the schemas and tables in a database.
+Optionally, you can ignore, mask, or truncate columns that contain sensitive data, that are larger than a specified size, or that you do not need.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
-  "name": "inventory-connector", <i class="conum" data-value="1"></i><b>(1)</b>
-  "config": {
-    "connector.class": "io.debezium.connector.sqlserver.SqlServerConnector", <i class="conum" data-value="2"></i><b>(2)</b>
-    "database.hostname": "192.168.99.100", <i class="conum" data-value="3"></i><b>(3)</b>
-    "database.port": "1433", <i class="conum" data-value="4"></i><b>(4)</b>
-    "database.user": "sa", <i class="conum" data-value="5"></i><b>(5)</b>
-    "database.password": "Password!", <i class="conum" data-value="6"></i><b>(6)</b>
-    "database.dbname": "testDB", <i class="conum" data-value="7"></i><b>(7)</b>
-    "database.server.name": "fullfillment", <i class="conum" data-value="8"></i><b>(8)</b>
-    "table.include.list": "dbo.customers", <i class="conum" data-value="9"></i><b>(9)</b>
-    "database.history.kafka.bootstrap.servers": "kafka:9092", <i class="conum" data-value="10"></i><b>(10)</b>
-    "database.history.kafka.topic": "dbhistory.fullfillment" <i class="conum" data-value="11"></i><b>(11)</b>
-  }
+    "name": "inventory-connector", <i class="conum" data-value="1"></i><b>(1)</b>
+    "config": {
+        "connector.class": "io.debezium.connector.sqlserver.SqlServerConnector", <i class="conum" data-value="2"></i><b>(2)</b>
+        "database.hostname": "192.168.99.100", <i class="conum" data-value="3"></i><b>(3)</b>
+        "database.port": "1433", <i class="conum" data-value="4"></i><b>(4)</b>
+        "database.user": "sa", <i class="conum" data-value="5"></i><b>(5)</b>
+        "database.password": "Password!", <i class="conum" data-value="6"></i><b>(6)</b>
+        "database.dbname": "testDB", <i class="conum" data-value="7"></i><b>(7)</b>
+        "database.server.name": "fullfillment", <i class="conum" data-value="8"></i><b>(8)</b>
+        "table.include.list": "dbo.customers", <i class="conum" data-value="9"></i><b>(9)</b>
+        "database.history.kafka.bootstrap.servers": "kafka:9092", <i class="conum" data-value="10"></i><b>(10)</b>
+        "database.history.kafka.topic": "dbhistory.fullfillment" <i class="conum" data-value="11"></i><b>(11)</b>
+    }
 }</code></pre>
 </div>
 </div>
@@ -2575,25 +2726,39 @@ Typically, you configure the Debezium SQL Server connector in a <code>.json</cod
 </table>
 </div>
 <div class="paragraph">
-<p>See the <a href="#sqlserver-connector-properties">complete list of connector properties</a> that can be specified in these configurations.</p>
+<p>For the complete list of the configuration properties that you can set for the Debezium SQL Server connector, see <a href="#sqlserver-connector-properties">SQL Server connector properties</a>.</p>
 </div>
 <div class="paragraph">
-<p>This configuration can be sent via POST to a running Kafka Connect service, which will then record the configuration and start up the one connector task that will connect to the SQL Server database, read the transaction log, and record events to Kafka topics.</p>
+<p>You can send this configuration with a <code>POST</code> command to a running Kafka Connect service.
+The service records the configuration and start up the one connector task that performs the following tasks:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Connects to the SQL Server database.</p>
+</li>
+<li>
+<p>Reads the transaction log.</p>
+</li>
+<li>
+<p>Records change events to Kafka topics.</p>
+</li>
+</ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="sqlserver-adding-connector-configuration"><a class="anchor" href="#sqlserver-adding-connector-configuration"></a>Adding connector configuration</h4>
+<div class="sect2">
+<h3 id="sqlserver-adding-connector-configuration"><a class="anchor" href="#sqlserver-adding-connector-configuration"></a>Adding connector configuration</h3>
 <div class="paragraph">
-<p>To run a Debezium SQL Server connector, create a connector configuration and add the configuration to your Kafka Connect cluster.</p>
+<p>To start running a Debezium SQL Server connector, create a connector configuration, and add the configuration to your Kafka Connect cluster.</p>
 </div>
 <div class="ulist">
 <div class="title">Prerequisites</div>
 <ul>
 <li>
-<p>SQL Server is set up to run a Debezium connector.</p>
+<p><a href="#setting-up-sqlserver">CDC is enabled on SQL Server</a>.</p>
 </li>
 <li>
-<p>A Debezium SQL Server connector is installed.</p>
+<p>The Debezium SQL Server connector is installed.</p>
 </li>
 </ul>
 </div>
@@ -2610,11 +2775,16 @@ Typically, you configure the Debezium SQL Server connector in a <code>.json</cod
 </div>
 <div class="paragraph">
 <div class="title">Results</div>
-<p>When the connector starts, it <a href="#sqlserver-snapshots">performs a consistent snapshot</a> of the SQL Server databases that the connector is configured for. The connector then starts generating data change events for row-level operations and streaming change event records to Kafka topics.</p>
+<p>When the connector starts, it <a href="#sqlserver-snapshots">performs a consistent snapshot</a> of the SQL Server databases that the connector is configured for.
+The connector then starts generating data change events for row-level operations and streaming the change event records to Kafka topics.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="sqlserver-connector-properties"><a class="anchor" href="#sqlserver-connector-properties"></a>Connector properties</h4>
+<div class="sect2">
+<h3 id="sqlserver-connector-properties"><a class="anchor" href="#sqlserver-connector-properties"></a>Connector properties</h3>
+<div class="paragraph">
+<p>The Debezium SQL Server connector has numerous configuration properties that you can use to achieve the right connector behavior for your application.
+Many properties have default values.</p>
+</div>
 <div class="paragraph">
 <p>The following configuration properties are <em>required</em> unless a default value is available.</p>
 </div>
@@ -2710,7 +2880,7 @@ Typically, you configure the Debezium SQL Server connector in a <code>.json</cod
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="sqlserver-property-database-server-name"></a><a href="#sqlserver-property-database-server-name"><code>database.server&#8203;.name</code></a></p>
+<p><a id="sqlserver-property-database-server-name"></a><a href="#sqlserver-property-database-server-name"><code>database.server.name</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
@@ -2720,7 +2890,7 @@ Only alphanumeric characters and underscores should be used.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="sqlserver-property-database-history-kafka-topic"></a><a href="#sqlserver-property-database-history-kafka-topic"><code>database.history&#8203;.kafka.topic</code></a></p>
+<p><a id="sqlserver-property-database-history-kafka-topic"></a><a href="#sqlserver-property-database-history-kafka-topic"><code>database.history.kafka.topic</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
@@ -2729,7 +2899,7 @@ Only alphanumeric characters and underscores should be used.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="sqlserver-property-database-history-kafka-bootstrap-servers"></a><a href="#sqlserver-property-database-history-kafka-bootstrap-servers"><code>database.history&#8203;.kafka.bootstrap&#8203;.servers</code></a></p>
+<p><a id="sqlserver-property-database-history-kafka-bootstrap-servers"></a><a href="#sqlserver-property-database-history-kafka-bootstrap-servers"><code>database.history.kafka.bootstrap.servers</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
@@ -2738,7 +2908,7 @@ This connection is used for retrieving database schema history previously stored
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="sqlserver-property-table-include-list" class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a id="sqlserver-property-table-include-list"></a><a href="#sqlserver-property-table-include-list"><code>table.include.list</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"></div></td>
@@ -2749,7 +2919,7 @@ Must not be used with <code>table.exclude.list</code>.</p>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="sqlserver-property-table-exclude-list" class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a id="sqlserver-property-table-exclude-list"></a><a href="#sqlserver-property-table-exclude-list"><code>table.exclude.list</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"></div></td>
@@ -2759,7 +2929,7 @@ Each identifier is of the form <em>schemaName</em>.<em>tableName</em>. Must not 
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="sqlserver-property-column-include-list" class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a id="sqlserver-property-column-include-list"></a><a href="#sqlserver-property-column-include-list"><code>column.include.list</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
@@ -2773,7 +2943,7 @@ Do not also set the <code>column.exclude.list</code> property.</p>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="sqlserver-property-column-exclude-list" class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a id="sqlserver-property-column-exclude-list"></a><a href="#sqlserver-property-column-exclude-list"><code>column.exclude.list</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
@@ -2788,7 +2958,7 @@ Do not also set the <code>column.include.list</code> property.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="sqlserver-property-column-mask-hash"></a><a href="#sqlserver-property-column-mask-hash"><code>column.mask&#8203;.hash.<em>hashAlgorithm</em>&#8203;.with.salt.<em>salt</em></code></a></p>
+<p><a id="sqlserver-property-column-mask-hash"></a><a href="#sqlserver-property-column-mask-hash"><code>column.mask.hash._hashAlgorithm_.with.salt._salt_</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><em>n/a</em></p>
@@ -2818,7 +2988,7 @@ The hash is automatically shortened to the length of the column.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="sqlserver-property-time-precision-mode"></a><a href="#sqlserver-property-time-precision-mode"><code>time.precision&#8203;.mode</code></a></p>
+<p><a id="sqlserver-property-time-precision-mode"></a><a href="#sqlserver-property-time-precision-mode"><code>time.precision.mode</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>adaptive</code></p>
@@ -2829,7 +2999,7 @@ The hash is automatically shortened to the length of the column.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="sqlserver-property-include-schema-changes"></a><a href="#sqlserver-property-include-schema-changes"><code>include.schema&#8203;.changes</code></a></p>
+<p><a id="sqlserver-property-include-schema-changes"></a><a href="#sqlserver-property-include-schema-changes"><code>include.schema.changes</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>true</code></p>
@@ -2840,7 +3010,7 @@ The hash is automatically shortened to the length of the column.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="sqlserver-property-tombstones-on-delete"></a><a href="#sqlserver-property-tombstones-on-delete"><code>tombstones.on&#8203;.delete</code></a></p>
+<p><a id="sqlserver-property-tombstones-on-delete"></a><a href="#sqlserver-property-tombstones-on-delete"><code>tombstones.on.delete</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>true</code></p>
@@ -2853,7 +3023,7 @@ Emitting the tombstone event (the default behavior) allows Kafka to completely d
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="sqlserver-property-column-truncate-to-length-chars"></a><a href="#sqlserver-property-column-truncate-to-length-chars"><code>column.truncate.to&#8203;.<em>length</em>.chars</code></a></p>
+<p><a id="sqlserver-property-column-truncate-to-length-chars"></a><a href="#sqlserver-property-column-truncate-to-length-chars"><code>column.truncate.to._length_.chars</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><em>n/a</em></p>
@@ -2864,7 +3034,7 @@ Emitting the tombstone event (the default behavior) allows Kafka to completely d
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="sqlserver-property-column-mask-with-length-chars"></a><a href="#sqlserver-property-column-mask-with-length-chars"><code>column.mask.with&#8203;.<em>length</em>.chars</code></a></p>
+<p><a id="sqlserver-property-column-mask-with-length-chars"></a><a href="#sqlserver-property-column-mask-with-length-chars"><code>column.mask.with._length_.chars</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><em>n/a</em></p>
@@ -2875,7 +3045,7 @@ Emitting the tombstone event (the default behavior) allows Kafka to completely d
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="sqlserver-property-column-propagate-source-type"></a><a href="#sqlserver-property-column-propagate-source-type"><code>column.propagate&#8203;.source.type</code></a></p>
+<p><a id="sqlserver-property-column-propagate-source-type"></a><a href="#sqlserver-property-column-propagate-source-type"><code>column.propagate.source.type</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><em>n/a</em></p>
@@ -2889,7 +3059,7 @@ Fully-qualified names for columns are of the form <em>schemaName</em>.<em>tableN
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="sqlserver-property-datatype-propagate-source-type"></a><a href="#sqlserver-property-datatype-propagate-source-type"><code>datatype.propagate&#8203;.source.type</code></a></p>
+<p><a id="sqlserver-property-datatype-propagate-source-type"></a><a href="#sqlserver-property-datatype-propagate-source-type"><code>datatype.propagate.source.type+</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><em>n/a</em></p>
@@ -2984,7 +3154,7 @@ The following values are supported:</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="sqlserver-property-snapshot-isolation-mode"></a><a href="#sqlserver-property-snapshot-isolation-mode"><code>snapshot.isolation&#8203;.mode</code></a></p>
+<p><a id="sqlserver-property-snapshot-isolation-mode"></a><a href="#sqlserver-property-snapshot-isolation-mode"><code>snapshot.isolation.mode</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><em>repeatable_read</em></p>
@@ -3029,7 +3199,7 @@ For <code>read_uncommitted</code> there are no data consistency guarantees at al
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="sqlserver-property-source-timestamp-mode"></a><a href="#sqlserver-property-source-timestamp-mode"><code>source.timestamp&#8203;.mode</code></a></p>
+<p><a id="sqlserver-property-source-timestamp-mode"></a><a href="#sqlserver-property-source-timestamp-mode"><code>source.timestamp.mode</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><em>commit</em></p>
@@ -3051,7 +3221,7 @@ Use the <code>processing</code> option if you want {prodname] to set the top lev
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="sqlserver-property-event-processing-failure-handling-mode"></a><a href="#sqlserver-property-event-processing-failure-handling-mode"><code>event.processing&#8203;.failure.handling&#8203;.mode</code></a></p>
+<p><a id="sqlserver-property-event-processing-failure-handling-mode"></a><a href="#sqlserver-property-event-processing-failure-handling-mode"><code>event.processing.failure.handling.mode</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>fail</code></p>
@@ -3098,7 +3268,7 @@ Use the <code>processing</code> option if you want {prodname] to set the top lev
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="sqlserver-property-heartbeat-interval-ms"></a><a href="#sqlserver-property-heartbeat-interval-ms"><code>heartbeat.interval&#8203;.ms</code></a></p>
+<p><a id="sqlserver-property-heartbeat-interval-ms"></a><a href="#sqlserver-property-heartbeat-interval-ms"><code>heartbeat.interval.ms</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>0</code></p>
@@ -3117,7 +3287,7 @@ Disabled by default.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="sqlserver-property-heartbeat-topics-prefix"></a><a href="#sqlserver-property-heartbeat-topics-prefix"><code>heartbeat.topics&#8203;.prefix</code></a></p>
+<p><a id="sqlserver-property-heartbeat-topics-prefix"></a><a href="#sqlserver-property-heartbeat-topics-prefix"><code>heartbeat.topics.prefix</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>__debezium-heartbeat</code></p>
@@ -3161,7 +3331,7 @@ Defaults to the JDBC driver&#8217;s default fetch size.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="sqlserver-property-snapshot-lock-timeout-ms"></a><a href="#sqlserver-property-snapshot-lock-timeout-ms"><code>snapshot.lock&#8203;.timeout.ms</code></a></p>
+<p><a id="sqlserver-property-snapshot-lock-timeout-ms"></a><a href="#sqlserver-property-snapshot-lock-timeout-ms"><code>snapshot.lock.timeout.ms</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>10000</code></p>
@@ -3173,7 +3343,7 @@ When set to <code>0</code> the connector will fail immediately when it cannot ob
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="sqlserver-property-snapshot-select-statement-overrides"></a><a href="#sqlserver-property-snapshot-select-statement-overrides"><code>snapshot.select&#8203;.statement&#8203;.overrides</code></a></p>
+<p><a id="sqlserver-property-snapshot-select-statement-overrides"></a><a href="#sqlserver-property-snapshot-select-statement-overrides"><code>snapshot.select.statement.overrides</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
@@ -3199,7 +3369,7 @@ Note that this setting is not recommended and is planned for removal in a future
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="sqlserver-property-sanitize-field-names"></a><a href="#sqlserver-property-sanitize-field-names"><code>sanitize.field&#8203;.names</code></a></p>
+<p><a id="sqlserver-property-sanitize-field-names"></a><a href="#sqlserver-property-sanitize-field-names"><code>sanitize.field.names</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>true</code> when connector configuration explicitly specifies the <code>key.converter</code> or <code>value.converter</code> parameters to use Avro, otherwise defaults to <code>false</code>.</p>
@@ -3211,7 +3381,7 @@ See <a href="../configuration/avro.html#avro-naming" class="page">Avro naming</a
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="sqlserver-property-database-server-timezone"></a><a href="#sqlserver-property-database-server-timezone"><code>database.server&#8203;.timezone</code></a></p>
+<p><a id="sqlserver-property-database-server-timezone"></a><a href="#sqlserver-property-database-server-timezone"><code>database.server.timezone</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
@@ -3229,7 +3399,7 @@ Possible values include "Z", "UTC", offset values like "+02:00", short zone ids 
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="sqlserver-property-provide-transaction-metadata"></a><a href="#sqlserver-property-provide-transaction-metadata"><code>provide.transaction&#8203;.metadata</code></a></p>
+<p><a id="sqlserver-property-provide-transaction-metadata"></a><a href="#sqlserver-property-provide-transaction-metadata"><code>provide.transaction.metadata</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>false</code></p>
@@ -3243,7 +3413,7 @@ Possible values include "Z", "UTC", offset values like "+02:00", short zone ids 
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="sqlserver-property-retriable-restart-connector-wait-ms"></a><a href="#sqlserver-property-retriable-restart-connector-wait-ms"><code>retriable.restart&#8203;.connector.wait.ms</code></a><br></p>
+<p><a id="sqlserver-property-retriable-restart-connector-wait-ms"></a><a href="#sqlserver-property-retriable-restart-connector-wait-ms"><code>retriable.restart.connector.wait.ms</code></a><br></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>10000 (10 seconds)</p>
@@ -3284,8 +3454,10 @@ database.history.consumer.ssl.key.password=test1234</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="sqlserver-schema-evolution"><a class="anchor" href="#sqlserver-schema-evolution"></a>Database schema evolution</h3>
+</div>
+<div class="sect1">
+<h2 id="sqlserver-schema-evolution"><a class="anchor" href="#sqlserver-schema-evolution"></a>Database schema evolution</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>When change data capture is enabled for a SQL Server table, as changes occur in the table, event records are persisted to a capture table on the server.
 If you introduce a change in the structure of the source table change, for example, by adding a new column, that change is not dynamically reflected in the change table.
@@ -3360,8 +3532,8 @@ Similarly, columns that had been defined as required (<code>NOT NULL</code>), re
 </tr>
 </table>
 </div>
-<div class="sect3">
-<h4 id="offline-schema-updates"><a class="anchor" href="#offline-schema-updates"></a>Offline schema updates</h4>
+<div class="sect2">
+<h3 id="offline-schema-updates"><a class="anchor" href="#offline-schema-updates"></a>Offline schema updates</h3>
 <div class="paragraph">
 <p>Offline schema updates provide the safest method for updating capture tables.
 However, offline updates might not be feasible for use with applications that require high-availability.</p>
@@ -3407,8 +3579,8 @@ However, offline updates might not be feasible for use with applications that re
 </ol>
 </div>
 </div>
-<div class="sect3">
-<h4 id="online-schema-updates"><a class="anchor" href="#online-schema-updates"></a>Online schema updates</h4>
+<div class="sect2">
+<h3 id="online-schema-updates"><a class="anchor" href="#online-schema-updates"></a>Online schema updates</h3>
 <div class="paragraph">
 <p>The procedure for completing an online schema updates is simpler than the procedure for running an offline schema update,
 and you can complete it without requiring any downtime in application and data processing.
@@ -3536,8 +3708,10 @@ GO</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="sqlserver-monitoring"><a class="anchor" href="#sqlserver-monitoring"></a>Monitoring</h3>
+</div>
+<div class="sect1">
+<h2 id="sqlserver-monitoring"><a class="anchor" href="#sqlserver-monitoring"></a>Monitoring</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>The Debezium SQL Server connector provides three types of metrics that are in addition to the built-in support for JMX metrics that Zookeeper, Kafka, and Kafka Connect provide.
 The connector provides the following metrics:</p>
@@ -3558,8 +3732,8 @@ The connector provides the following metrics:</p>
 <div class="paragraph">
 <p>For information about how to expose the preceding metrics through JMX, see the <a href="../operations/monitoring.html" class="page">Debezium monitoring documentation</a>.</p>
 </div>
-<div class="sect3">
-<h4 id="sqlserver-snapshot-metrics"><a class="anchor" href="#sqlserver-snapshot-metrics"></a>Snapshot metrics</h4>
+<div class="sect2">
+<h3 id="sqlserver-snapshot-metrics"><a class="anchor" href="#sqlserver-snapshot-metrics"></a>Snapshot metrics</h3>
 <div class="paragraph">
 <p>The <strong>MBean</strong> is <code>debezium.sql_server:type=connector-metrics,context=snapshot,server=<em>&lt;database.server.name&gt;</em></code>.</p>
 </div>
@@ -3758,8 +3932,8 @@ Updates every 10,000 rows scanned and upon completing a table.</p>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="sqlserver-streaming-metrics"><a class="anchor" href="#sqlserver-streaming-metrics"></a>Streaming metrics</h4>
+<div class="sect2">
+<h3 id="sqlserver-streaming-metrics"><a class="anchor" href="#sqlserver-streaming-metrics"></a>Streaming metrics</h3>
 <div class="paragraph">
 <p>The <strong>MBean</strong> is <code>debezium.sql_server:type=connector-metrics,context=streaming,server=<em>&lt;database.server.name&gt;</em></code>.</p>
 </div>
@@ -3935,8 +4109,8 @@ The values will incoporate any differences between the clocks on the machines wh
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="sqlserver-schema-history-metrics"><a class="anchor" href="#sqlserver-schema-history-metrics"></a>Schema history metrics</h4>
+<div class="sect2">
+<h3 id="sqlserver-schema-history-metrics"><a class="anchor" href="#sqlserver-schema-history-metrics"></a>Schema history metrics</h3>
 <div class="paragraph">
 <p>The <strong>MBean</strong> is <code>debezium.sql_server:type=connector-metrics,context=schema-history,server=<em>&lt;database.server.name&gt;</em></code>.</p>
 </div>
@@ -4047,7 +4221,6 @@ The values will incoporate any differences between the clocks on the machines wh
 </div>
 </div>
 </div>
-</div>
 </article>
 </div>
 <div class="article-cell2">
@@ -4056,7 +4229,7 @@ The values will incoporate any differences between the clocks on the machines wh
 
 <div id="toc-rightbar"></div>    <footer class="footer">
         <div class="wrapper">
-            <div class="copyright">Copyright &copy; 2020 Debezium Community</div>
+            <div class="copyright">Copyright &copy; 2021 Debezium Community</div>
         </div>
     </footer>
 </main>

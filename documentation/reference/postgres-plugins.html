@@ -4,7 +4,7 @@
         <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Logical Decoding Output Plug-in Installation for PostgreSQL :: Debezium Documentation</title>
-    <link rel="canonical" href="https://www.debezium.io/documentation/reference/postgres-plugins.html">
+    <link rel="canonical" href="https://www.debezium.io/documentation/reference/1.7/postgres-plugins.html">
     <meta name="generator" content="Antora 2.3.4">
 <link rel="stylesheet" href="../debezium-antora/css/site.css">
 <link rel="stylesheet" href="../debezium-antora/css/debezium-antora.css">
@@ -82,25 +82,10 @@
     <a class="nav-link" href="configuration/avro.html">Avro Serialization</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="configuration/topic-routing.html">Topic Routing</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="configuration/event-flattening.html">New Record State Extraction</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="configuration/mongodb-event-flattening.html">MongoDB New Document State Extraction</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="configuration/outbox-event-router.html">Outbox Event Router</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="configuration/filtering.html">Message Filtering</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="configuration/content-based-routing.html">Content-Based Routing</a>
-  </li>
-  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="configuration/topic-auto-create-config.html">Customizing Topic Auto-Creation</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="configuration/signalling.html">Sending Signals to Debezium</a>
   </li>
 </ul>
   </li>
@@ -134,6 +119,36 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="connectors/vitess.html">Vitess</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Transformations</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="transformations/index.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="transformations/topic-routing.html">Topic Routing</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="transformations/event-flattening.html">New Record State Extraction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="transformations/mongodb-event-flattening.html">MongoDB New Document State Extraction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="transformations/outbox-event-router.html">Outbox Event Router</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="transformations/filtering.html">Message Filtering</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="transformations/content-based-routing.html">Content-Based Routing</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="transformations/applying-transformations-selectively.html">Using SMT Predicates to Selectively Apply Transformations</a>
   </li>
 </ul>
   </li>
@@ -189,6 +204,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="operations/embedded.html">Embedding Debezium</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="operations/debezium-ui.html">Debezium UI</a>
+  </li>
 </ul>
   </li>
 </ul>
@@ -199,14 +217,20 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">Debezium Documentation</span>
-    <span class="version">master</span>
+    <span class="version">nightly</span>
   </div>
   <ul class="components">
     <li class="component is-current">
       <span class="title">Debezium Documentation</span>
       <ul class="versions">
-        <li class="version is-current is-latest">
-          <a href="index.html">master</a>
+        <li class="version is-current">
+          <a href="index.html">nightly</a>
+        </li>
+        <li class="version is-latest">
+          <a href="1.7/index.html">1.7</a>
+        </li>
+        <li class="version">
+          <a href="1.6/index.html">1.6</a>
         </li>
         <li class="version">
           <a href="1.5/index.html">1.5</a>
@@ -242,7 +266,7 @@
 <main role="main" class="main">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="index.html" class="home-link"></a>
+  <a href="1.7/index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Debezium Documentation</a></li>
@@ -254,10 +278,12 @@
     <div class="page-versions-container">
     Version:
     <div class="page-versions">
-        <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">master</button>
+        <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">nightly</button>
         <!--<button class="version-menu-toggle versions-menu-select" title="Select other versions">Select</button>-->
         <div class="version-menu">
-                <a class="version is-current" href="postgres-plugins.html">master</a>
+                <a class="version is-current" href="postgres-plugins.html">nightly</a>
+                <a class="version" href="1.7/postgres-plugins.html">1.7</a>
+                <a class="version" href="1.6/postgres-plugins.html">1.6</a>
                 <a class="version" href="1.5/postgres-plugins.html">1.5</a>
                 <a class="version" href="1.4/postgres-plugins.html">1.4</a>
                 <a class="version" href="1.3/postgres-plugins.html">1.3</a>
@@ -278,7 +304,7 @@
             <div class="version-banner version-banner-development">
     You are viewing documentation for the current development version of Debezium.
     <br/>
-            If you want to view the latest stable version of this page, please go <a href="1.3/postgres-plugins.html">here</a>.
+            If you want to view the latest stable version of this page, please go <a href="1.6/postgres-plugins.html">here</a>.
             
 </div>            <h1 class="page">Logical Decoding Output Plug-in Installation for PostgreSQL</h1>
         <div id="preamble">
@@ -376,7 +402,7 @@ and they use a number of PostgreSQL specific APIs, as described by the
 </td>
 <td class="content">
 <div class="paragraph">
-<p>For simplicity, Debezium also provides a Docker image based on a vanilla <a href="https://github.com/debezium/docker-images/tree/master/postgres/9.6">PostgreSQL server image</a>
+<p>For simplicity, Debezium also provides a container image based on a vanilla <a href="https://github.com/debezium/docker-images/tree/master/postgres/9.6">PostgreSQL server image</a>
 on top of which it compiles and installs the plug-ins.</p>
 </div>
 </td>
@@ -404,9 +430,6 @@ require different installation steps</p>
 </div>
 <div class="ulist">
 <ul>
-<li>
-<p>wal2json plug-in is not able to process quoted identifiers (<a href="https://github.com/eulerto/wal2json/issues/35">issue</a>)</p>
-</li>
 <li>
 <p>wal2json plug-in does not emit events for tables without primary keys</p>
 </li>
@@ -441,7 +464,7 @@ require different installation steps</p>
 <p>At the current installation example, the <a href="https://github.com/eulerto/wal2json">wal2json</a> output plug-in for logical decoding is used.
 The wal2json output plug-in produces a JSON object per transaction. All of the new/old tuples are available in the JSON object.
 The plug-in <strong>compilation and installation</strong> is performed by executing the related commands extracted from the
-<a href="https://github.com/debezium/docker-images/blob/master/postgres/9.6/Dockerfile">Debezium docker image file</a>.</p>
+<a href="https://github.com/debezium/docker-images/blob/master/postgres/9.6/Dockerfile">Debezium Dockerfile</a>.</p>
 </div>
 <div class="paragraph">
 <p>Before executing the commands, make sure that the user has the privileges to write the <code>wal2json</code> library at the PostgreSQL <code><em>lib</em></code>
@@ -540,7 +563,7 @@ max_replication_slots = 4               <i class="conum" data-value="4"></i><b>(
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
 <td>tells the server that it should load at startup the <code>wal2json</code> (use <code>decoderbufs</code> for <a href="https://github.com/google/protobuf">protobuf</a>) logical decoding plug-in(s)
-(the names of the plug-ins are set in <a href="https://github.com/debezium/postgres-decoderbufs/blob/v1.5.0.Alpha1/Makefile">protobuf</a>
+(the names of the plug-ins are set in <a href="https://github.com/debezium/postgres-decoderbufs/blob/v1.7.0.Final/Makefile">protobuf</a>
 and <a href="https://github.com/eulerto/wal2json/blob/master/Makefile">wal2json</a> Makefiles)</td>
 </tr>
 <tr>
@@ -910,7 +933,7 @@ Compare with the <a href="#update-table-change-event">respective output</a> when
 
 <div id="toc-rightbar"></div>    <footer class="footer">
         <div class="wrapper">
-            <div class="copyright">Copyright &copy; 2020 Debezium Community</div>
+            <div class="copyright">Copyright &copy; 2021 Debezium Community</div>
         </div>
     </footer>
 </main>

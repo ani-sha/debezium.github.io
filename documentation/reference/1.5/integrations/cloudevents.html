@@ -4,7 +4,7 @@
         <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Exporting CloudEvents :: Debezium Documentation</title>
-    <link rel="canonical" href="https://www.debezium.io/documentation/reference/integrations/cloudevents.html">
+    <link rel="canonical" href="https://www.debezium.io/documentation/reference/1.7/integrations/cloudevents.html">
     <meta name="generator" content="Antora 2.3.4">
 <link rel="stylesheet" href="../../../debezium-antora/css/site.css">
 <link rel="stylesheet" href="../../../debezium-antora/css/debezium-antora.css">
@@ -100,7 +100,13 @@
     <a class="nav-link" href="../configuration/content-based-routing.html">Content-Based Routing</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../configuration/applying-transformations-selectively.html">Using SMT Predicates to Selectively Apply Transformations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../configuration/topic-auto-create-config.html">Customizing Topic Auto-Creation</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../configuration/signalling.html">Sending Signals to Debezium</a>
   </li>
 </ul>
   </li>
@@ -205,8 +211,14 @@
     <li class="component is-current">
       <span class="title">Debezium Documentation</span>
       <ul class="versions">
+        <li class="version">
+          <a href="../../index.html">nightly</a>
+        </li>
         <li class="version is-latest">
-          <a href="../../index.html">master</a>
+          <a href="../../1.7/index.html">1.7</a>
+        </li>
+        <li class="version">
+          <a href="../../1.6/index.html">1.6</a>
         </li>
         <li class="version is-current">
           <a href="../index.html">1.5</a>
@@ -242,7 +254,7 @@
 <main role="main" class="main">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="../../index.html" class="home-link"></a>
+  <a href="../../1.7/index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../index.html">Debezium Documentation</a></li>
@@ -256,7 +268,9 @@
         <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">1.5</button>
         <!--<button class="version-menu-toggle versions-menu-select" title="Select other versions">Select</button>-->
         <div class="version-menu">
-                <a class="version" href="../../integrations/cloudevents.html">master</a>
+                <a class="version" href="../../integrations/cloudevents.html">nightly</a>
+                <a class="version" href="../../1.7/integrations/cloudevents.html">1.7</a>
+                <a class="version" href="../../1.6/integrations/cloudevents.html">1.6</a>
                 <a class="version is-current" href="cloudevents.html">1.5</a>
                 <a class="version" href="../../1.4/integrations/cloudevents.html">1.4</a>
                 <a class="version" href="../../1.3/integrations/cloudevents.html">1.3</a>
@@ -274,10 +288,10 @@
 <div class="article-grid">
 <div class="article-cell1">
 <article class="doc">
-            <div class="version-banner version-banner-development">
-    You are viewing documentation for the current development version of Debezium.
+            <div class="version-banner version-banner-outdated">
+    You are viewing documentation for an outdated version of Debezium.
     <br/>
-            If you want to view the latest stable version of this page, please go <a href="../../1.3/integrations/cloudevents.html">here</a>.
+            If you want to view the latest stable version of this page, please go <a href="../../1.6/integrations/cloudevents.html">here</a>.
             
 </div>            <h1 class="page">Exporting CloudEvents</h1>
         <div id="preamble">
@@ -364,7 +378,7 @@ Please let us know your specific requirements or if you encounter any problems w
   "time" : "2020-01-13T13:55:39.738Z",               <i class="conum" data-value="5"></i><b>(5)</b>
   "datacontenttype" : "application/json",            <i class="conum" data-value="6"></i><b>(6)</b>
   "iodebeziumop" : "r",                              <i class="conum" data-value="7"></i><b>(7)</b>
-  "iodebeziumversion" : "1.5.0.Alpha1",        <i class="conum" data-value="8"></i><b>(8)</b>
+  "iodebeziumversion" : "1.5.4.Final",        <i class="conum" data-value="8"></i><b>(8)</b>
   "iodebeziumconnector" : "postgresql",
   "iodebeziumname" : "test_server",
   "iodebeziumtsms" : "1578923739738",
@@ -447,7 +461,7 @@ The only alternative is Avro.</td>
   "datacontenttype" : "application/avro",            <i class="conum" data-value="1"></i><b>(1)</b>
   "dataschema" : "http://my-registry/schemas/ids/1", <i class="conum" data-value="2"></i><b>(2)</b>
   "iodebeziumop" : "r",
-  "iodebeziumversion" : "1.5.0.Alpha1",
+  "iodebeziumversion" : "1.5.4.Final",
   "iodebeziumconnector" : "postgresql",
   "iodebeziumname" : "test_server",
   "iodebeziumtsms" : "1578924258597",
@@ -554,7 +568,7 @@ For example, you might specify <code>StringConverter</code>, <code>LongConverter
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a href="#cloud-events-converter-serializer-type"><code>serializer.type</code></a></p>
+<p><a id="cloud-events-converter-serializer-type"></a><a href="#cloud-events-converter-serializer-type"><code>serializer.type</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>json</code></p>
@@ -566,7 +580,7 @@ The value can be <code>json</code> or <code>avro</code>.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a href="#cloud-events-converter-data-serializer-type"><code>data&#8203;.serializer.type</code></a></p>
+<p><a id="cloud-events-converter-data-serializer-type"></a><a href="#cloud-events-converter-data-serializer-type"><code>data.serializer.type</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>json</code></p>
@@ -578,7 +592,7 @@ The value can be <code>json</code> or <code>avro</code>.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a href="#cloud-events-converter-json"><code>json. ...</code></a></p>
+<p><a id="cloud-events-converter-json"></a><a href="#cloud-events-converter-json"><code>json. ...</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>N/A</p>
@@ -589,7 +603,7 @@ The value can be <code>json</code> or <code>avro</code>.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a href="#cloud-events-converter-avro"><code>avro. ...</code></a></p>
+<p><a id="cloud-events-converter-avro"></a><a href="#cloud-events-converter-avro"><code>avro. ...</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>N/A</p>
@@ -610,7 +624,7 @@ The value can be <code>json</code> or <code>avro</code>.</p>
 
 <div id="toc-rightbar"></div>    <footer class="footer">
         <div class="wrapper">
-            <div class="copyright">Copyright &copy; 2020 Debezium Community</div>
+            <div class="copyright">Copyright &copy; 2021 Debezium Community</div>
         </div>
     </footer>
 </main>

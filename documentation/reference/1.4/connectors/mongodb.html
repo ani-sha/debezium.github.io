@@ -4,7 +4,7 @@
         <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Debezium connector for MongoDB :: Debezium Documentation</title>
-    <link rel="canonical" href="https://www.debezium.io/documentation/reference/connectors/mongodb.html">
+    <link rel="canonical" href="https://www.debezium.io/documentation/reference/1.7/connectors/mongodb.html">
     <meta name="generator" content="Antora 2.3.4">
 <link rel="stylesheet" href="../../../debezium-antora/css/site.css">
 <link rel="stylesheet" href="../../../debezium-antora/css/debezium-antora.css">
@@ -205,8 +205,14 @@
     <li class="component is-current">
       <span class="title">Debezium Documentation</span>
       <ul class="versions">
+        <li class="version">
+          <a href="../../index.html">nightly</a>
+        </li>
         <li class="version is-latest">
-          <a href="../../index.html">master</a>
+          <a href="../../1.7/index.html">1.7</a>
+        </li>
+        <li class="version">
+          <a href="../../1.6/index.html">1.6</a>
         </li>
         <li class="version">
           <a href="../../1.5/index.html">1.5</a>
@@ -242,7 +248,7 @@
 <main role="main" class="main">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="../../index.html" class="home-link"></a>
+  <a href="../../1.7/index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../index.html">Debezium Documentation</a></li>
@@ -256,7 +262,9 @@
         <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">1.4</button>
         <!--<button class="version-menu-toggle versions-menu-select" title="Select other versions">Select</button>-->
         <div class="version-menu">
-                <a class="version" href="../../connectors/mongodb.html">master</a>
+                <a class="version" href="../../connectors/mongodb.html">nightly</a>
+                <a class="version" href="../../1.7/connectors/mongodb.html">1.7</a>
+                <a class="version" href="../../1.6/connectors/mongodb.html">1.6</a>
                 <a class="version" href="../../1.5/connectors/mongodb.html">1.5</a>
                 <a class="version is-current" href="mongodb.html">1.4</a>
                 <a class="version" href="../../1.3/connectors/mongodb.html">1.3</a>
@@ -274,10 +282,10 @@
 <div class="article-grid">
 <div class="article-cell1">
 <article class="doc">
-            <div class="version-banner version-banner-development">
-    You are viewing documentation for the current development version of Debezium.
+            <div class="version-banner version-banner-outdated">
+    You are viewing documentation for an outdated version of Debezium.
     <br/>
-            If you want to view the latest stable version of this page, please go <a href="../../1.3/connectors/mongodb.html">here</a>.
+            If you want to view the latest stable version of this page, please go <a href="../../1.6/connectors/mongodb.html">here</a>.
             
 </div>            <h1 class="page">Debezium connector for MongoDB</h1>
         <div id="preamble">
@@ -305,12 +313,17 @@
 <li><a href="#mongodb-transaction-metadata">Transaction Metadata</a></li>
 </ul>
 </li>
-<li><a href="#mongodb-deploying-a-connector">Deploying the MongoDB connector</a>
+<li><a href="#mongodb-deploying-a-connector">Deployment</a>
 <ul class="sectlevel2">
-<li><a href="#mongodb-example-configuration">Example configuration</a></li>
+<li><a href="#mongodb-example-configuration">MongoDB connector configuration example</a></li>
 <li><a href="#mongodb-adding-connector-configuration">Adding connector configuration</a></li>
-<li><a href="#mongodb-monitoring">Monitoring</a></li>
 <li><a href="#mongodb-connector-properties">Connector properties</a></li>
+</ul>
+</li>
+<li><a href="#mongodb-monitoring">Monitoring</a>
+<ul class="sectlevel2">
+<li><a href="#mongodb-snapshot-metrics">Snapshot Metrics</a></li>
+<li><a href="#mongodb-streaming-metrics">Streaming Metrics</a></li>
 </ul>
 </li>
 <li><a href="#mongodb-when-things-go-wrong">MongoDB connector common issues</a>
@@ -637,7 +650,7 @@ Partitioning the events by key does mean that all events with the same key alway
 <p>Debezium and Kafka Connect are designed around <em>continuous streams of event messages</em>. However, the structure of these events may change over time, which can be difficult for consumers to handle. To address this, each event contains the schema for its content or, if you are using a schema registry, a schema ID that a consumer can use to obtain the schema from the registry. This makes each event self-contained.</p>
 </div>
 <div class="paragraph">
-<p>The following skeleton JSON shows the basic four parts of a change event. However, how you configure the Kafka Connect converter that you choose to use in your application determines the representation of these four parts in change events. A <code>schema</code> field is in a change event only when you configure the converter to produce it. Likewise, the event key and event payload are in a change event only if you configure a converter to produce it. If you use the JSON converver and you configure it to produce all four basic change event parts, change events have this structure:</p>
+<p>The following skeleton JSON shows the basic four parts of a change event. However, how you configure the Kafka Connect converter that you choose to use in your application determines the representation of these four parts in change events. A <code>schema</code> field is in a change event only when you configure the converter to produce it. Likewise, the event key and event payload are in a change event only if you configure a converter to produce it. If you use the JSON converter and you configure it to produce all four basic change event parts, change events have this structure:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -781,7 +794,7 @@ The value of this field is the document&#8217;s identifier represented as a stri
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>fulfillment&#8203;.inventory&#8203;.customers&#8203;.Key</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>fulfillment.inventory.customers.Key</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Name of the schema that defines the structure of the key&#8217;s payload. This schema describes the structure of the key for the document that was changed. Key schema names have the format <em>connector-name</em>.<em>database-name</em>.<em>collection-name</em>.<code>Key</code>. In this example:<br></p>
 </div>
@@ -1012,7 +1025,7 @@ The value of this field is the document&#8217;s identifier represented as a stri
       "after": "{\"_id\" : {\"$numberLong\" : \"1004\"},\"first_name\" : \"Anne\",\"last_name\" : \"Kretchmar\",\"email\" : \"annek@noanswer.org\"}", <i class="conum" data-value="6"></i><b>(6)</b>
       "patch": null,
       "source": { <i class="conum" data-value="7"></i><b>(7)</b>
-        "version": "1.4.1.Final",
+        "version": "1.4.2.Final",
         "connector": "mongodb",
         "name": "fulfillment",
         "ts_ms": 1558965508000,
@@ -1180,7 +1193,7 @@ In the <code>source</code> object, <code>ts_ms</code> indicates the time that th
       "patch": "{\"$set\":{\"first_name\":\"Anne Marie\"}}", <i class="conum" data-value="3"></i><b>(3)</b>
       "filter": "{\"_id\" : {\"$numberLong\" : \"1004\"}}", <i class="conum" data-value="4"></i><b>(4)</b>
       "source": { <i class="conum" data-value="5"></i><b>(5)</b>
-        "version": "1.4.1.Final",
+        "version": "1.4.2.Final",
         "connector": "mongodb",
         "name": "fulfillment",
         "ts_ms": 1558965508000,
@@ -1315,7 +1328,7 @@ An <em>update</em> event value does not contain an <code>after</code> field.</p>
       "ts_ms": 1465495462115, <i class="conum" data-value="2"></i><b>(2)</b>
       "filter": "{\"_id\" : {\"$numberLong\" : \"1004\"}}", <i class="conum" data-value="3"></i><b>(3)</b>
       "source": { <i class="conum" data-value="4"></i><b>(4)</b>
-        "version": "1.4.1.Final",
+        "version": "1.4.2.Final",
         "connector": "mongodb",
         "name": "fulfillment",
         "ts_ms": 1558965508000,
@@ -1517,31 +1530,58 @@ This field provides information about every event in the form of a composite of 
 </div>
 </div>
 <div class="sect1">
-<h2 id="mongodb-deploying-a-connector"><a class="anchor" href="#mongodb-deploying-a-connector"></a>Deploying the MongoDB connector</h2>
+<h2 id="mongodb-deploying-a-connector"><a class="anchor" href="#mongodb-deploying-a-connector"></a>Deployment</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>With <a href="https://zookeeper.apache.org">Zookeeper</a>, <a href="http://kafka.apache.org/">Kafka</a>, and <a href="https://kafka.apache.org/documentation.html#connect">Kafka Connect</a> installed, the remaining tasks to deploy a Debezium MongoDB connector are to
-download the
-<a href="https://repo1.maven.org/maven2/io/debezium/debezium-connector-mongodb/1.4.1.Final/debezium-connector-mongodb-1.4.1.Final-plugin.tar.gz">connector&#8217;s plug-in archive</a>,
-extract the JAR files into your Kafka Connect environment, and add the directory with the JAR files to  <a href="https://kafka.apache.org/documentation/#connectconfigs">Kafka Connect&#8217;s <code>plugin.path</code></a>. You then need to
-restart your Kafka Connect process to pick up the new JAR files.</p>
+<p>To deploy a Debezium MongoDB connector, you install the Debezium MongoDB connector archive, configure the connector, and start the connector by adding its configuration to Kafka Connect.</p>
+</div>
+<div class="ulist">
+<div class="title">Prerequisites</div>
+<ul>
+<li>
+<p><a href="https://zookeeper.apache.org/">Apache Zookeeper</a>, <a href="http://kafka.apache.org/">Apache Kafka</a>, and <a href="https://kafka.apache.org/documentation.html#connect">Kafka Connect</a> are installed.</p>
+</li>
+<li>
+<p>MongoDB is installed and is <a href="#setting-up-mongodb">set up to work with the Debezium connector</a>.</p>
+</li>
+</ul>
+</div>
+<div class="olist arabic">
+<div class="title">Procedure</div>
+<ol class="arabic">
+<li>
+<p>Download the
+<a href="https://repo1.maven.org/maven2/io/debezium/debezium-connector-mongodb/1.4.2.Final/debezium-connector-mongodb-1.4.2.Final-plugin.tar.gz">connector&#8217;s plug-in archive</a>,</p>
+</li>
+<li>
+<p>Extract the JAR files into your Kafka Connect environment.</p>
+</li>
+<li>
+<p>Add the directory with the JAR files to <a href="https://kafka.apache.org/documentation/#connectconfigs">Kafka Connect&#8217;s <code>plugin.path</code></a>.</p>
+</li>
+<li>
+<p>Restart your Kafka Connect process to pick up the new JAR files.</p>
+</li>
+</ol>
 </div>
 <div class="paragraph">
-<p>If you are working with immutable containers, see <a href="https://hub.docker.com/r/debezium/">Debezium&#8217;s Container images</a> for Zookeeper, Kafka, and Kafka Connect with the MongoDB connector already installed and ready to run. You can also <a href="../operations/openshift.html" class="page">run Debezium on Kubernetes and OpenShift</a>.</p>
+<p>If you are working with immutable containers, see <a href="https://hub.docker.com/r/debezium/">Debezium&#8217;s Container images</a> for Apache Zookeeper, Apache Kafka, and Kafka Connect with the MongoDB connector already installed and ready to run.</p>
+</div>
+<div class="paragraph">
+<p>You can also <a href="../operations/openshift.html" class="page">run Debezium on Kubernetes and OpenShift</a>.</p>
 </div>
 <div class="paragraph">
 <p>The Debezium <a href="../tutorial.html" class="page">tutorial</a> walks you through using these images, and this is a great way to learn about Debezium.</p>
 </div>
 <div class="sect2">
-<h3 id="mongodb-example-configuration"><a class="anchor" href="#mongodb-example-configuration"></a>Example configuration</h3>
+<h3 id="mongodb-example-configuration"><a class="anchor" href="#mongodb-example-configuration"></a>MongoDB connector configuration example</h3>
 <div class="paragraph">
-<p>To use the connector to produce change events for a particular MongoDB replica set or sharded cluster, create a configuration file in JSON.
-When the connector starts, it will perform a snapshot of the collections in your MongoDB replica sets and start reading the replica sets' oplogs, producing events for every inserted, updated, and deleted document.
-Optionally filter out collections that are not needed.</p>
+<p>Following is an example of the configuration for a connector instance that captures data from a MongoDB replica set <code>rs0</code> at port 27017 on 192.168.99.100, which we logically name <code>fullfillment</code>.
+Typically, you configure the Debezium MongoDB connector in a JSON file by setting the configuration properties that are available for the connector.</p>
 </div>
 <div class="paragraph">
-<p>Following is an example of the configuration for a MongoDB connector that monitors a MongoDB replica set <code>rs0</code> at port 27017 on 192.168.99.100, which we logically name <code>fullfillment</code>.
-Typically, you configure the Debezium MongoDB connector in a <code>.json</code> file using the configuration properties available for the connector.</p>
+<p>You can choose to produce events for a particular MongoDB replica set or sharded cluster.
+Optionally, you can filter out collections that are not needed.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1581,25 +1621,46 @@ Typically, you configure the Debezium MongoDB connector in a <code>.json</code> 
 </table>
 </div>
 <div class="paragraph">
-<p>See the <a href="#mongodb-connector-properties">complete list of connector properties</a> that can be specified in these configurations.</p>
+<p>For the complete list of the configuration properties that you can set for the Debezium MongoDB connector,
+see <a href="#mongodb-connector-properties">MongoDB connector configuration properties</a>.</p>
 </div>
 <div class="paragraph">
-<p>This configuration can be sent via POST to a running Kafka Connect service, which will then record the configuration and start up the one connector task that will connect to the MongoDB replica set or sharded cluster, assign tasks for each replica set, perform a snapshot if necessary, read the oplog, and record events to Kafka topics.</p>
+<p>You can send this configuration with a <code>POST</code> command to a running Kafka Connect service.
+The service records the configuration and starts one connector task that performs the following actions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Connects to the MongoDB replica set or sharded cluster.</p>
+</li>
+<li>
+<p>Assigns tasks for each replica set.</p>
+</li>
+<li>
+<p>Performs a snapshot, if necessary.</p>
+</li>
+<li>
+<p>Reads the oplog.</p>
+</li>
+<li>
+<p>Streams change event records to Kafka topics.</p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect2">
 <h3 id="mongodb-adding-connector-configuration"><a class="anchor" href="#mongodb-adding-connector-configuration"></a>Adding connector configuration</h3>
 <div class="paragraph">
-<p>To run a Debezium MongoDB connector, create a connector configuration and add the configuration to your Kafka Connect cluster.</p>
+<p>To start running a Debezium MongoDB connector, create a connector configuration, and add the configuration to your Kafka Connect cluster.</p>
 </div>
 <div class="ulist">
 <div class="title">Prerequisites</div>
 <ul>
 <li>
-<p>MongoDB is set up to run a Debezium connector.</p>
+<p><a href="#setting-up-mongodb">MongoDB is set up to work with a Debezium connector</a>.</p>
 </li>
 <li>
-<p>A Debezium MongoDB connector is installed.</p>
+<p>The Debezium MongoDB connector is installed.</p>
 </li>
 </ul>
 </div>
@@ -1616,11 +1677,550 @@ Typically, you configure the Debezium MongoDB connector in a <code>.json</code> 
 </div>
 <div class="paragraph">
 <div class="title">Results</div>
-<p>When the connector starts, it <a href="#mongodb-performing-a-snapshot">performs a consistent snapshot</a> of the MongoDB databases that the connector is configured for. The connector then starts generating data change events for document-level operations and streaming change event records to Kafka topics.</p>
+<p>When the connector starts, it completes the following actions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#mongodb-performing-a-snapshot">Performs a consistent snapshot</a> of the collections in your MongoDB replica sets.</p>
+</li>
+<li>
+<p>Reads the oplogs for the replica sets.</p>
+</li>
+<li>
+<p>Produces change events for every inserted, updated, and deleted document.</p>
+</li>
+<li>
+<p>Streams change event records to Kafka topics.</p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect2">
-<h3 id="mongodb-monitoring"><a class="anchor" href="#mongodb-monitoring"></a>Monitoring</h3>
+<h3 id="mongodb-connector-properties"><a class="anchor" href="#mongodb-connector-properties"></a>Connector properties</h3>
+<div class="paragraph">
+<p>The following configuration properties are <em>required</em> unless a default value is available.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 25%;">
+<col style="width: 45%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-name"></a><a href="#mongodb-property-name"><code>name</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Unique name for the connector. Attempting to register again with the same name will fail. (This property is required by all Kafka Connect connectors.)</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-connector-class"></a><a href="#mongodb-property-connector-class"><code>connector.class</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>The name of the Java class for the connector. Always use a value of <code>io.debezium.connector.mongodb.MongoDbConnector</code> for the MongoDB connector.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-mongodb-hosts"></a><a href="#mongodb-property-mongodb-hosts"><code>mongodb.hosts</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>The comma-separated list of hostname and port pairs (in the form 'host' or 'host:port') of the MongoDB servers in the replica set. The list can contain a single hostname and port pair. If <code>mongodb.members.auto.discover</code> is set to <code>false</code>, then the host and port pair should be prefixed with the replica set name (e.g., <code>rs0/localhost:27017</code>).</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-mongodb-name"></a><a href="#mongodb-property-mongodb-name"><code>mongodb.name</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>A unique name that identifies the connector and/or MongoDB replica set or sharded cluster that this connector monitors. Each server should be monitored by at most one Debezium connector, since this server name prefixes all persisted Kafka topics emanating from the MongoDB replica set or cluster.
+Only alphanumeric characters and underscores should be used.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-mongodb-user"></a><a href="#mongodb-property-mongodb-user"><code>mongodb.user</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Name of the database user to be used when connecting to MongoDB. This is required only when MongoDB is configured to use authentication.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-mongodb-password"></a><a href="#mongodb-property-mongodb-password"><code>mongodb.password</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Password to be used when connecting to MongoDB. This is required only when MongoDB is configured to use authentication.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-mongodb-authsource"></a><a href="#mongodb-property-mongodb-authsource"><code>mongodb.authsource</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>admin</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Database (authentication source) containing MongoDB credentials. This is required only when MongoDB is configured to use authentication with another authentication database than <code>admin</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-mongodb-ssl-enabled"></a><a href="#mongodb-property-mongodb-ssl-enabled"><code>mongodb.ssl.enabled</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>false</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Connector will use SSL to connect to MongoDB instances.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-mongodb-ssl-invalid-hostname-allowed"></a><a href="#mongodb-property-mongodb-ssl-invalid-hostname-allowed"><code>mongodb.ssl.invalid.hostname.allowed</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>false</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>When SSL is enabled this setting controls whether strict hostname checking is disabled during connection phase. If <code>true</code> the connection will not prevent man-in-the-middle attacks.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-database-include-list"></a><a href="#mongodb-property-database-include-list"><code>database.include.list</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><em>empty string</em></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>An optional comma-separated list of regular expressions that match database names to be monitored; any database name not included in <code>database.include.list</code> is excluded from monitoring. By default all databases are monitored.
+Must not be used with <code>database.exclude.list</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-database-exclude-list"></a><a href="#mongodb-property-database-exclude-list"><code>database.exclude.list</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><em>empty string</em></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>An optional comma-separated list of regular expressions that match database names to be excluded from monitoring; any database name not included in <code>database.exclude.list</code> is monitored.
+Must not be used with <code>database.include.list</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-collection-include-list"></a><a href="#mongodb-property-collection-include-list"><code>collection.include.list</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><em>empty string</em></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>An optional comma-separated list of regular expressions that match fully-qualified namespaces for MongoDB collections to be monitored; any collection not included in <code>collection.include.list</code> is excluded from monitoring. Each identifier is of the form <em>databaseName</em>.<em>collectionName</em>. By default the connector will monitor all collections except those in the <code>local</code> and <code>admin</code> databases.
+Must not be used with <code>collection.exclude.list</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-collection-exclude-list"></a><a href="#mongodb-property-collection-exclude-list"><code>collection.exclude.list</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><em>empty string</em></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>An optional comma-separated list of regular expressions that match fully-qualified namespaces for MongoDB collections to be excluded from monitoring; any collection not included in <code>collection.exclude.list</code> is monitored. Each identifier is of the form <em>databaseName</em>.<em>collectionName</em>.
+Must not be used with <code>collection.include.list</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-snapshot-mode"></a><a href="#mongodb-property-snapshot-mode"><code>snapshot.mode</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>initial</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Specifies the criteria for running a snapshot upon startup of the connector. The default is <strong>initial</strong>, and specifies the connector reads a snapshot when either no offset is found or if the oplog no longer contains the previous offset. The <strong>never</strong> option specifies that the connector should never use snapshots, instead the connector should proceed to tail the log.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-snapshot-include-collection-list"></a><a href="#mongodb-property-snapshot-include-collection-list"><code>snapshot.include.collection.list</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>All collections specified in <code>collection.include.list</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>An optional, comma-separated list of regular expressions that match names of schemas specified in <code>collection.include.list</code> for which you <strong>want</strong> to take the snapshot.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-field-exclude-list"></a><a href="#mongodb-property-field-exclude-list"><code>field.exclude.list</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><em>empty string</em></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>An optional comma-separated list of the fully-qualified names of fields that should be excluded from change event message values. Fully-qualified names for fields are of the form <em>databaseName</em>.<em>collectionName</em>.<em>fieldName</em>.<em>nestedFieldName</em>, where <em>databaseName</em> and <em>collectionName</em> may contain the wildcard (*) which matches any characters.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-field-renames"></a><a href="#mongodb-property-field-renames"><code>field.renames</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><em>empty string</em></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>An optional comma-separated list of the fully-qualified replacements of fields that should be used to rename fields in change event message values. Fully-qualified replacements for fields are of the form <em>databaseName</em>.<em>collectionName</em>.<em>fieldName</em>.<em>nestedFieldName</em>:<em>newNestedFieldName</em>, where <em>databaseName</em> and <em>collectionName</em> may contain the wildcard (*) which matches any characters, the colon character (:) is used to determine rename mapping of field. The next field replacement is applied to the result of the previous field replacement in the list, so keep this in mind when renaming multiple fields that are in the same path.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-tasks-max"></a><a href="#mongodb-property-tasks-max"><code>tasks.max</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>1</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>The maximum number of tasks that should be created for this connector. The MongoDB connector will attempt to use a separate task for each replica set, so the default is acceptable when using the connector with a single MongoDB replica set. When using the connector with a MongoDB sharded cluster, we recommend specifying a value that is equal to or more than the number of shards in the cluster, so that the work for each replica set can be distributed by Kafka Connect.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-snapshot-max-threads"></a><a href="#mongodb-property-snapshot-max-threads"><code>snapshot.max.threads</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>1</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Positive integer value that specifies the maximum number of threads used to perform an intial sync of the collections in a replica set. Defaults to 1.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-tombstones-on-delete"></a><a href="#mongodb-property-tombstones-on-delete"><code>tombstones.on.delete</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>true</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Controls whether a tombstone event should be generated after a delete event.<br>
+When <code>true</code> the delete operations are represented by a delete event and a subsequent tombstone event. When <code>false</code> only a delete event is sent.<br>
+Emitting the tombstone event (the default behavior) allows Kafka to completely delete all events pertaining to the given key once the source record got deleted.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-snapshot-delay-ms"></a><a href="#mongodb-property-snapshot-delay-ms"><code>snapshot.delay.ms</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>An interval in milliseconds that the connector should wait before taking a snapshot after starting up;<br>
+Can be used to avoid snapshot interruptions when starting multiple connectors in a cluster, which may cause re-balancing of connectors.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-snapshot-fetch-size"></a><a href="#mongodb-property-snapshot-fetch-size"><code>snapshot.fetch.size</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>0</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Specifies the maximum number of documents that should be read in one go from each collection while taking a snapshot.
+The connector will read the collection contents in multiple batches of this size.<br>
+Defaults to 0, which indicates that the server chooses an appropriate fetch size.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The following <em>advanced</em> configuration properties have good defaults that will work in most situations and therefore rarely need to be specified in the connector&#8217;s configuration.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 25%;">
+<col style="width: 45%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-max-queue-size"></a><a href="#mongodb-property-max-queue-size"><code>max.queue.size</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>8192</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Positive integer value that specifies the maximum size of the blocking queue into which change events read from the database log are placed before they are written to Kafka. This queue can provide backpressure to the oplog reader when, for example, writes to Kafka are slower or if Kafka is not available. Events that appear in the queue are not included in the offsets periodically recorded by this connector. Defaults to 8192, and should always be larger than the maximum batch size specified in the <code>max.batch.size</code> property.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-max-batch-size"></a><a href="#mongodb-property-max-batch-size"><code>max.batch.size</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>2048</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Positive integer value that specifies the maximum size of each batch of events that should be processed during each iteration of this connector. Defaults to 2048.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-max-queue-size-in-bytes"></a><a href="#mongodb-property-max-queue-size-in-bytes"><code>max.queue.size.in.bytes</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>0</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Long value for the maximum size in bytes of the blocking queue. The feature is disabled by default, it will be active if it&#8217;s set with a positive long value.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-poll-interval-ms"></a><a href="#mongodb-property-poll-interval-ms"><code>poll.interval.ms</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>1000</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Positive integer value that specifies the number of milliseconds the connector should wait during each iteration for new change events to appear. Defaults to 1000 milliseconds, or 1 second.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-connect-backoff-initial-delay-ms"></a><a href="#mongodb-property-connect-backoff-initial-delay-ms"><code>connect.backoff.initial.delay.ms</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>1000</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Positive integer value that specifies the initial delay when trying to reconnect to a primary after the first failed connection attempt or when no primary is available. Defaults to 1 second (1000 ms).</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-connect-backoff-max-delay-ms"></a><a href="#mongodb-property-connect-backoff-max-delay-ms"><code>connect.backoff.max.delay.ms</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>1000</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Positive integer value that specifies the maximum delay when trying to reconnect to a primary after repeated failed connection attempts or when no primary is available. Defaults to 120 seconds (120,000 ms).</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-connect-max-attempts"></a><a href="#mongodb-property-connect-max-attempts"><code>connect.max.attempts</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>16</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Positive integer value that specifies the maximum number of failed connection attempts to a replica set primary before an exception occurs and task is aborted. Defaults to 16, which with the defaults for <code>connect.backoff.initial.delay.ms</code> and <code>connect.backoff.max.delay.ms</code> results in just over 20 minutes of attempts before failing.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-mongodb-members-auto-discover"></a><a href="#mongodb-property-mongodb-members-auto-discover"><code>mongodb.members.auto.discover</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>true</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Boolean value that specifies whether the addresses in 'mongodb.hosts' are seeds that should be used to discover all members of the cluster or replica set (<code>true</code>), or whether the address(es) in <code>mongodb.hosts</code> should be used as is (<code>false</code>). The default is <code>true</code> and should be used in all cases except where MongoDB is <a href="#mongodb-replicaset">fronted by a proxy</a>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-source-struct-version"></a><a href="#mongodb-property-source-struct-version"><code>source.struct.version</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>v2</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Schema version for the <code>source</code> block in CDC events. Debezium 0.10 introduced a few breaking<br>
+changes to the structure of the <code>source</code> block in order to unify the exposed structure across
+all the connectors.<br>
+By setting this option to <code>v1</code> the structure used in earlier versions can be produced.
+Note that this setting is not recommended and is planned for removal in a future Debezium version.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-heartbeat-interval-ms"></a><a href="#mongodb-property-heartbeat-interval-ms"><code>heartbeat.interval.ms</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>0</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Controls how frequently heartbeat messages are sent.<br>
+This property contains an interval in milliseconds that defines how frequently the connector sends messages into a heartbeat topic.
+This can be used to monitor whether the connector is still receiving change events from the database.
+You also should leverage heartbeat messages in cases where only records in non-captured collections are changed for a longer period of time.
+In such situation the connector would proceed to read the oplog from the database but never emit any change messages into Kafka,
+which in turn means that no offset updates are committed to Kafka.
+This will cause the oplog files to be rotated out but connector will not notice it so on restart some events are no longer available which leads to the need of re-execution of the initial snapshot.</p>
+</div>
+<div class="paragraph">
+<p>Set this parameter to <code>0</code> to not send heartbeat messages at all.<br>
+Disabled by default.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-heartbeat-topics-prefix"></a><a href="#mongodb-property-heartbeat-topics-prefix"><code>heartbeat.topics.prefix</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>__debezium-heartbeat</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Controls the naming of the topic to which heartbeat messages are sent.<br>
+The topic is named according to the pattern <code>&lt;heartbeat.topics.prefix&gt;.&lt;server.name&gt;</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-sanitize-field-names"></a><a href="#mongodb-property-sanitize-field-names"><code>sanitize.field.names</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>true</code> when connector configuration explicitly specifies the <code>key.converter</code> or <code>value.converter</code> parameters to use Avro, otherwise defaults to <code>false</code>.</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Whether field names are sanitized to adhere to Avro naming requirements.
+See <a href="../configuration/avro.html#avro-naming" class="page">Avro naming</a> for more details.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-skipped-operations"></a><a href="#mongodb-property-skipped-operations"><code>skipped.operations</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>comma-separated list of oplog operations that will be skipped during streaming.
+The operations include: <code>c</code> for inserts/create, <code>u</code> for updates, and <code>d</code> for deletes.
+By default, no operations are skipped.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-snapshot-collection-filter-overrides"></a><a href="#mongodb-property-snapshot-collection-filter-overrides"><code>snapshot.collection.filter.overrides</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Controls which collection items are included in snapshot. This property affects snapshots only. Specify a comma-separated list of collection names in the form <em>databaseName.collectionName</em>.</p>
+</div>
+<div class="paragraph">
+<p>For each collection that you specify, also specify another configuration property: <code>snapshot.collection.filter.overrides.<em>databaseName</em>.<em>collectionName</em></code>. For example, the name of the other configuration property might be: <code>snapshot.collection.filter.overrides.customers.orders</code>. Set this property to a valid filter expression that retrieves only the items that you want in the snapshot. When the connector performs a snapshot, it retrieves only the items that matches the filter expression.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-provide-transaction-metadata"></a><a href="#mongodb-property-provide-transaction-metadata"><code>provide.transaction.metadata</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>false</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>When set to <code>true</code> Debezium generates events with transaction boundaries and enriches data events envelope with transaction metadata.</p>
+</div>
+<div class="paragraph">
+<p>See <a href="#mongodb-transaction-metadata">Transaction Metadata</a> for additional details.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-retriable-restart-connector-wait-ms"></a><a href="#mongodb-property-retriable-restart-connector-wait-ms"><code>retriable.restart.connector.wait.ms</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>10000 (10 seconds)</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>The number of milliseconds to wait before restarting a connector after a retriable error occurs.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-mongodb-poll-interval-ms"></a><a href="#mongodb-property-mongodb-poll-interval-ms"><code>mongodb.poll.interval.ms</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>30000</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>The interval in which the connector polls for new, removed, or changed replica sets.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-mongodb-connect-timeout-ms"></a><a href="#mongodb-property-mongodb-connect-timeout-ms"><code>mongodb.connect.timeout.ms</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>10000 (10 seconds)</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>The number of milliseconds the driver will wait before a new connection attempt is aborted.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-mongodb-socket-timeout-ms"></a><a href="#mongodb-property-mongodb-socket-timeout-ms"><code>mongodb.socket.timeout.ms</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>0</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>The number of milliseconds before a send/receive on the socket can take before a timeout occurs.
+A value of <code>0</code> disables this behavior.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mongodb-property-mongodb-server-selection-timeout-ms"></a><a href="#mongodb-property-mongodb-server-selection-timeout-ms"><code>mongodb.server.selection.timeout.ms</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>30000 (30 seconds)</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>The number of milliseconds the driver will wait to select a server before it times out and throws an error.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="mongodb-monitoring"><a class="anchor" href="#mongodb-monitoring"></a>Monitoring</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>The Debezium MongoDB connector has two metric types in addition to the built-in support for JMX metrics that Zookeeper, Kafka, and Kafka Connect have.</p>
 </div>
@@ -1637,8 +2237,8 @@ Typically, you configure the Debezium MongoDB connector in a <code>.json</code> 
 <div class="paragraph">
 <p>Please refer to the <a href="../operations/monitoring.html#monitoring-debezium" class="page">monitoring documentation</a> for details of how to expose these metrics via JMX.</p>
 </div>
-<div class="sect3">
-<h4 id="mongodb-snapshot-metrics"><a class="anchor" href="#mongodb-snapshot-metrics"></a>Snapshot Metrics</h4>
+<div class="sect2">
+<h3 id="mongodb-snapshot-metrics"><a class="anchor" href="#mongodb-snapshot-metrics"></a>Snapshot Metrics</h3>
 <div class="paragraph">
 <p>The <strong>MBean</strong> is <code>debezium.mongodb:type=connector-metrics,context=snapshot,server=<em>&lt;mongodb.name&gt;</em></code>.</p>
 </div>
@@ -1861,8 +2461,8 @@ Updates every 10,000 rows scanned and upon completing a table.</p>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="mongodb-streaming-metrics"><a class="anchor" href="#mongodb-streaming-metrics"></a>Streaming Metrics</h4>
+<div class="sect2">
+<h3 id="mongodb-streaming-metrics"><a class="anchor" href="#mongodb-streaming-metrics"></a>Streaming Metrics</h3>
 <div class="paragraph">
 <p>The <strong>MBean</strong> is <code>debezium.sql_server:type=connector-metrics,context=streaming,server=<em>&lt;mongodb.name&gt;</em></code>.</p>
 </div>
@@ -2063,527 +2663,6 @@ The values will incoporate any differences between the clocks on the machines wh
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>NumberOfPrimaryElections</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>long</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number of primary node elections.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect2">
-<h3 id="mongodb-connector-properties"><a class="anchor" href="#mongodb-connector-properties"></a>Connector properties</h3>
-<div class="paragraph">
-<p>The following configuration properties are <em>required</em> unless a default value is available.</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 30%;">
-<col style="width: 25%;">
-<col style="width: 45%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Property</th>
-<th class="tableblock halign-left valign-top">Default</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-name"></a><a href="#mongodb-property-name"><code>name</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Unique name for the connector. Attempting to register again with the same name will fail. (This property is required by all Kafka Connect connectors.)</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-connector-class"></a><a href="#mongodb-property-connector-class"><code>connector.class</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>The name of the Java class for the connector. Always use a value of <code>io.debezium.connector.mongodb.MongoDbConnector</code> for the MongoDB connector.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-mongodb-hosts"></a><a href="#mongodb-property-mongodb-hosts"><code>mongodb.hosts</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>The comma-separated list of hostname and port pairs (in the form 'host' or 'host:port') of the MongoDB servers in the replica set. The list can contain a single hostname and port pair. If <code>mongodb.members.auto.discover</code> is set to <code>false</code>, then the host and port pair should be prefixed with the replica set name (e.g., <code>rs0/localhost:27017</code>).</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-mongodb-name"></a><a href="#mongodb-property-mongodb-name"><code>mongodb.name</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>A unique name that identifies the connector and/or MongoDB replica set or sharded cluster that this connector monitors. Each server should be monitored by at most one Debezium connector, since this server name prefixes all persisted Kafka topics emanating from the MongoDB replica set or cluster.
-Only alphanumeric characters and underscores should be used.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-mongodb-user"></a><a href="#mongodb-property-mongodb-user"><code>mongodb.user</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Name of the database user to be used when connecting to MongoDB. This is required only when MongoDB is configured to use authentication.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-mongodb-password"></a><a href="#mongodb-property-mongodb-password"><code>mongodb.password</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Password to be used when connecting to MongoDB. This is required only when MongoDB is configured to use authentication.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-mongodb-authsource"></a><a href="#mongodb-property-mongodb-authsource"><code>mongodb.authsource</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>admin</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Database (authentication source) containing MongoDB credentials. This is required only when MongoDB is configured to use authentication with another authentication database than <code>admin</code>.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-mongodb-ssl-enabled"></a><a href="#mongodb-property-mongodb-ssl-enabled"><code>mongodb.ssl.enabled</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>false</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Connector will use SSL to connect to MongoDB instances.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-mongodb-ssl-invalid-hostname-allowed"></a><a href="#mongodb-property-mongodb-ssl-invalid-hostname-allowed"><code>mongodb.ssl.invalid&#8203;.hostname.allowed</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>false</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>When SSL is enabled this setting controls whether strict hostname checking is disabled during connection phase. If <code>true</code> the connection will not prevent man-in-the-middle attacks.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="mongodb-property-database-include-list" class="paragraph">
-<p><a id="mongodb-property-database-include-list"></a><a href="#mongodb-property-database-include-list"><code>database.include&#8203;.list</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><em>empty string</em></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>An optional comma-separated list of regular expressions that match database names to be monitored; any database name not included in <code>database.include.list</code> is excluded from monitoring. By default all databases are monitored.
-Must not be used with <code>database.exclude.list</code>.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="mongodb-property-database-exclude-list" class="paragraph">
-<p><a id="mongodb-property-database-exclude-list"></a><a href="#mongodb-property-database-exclude-list"><code>database.exclude&#8203;.list</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><em>empty string</em></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>An optional comma-separated list of regular expressions that match database names to be excluded from monitoring; any database name not included in <code>database.exclude.list</code> is monitored.
-Must not be used with <code>database.include.list</code>.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="mongodb-property-collection-include-list" class="paragraph">
-<p><a id="mongodb-property-collection-include-list"></a><a href="#mongodb-property-collection-include-list"><code>collection&#8203;.include.list</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><em>empty string</em></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>An optional comma-separated list of regular expressions that match fully-qualified namespaces for MongoDB collections to be monitored; any collection not included in <code>collection.include.list</code> is excluded from monitoring. Each identifier is of the form <em>databaseName</em>.<em>collectionName</em>. By default the connector will monitor all collections except those in the <code>local</code> and <code>admin</code> databases.
-Must not be used with <code>collection.exclude.list</code>.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="mongodb-property-collection-exclude-list" class="paragraph">
-<p><a id="mongodb-property-collection-exclude-list"></a><a href="#mongodb-property-collection-exclude-list"><code>collection&#8203;.exclude.list</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><em>empty string</em></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>An optional comma-separated list of regular expressions that match fully-qualified namespaces for MongoDB collections to be excluded from monitoring; any collection not included in <code>collection.exclude.list</code> is monitored. Each identifier is of the form <em>databaseName</em>.<em>collectionName</em>.
-Must not be used with <code>collection.include.list</code>.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-snapshot-mode"></a><a href="#mongodb-property-snapshot-mode"><code>snapshot.mode</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>initial</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Specifies the criteria for running a snapshot upon startup of the connector. The default is <strong>initial</strong>, and specifies the connector reads a snapshot when either no offset is found or if the oplog no longer contains the previous offset. The <strong>never</strong> option specifies that the connector should never use snapshots, instead the connector should proceed to tail the log.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-snapshot-include-collection-list"></a><a href="#mongodb-property-snapshot-include-collection-list"><code>snapshot.include.collection.list</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>All collections specified in <code>collection.include.list</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>An optional, comma-separated list of regular expressions that match names of schemas specified in <code>collection.include.list</code> for which you <strong>want</strong> to take the snapshot.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="mongodb-property-field-exclude-list" class="paragraph">
-<p><a id="mongodb-property-field-exclude-list"></a><a href="#mongodb-property-field-exclude-list"><code>field.exclude&#8203;.list</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><em>empty string</em></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>An optional comma-separated list of the fully-qualified names of fields that should be excluded from change event message values. Fully-qualified names for fields are of the form <em>databaseName</em>.<em>collectionName</em>.<em>fieldName</em>.<em>nestedFieldName</em>, where <em>databaseName</em> and <em>collectionName</em> may contain the wildcard (*) which matches any characters.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-field-renames"></a><a href="#mongodb-property-field-renames"><code>field.renames</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><em>empty string</em></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>An optional comma-separated list of the fully-qualified replacements of fields that should be used to rename fields in change event message values. Fully-qualified replacements for fields are of the form <em>databaseName</em>.<em>collectionName</em>.<em>fieldName</em>.<em>nestedFieldName</em>:<em>newNestedFieldName</em>, where <em>databaseName</em> and <em>collectionName</em> may contain the wildcard (*) which matches any characters, the colon character (:) is used to determine rename mapping of field. The next field replacement is applied to the result of the previous field replacement in the list, so keep this in mind when renaming multiple fields that are in the same path.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-tasks-max"></a><a href="#mongodb-property-tasks-max"><code>tasks.max</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>The maximum number of tasks that should be created for this connector. The MongoDB connector will attempt to use a separate task for each replica set, so the default is acceptable when using the connector with a single MongoDB replica set. When using the connector with a MongoDB sharded cluster, we recommend specifying a value that is equal to or more than the number of shards in the cluster, so that the work for each replica set can be distributed by Kafka Connect.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-snapshot-max-threads"></a><a href="#mongodb-property-snapshot-max-threads"><code>snapshot&#8203;.max.threads</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>1</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Positive integer value that specifies the maximum number of threads used to perform an intial sync of the collections in a replica set. Defaults to 1.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-tombstones-on-delete"></a><a href="#mongodb-property-tombstones-on-delete"><code>tombstones.on&#8203;.delete</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>true</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Controls whether a tombstone event should be generated after a delete event.<br>
-When <code>true</code> the delete operations are represented by a delete event and a subsequent tombstone event. When <code>false</code> only a delete event is sent.<br>
-Emitting the tombstone event (the default behavior) allows Kafka to completely delete all events pertaining to the given key once the source record got deleted.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-snapshot-delay-ms"></a><a href="#mongodb-property-snapshot-delay-ms"><code>snapshot.delay.ms</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>An interval in milliseconds that the connector should wait before taking a snapshot after starting up;<br>
-Can be used to avoid snapshot interruptions when starting multiple connectors in a cluster, which may cause re-balancing of connectors.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-snapshot-fetch-size"></a><a href="#mongodb-property-snapshot-fetch-size"><code>snapshot.fetch.size</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>0</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Specifies the maximum number of documents that should be read in one go from each collection while taking a snapshot.
-The connector will read the collection contents in multiple batches of this size.<br>
-Defaults to 0, which indicates that the server chooses an appropriate fetch size.</p>
-</div></div></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>The following <em>advanced</em> configuration properties have good defaults that will work in most situations and therefore rarely need to be specified in the connector&#8217;s configuration.</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 30%;">
-<col style="width: 25%;">
-<col style="width: 45%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Property</th>
-<th class="tableblock halign-left valign-top">Default</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-max-queue-size"></a><a href="#mongodb-property-max-queue-size"><code>max.queue.size</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>8192</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Positive integer value that specifies the maximum size of the blocking queue into which change events read from the database log are placed before they are written to Kafka. This queue can provide backpressure to the oplog reader when, for example, writes to Kafka are slower or if Kafka is not available. Events that appear in the queue are not included in the offsets periodically recorded by this connector. Defaults to 8192, and should always be larger than the maximum batch size specified in the <code>max.batch.size</code> property.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-max-batch-size"></a><a href="#mongodb-property-max-batch-size"><code>max.batch.size</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>2048</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Positive integer value that specifies the maximum size of each batch of events that should be processed during each iteration of this connector. Defaults to 2048.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-max-queue-size-in-bytes"></a><a href="#mongodb-property-max-queue-size-in-bytes"><code>max.queue.size.in.bytes</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>0</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Long value for the maximum size in bytes of the blocking queue. The feature is disabled by default, it will be active if it&#8217;s set with a positive long value.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-poll-interval-ms"></a><a href="#mongodb-property-poll-interval-ms"><code>poll.interval.ms</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>1000</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Positive integer value that specifies the number of milliseconds the connector should wait during each iteration for new change events to appear. Defaults to 1000 milliseconds, or 1 second.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-connect-backoff-initial-delay-ms"></a><a href="#mongodb-property-connect-backoff-initial-delay-ms"><code>connect.backoff&#8203;.initial.delay.ms</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>1000</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Positive integer value that specifies the initial delay when trying to reconnect to a primary after the first failed connection attempt or when no primary is available. Defaults to 1 second (1000 ms).</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-connect-backoff-max-delay-ms"></a><a href="#mongodb-property-connect-backoff-max-delay-ms"><code>connect.backoff&#8203;.max.delay.ms</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>1000</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Positive integer value that specifies the maximum delay when trying to reconnect to a primary after repeated failed connection attempts or when no primary is available. Defaults to 120 seconds (120,000 ms).</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-connect-max-attempts"></a><a href="#mongodb-property-connect-max-attempts"><code>connect.max&#8203;.attempts</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>16</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Positive integer value that specifies the maximum number of failed connection attempts to a replica set primary before an exception occurs and task is aborted. Defaults to 16, which with the defaults for <code>connect.backoff.initial.delay.ms</code> and <code>connect.backoff.max.delay.ms</code> results in just over 20 minutes of attempts before failing.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-mongodb-members-auto-discover"></a><a href="#mongodb-property-mongodb-members-auto-discover"><code>mongodb.members&#8203;.auto.discover</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>true</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Boolean value that specifies whether the addresses in 'mongodb.hosts' are seeds that should be used to discover all members of the cluster or replica set (<code>true</code>), or whether the address(es) in <code>mongodb.hosts</code> should be used as is (<code>false</code>). The default is <code>true</code> and should be used in all cases except where MongoDB is <a href="#mongodb-replicaset">fronted by a proxy</a>.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-source-struct-version"></a><a href="#mongodb-property-source-struct-version"><code>source.struct&#8203;.version</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>v2</p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Schema version for the <code>source</code> block in CDC events. Debezium 0.10 introduced a few breaking<br>
-changes to the structure of the <code>source</code> block in order to unify the exposed structure across
-all the connectors.<br>
-By setting this option to <code>v1</code> the structure used in earlier versions can be produced.
-Note that this setting is not recommended and is planned for removal in a future Debezium version.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-heartbeat-interval-ms"></a><a href="#mongodb-property-heartbeat-interval-ms"><code>heartbeat.interval&#8203;.ms</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>0</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Controls how frequently heartbeat messages are sent.<br>
-This property contains an interval in milliseconds that defines how frequently the connector sends messages into a heartbeat topic.
-This can be used to monitor whether the connector is still receiving change events from the database.
-You also should leverage heartbeat messages in cases where only records in non-captured collections are changed for a longer period of time.
-In such situation the connector would proceed to read the oplog from the database but never emit any change messages into Kafka,
-which in turn means that no offset updates are committed to Kafka.
-This will cause the oplog files to be rotated out but connector will not notice it so on restart some events are no longer available which leads to the need of re-execution of the initial snapshot.</p>
-</div>
-<div class="paragraph">
-<p>Set this parameter to <code>0</code> to not send heartbeat messages at all.<br>
-Disabled by default.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-heartbeat-topics-prefix"></a><a href="#mongodb-property-heartbeat-topics-prefix"><code>heartbeat.topics&#8203;.prefix</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>__debezium-heartbeat</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Controls the naming of the topic to which heartbeat messages are sent.<br>
-The topic is named according to the pattern <code>&lt;heartbeat.topics.prefix&gt;.&lt;server.name&gt;</code>.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-sanitize-field-names"></a><a href="#mongodb-property-sanitize-field-names"><code>sanitize.field&#8203;.names</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>true</code> when connector configuration explicitly specifies the <code>key.converter</code> or <code>value.converter</code> parameters to use Avro, otherwise defaults to <code>false</code>.</p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Whether field names are sanitized to adhere to Avro naming requirements.
-See <a href="../configuration/avro.html#avro-naming" class="page">Avro naming</a> for more details.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-skipped-operations"></a><a href="#mongodb-property-skipped-operations"><code>skipped.operations</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>comma-separated list of oplog operations that will be skipped during streaming.
-The operations include: <code>c</code> for inserts/create, <code>u</code> for updates, and <code>d</code> for deletes.
-By default, no operations are skipped.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-snapshot-collection-filter-overrides"></a><a href="#mongodb-property-snapshot-collection-filter-overrides"><code>snapshot.collection.filter.overrides</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Controls which collection items are included in snapshot. This property affects snapshots only. Specify a comma-separated list of collection names in the form <em>databaseName&#8203;.collectionName</em>.</p>
-</div>
-<div class="paragraph">
-<p>For each collection that you specify, also specify another configuration property: <code>snapshot&#8203;.collection&#8203;.filter&#8203;.overrides&#8203;.<em>databaseName</em>.<em>collectionName</em></code>. For example, the name of the other configuration property might be: <code>snapshot&#8203;.collection&#8203;.filter&#8203;.overrides&#8203;.customers&#8203;.orders</code>. Set this property to a valid filter expression that retrieves only the items that you want in the snapshot. When the connector performs a snapshot, it retrieves only the items that matches the filter expression.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-provide-transaction-metadata"></a><a href="#mongodb-property-provide-transaction-metadata"><code>provide.transaction&#8203;.metadata</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>false</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>When set to <code>true</code> Debezium generates events with transaction boundaries and enriches data events envelope with transaction metadata.</p>
-</div>
-<div class="paragraph">
-<p>See <a href="#mongodb-transaction-metadata">Transaction Metadata</a> for additional details.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-retriable-restart-connector-wait-ms"></a><a href="#mongodb-property-retriable-restart-connector-wait-ms"><code>retriable.restart&#8203;.connector.wait.ms</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>10000 (10 seconds)</p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>The number of milliseconds to wait before restarting a connector after a retriable error occurs.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-mongodb-poll-interval-ms"></a><a href="#mongodb-property-mongodb-poll-interval-ms"><code>mongodb.poll&#8203;.interval.ms</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>30000</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>The interval in which the connector polls for new, removed, or changed replica sets.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-mongodb-connect-timeout-ms"></a><a href="#mongodb-property-mongodb-connect-timeout-ms"><code>mongodb.connect&#8203;.timeout.ms</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>10000 (10 seconds)</p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>The number of milliseconds the driver will wait before a new connection attempt is aborted.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-mongodb-socket-timeout-ms"></a><a href="#mongodb-property-mongodb-socket-timeout-ms"><code>mongodb.socket&#8203;.timeout.ms</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>0</p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>The number of milliseconds before a send/receive on the socket can take before a timeout occurs.
-A value of <code>0</code> disables this behavior.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mongodb-property-mongodb-server-selection-timeout-ms"></a><a href="#mongodb-property-mongodb-server-selection-timeout-ms"><code>mongodb.server&#8203;.selection&#8203;.timeout.ms</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>30000 (30 seconds)</p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>The number of milliseconds the driver will wait to select a server before it times out and throws an error.</p>
-</div></div></td>
 </tr>
 </tbody>
 </table>
@@ -2912,7 +2991,7 @@ In this case, when the connector configured with <em>initial</em> snapshot mode 
 
 <div id="toc-rightbar"></div>    <footer class="footer">
         <div class="wrapper">
-            <div class="copyright">Copyright &copy; 2020 Debezium Community</div>
+            <div class="copyright">Copyright &copy; 2021 Debezium Community</div>
         </div>
     </footer>
 </main>

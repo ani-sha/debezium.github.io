@@ -4,7 +4,7 @@
         <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Outbox Quarkus Extension :: Debezium Documentation</title>
-    <link rel="canonical" href="https://www.debezium.io/documentation/reference/integrations/outbox.html">
+    <link rel="canonical" href="https://www.debezium.io/documentation/reference/1.7/integrations/outbox.html">
     <meta name="generator" content="Antora 2.3.4">
 <link rel="stylesheet" href="../../debezium-antora/css/site.css">
 <link rel="stylesheet" href="../../debezium-antora/css/debezium-antora.css">
@@ -82,25 +82,10 @@
     <a class="nav-link" href="../configuration/avro.html">Avro Serialization</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../configuration/topic-routing.html">Topic Routing</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../configuration/event-flattening.html">New Record State Extraction</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../configuration/mongodb-event-flattening.html">MongoDB New Document State Extraction</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../configuration/outbox-event-router.html">Outbox Event Router</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../configuration/filtering.html">Message Filtering</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../configuration/content-based-routing.html">Content-Based Routing</a>
-  </li>
-  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../configuration/topic-auto-create-config.html">Customizing Topic Auto-Creation</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../configuration/signalling.html">Sending Signals to Debezium</a>
   </li>
 </ul>
   </li>
@@ -134,6 +119,36 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../connectors/vitess.html">Vitess</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Transformations</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/index.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/topic-routing.html">Topic Routing</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/event-flattening.html">New Record State Extraction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/mongodb-event-flattening.html">MongoDB New Document State Extraction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/outbox-event-router.html">Outbox Event Router</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/filtering.html">Message Filtering</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/content-based-routing.html">Content-Based Routing</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/applying-transformations-selectively.html">Using SMT Predicates to Selectively Apply Transformations</a>
   </li>
 </ul>
   </li>
@@ -189,6 +204,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../operations/embedded.html">Embedding Debezium</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../operations/debezium-ui.html">Debezium UI</a>
+  </li>
 </ul>
   </li>
 </ul>
@@ -199,14 +217,20 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">Debezium Documentation</span>
-    <span class="version">master</span>
+    <span class="version">nightly</span>
   </div>
   <ul class="components">
     <li class="component is-current">
       <span class="title">Debezium Documentation</span>
       <ul class="versions">
-        <li class="version is-current is-latest">
-          <a href="../index.html">master</a>
+        <li class="version is-current">
+          <a href="../index.html">nightly</a>
+        </li>
+        <li class="version is-latest">
+          <a href="../1.7/index.html">1.7</a>
+        </li>
+        <li class="version">
+          <a href="../1.6/index.html">1.6</a>
         </li>
         <li class="version">
           <a href="../1.5/index.html">1.5</a>
@@ -242,7 +266,7 @@
 <main role="main" class="main">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="../index.html" class="home-link"></a>
+  <a href="../1.7/index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../index.html">Debezium Documentation</a></li>
@@ -253,10 +277,12 @@
     <div class="page-versions-container">
     Version:
     <div class="page-versions">
-        <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">master</button>
+        <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">nightly</button>
         <!--<button class="version-menu-toggle versions-menu-select" title="Select other versions">Select</button>-->
         <div class="version-menu">
-                <a class="version is-current" href="outbox.html">master</a>
+                <a class="version is-current" href="outbox.html">nightly</a>
+                <a class="version" href="../1.7/integrations/outbox.html">1.7</a>
+                <a class="version" href="../1.6/integrations/outbox.html">1.6</a>
                 <a class="version" href="../1.5/integrations/outbox.html">1.5</a>
                 <a class="version" href="../1.4/integrations/outbox.html">1.4</a>
                 <a class="version" href="../1.3/integrations/outbox.html">1.3</a>
@@ -277,7 +303,7 @@
             <div class="version-banner version-banner-development">
     You are viewing documentation for the current development version of Debezium.
     <br/>
-            If you want to view the latest stable version of this page, please go <a href="../1.3/integrations/outbox.html">here</a>.
+            If you want to view the latest stable version of this page, please go <a href="../1.6/integrations/outbox.html">here</a>.
             
 </div>            <h1 class="page">Outbox Quarkus Extension</h1>
         <div id="preamble">
@@ -317,7 +343,7 @@
 <h2 id="_overview"><a class="anchor" href="#_overview"></a>Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This extension is inspired by the <a href="../configuration/outbox-event-router.html" class="page">Outbox Event Router</a> single message transformation (SMT).
+<p>This extension is inspired by the <a href="../transformations/outbox-event-router.html" class="page">Outbox Event Router</a> single message transformation (SMT).
 As discussed in the blog post <a href="/blog/2019/02/19/reliable-microservices-data-exchange-with-the-outbox-pattern/">Reliable Microservices Data Exchange with the Outbox Pattern</a>, microservices often need to exchange information with one another and an excellent way to deal with that is using the Outbox pattern combined with Debezium&#8217;s Outbox Event Router SMT.</p>
 </div>
 <div class="paragraph">
@@ -341,8 +367,8 @@ As discussed in the blog post <a href="/blog/2019/02/19/reliable-microservices-d
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
   &lt;groupId&gt;io.debezium&lt;/groupId&gt;
-  &lt;artfiactId&gt;debezium-quarkus-outbox&lt;/artfiactId&gt;
-  &lt;version&gt;1.5.0.Alpha1&lt;/version&gt;
+  &lt;artifactId&gt;debezium-quarkus-outbox&lt;/artifactId&gt;
+  &lt;version&gt;1.7.0.Final&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
@@ -371,7 +397,7 @@ It&#8217;s important that for a given Quarkus application, <strong>all</strong> 
 <h2 id="_example"><a class="anchor" href="#_example"></a>Example</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The following illustrates an implementation of the <code>ExportedEvent</code> interface representing an order that has been created:</p>
+<p>The following example illustrates an implementation of the <code>ExportedEvent</code> interface representing an order that has been created:</p>
 </div>
 <div class="listingblock">
 <div class="title">OrderCreatedEvent.java</div>
@@ -393,7 +419,7 @@ It&#8217;s important that for a given Quarkus application, <strong>all</strong> 
 
     @Override
     public String getAggregateId() {
-        return String.valeuOf(orderId);
+        return String.valueOf(orderId);
     }
 
     @Override
@@ -475,7 +501,7 @@ The extension works out-of-the-box with a default configuration, but this config
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="dlist">
 <dl>
-<dt class="hdlist1"><code>quarkus.debezium-outbox.table-name</code></dt>
+<dt class="hdlist1"><a id="quarkus-debezium-outbox-table-name"></a><a href="#quarkus-debezium-outbox-table-name"><code>quarkus.debezium-outbox.table-name</code></a></dt>
 <dd>
 <p>The table name to be used when creating the outbox table.</p>
 </dd>
@@ -489,10 +515,10 @@ The extension works out-of-the-box with a default configuration, but this config
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="dlist">
 <dl>
-<dt class="hdlist1"><code>quarkus.debezium-outbox.id.name</code></dt>
+<dt class="hdlist1"><a id="quarkus-debezium-outbox-id-name"></a><a href="#quarkus-debezium-outbox-id-name"><code>quarkus.debezium-outbox.id.name</code></a></dt>
 <dd>
 <p>The column name for the event id column.<br>
-e.g. <code>uuid</code></p>
+for example, <code>uuid</code></p>
 </dd>
 </dl>
 </div></div></td>
@@ -504,10 +530,10 @@ e.g. <code>uuid</code></p>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="dlist">
 <dl>
-<dt class="hdlist1"><code>quarkus.debezium-outbox.id.column-definition</code></dt>
+<dt class="hdlist1"><a id="quarkus-debezium-outbox-id-column-definition"></a><a href="#quarkus-debezium-outbox-id-column-definition"><code>quarkus.debezium-outbox.id.column-definition</code></a></dt>
 <dd>
 <p>The database-specific column definition for the event id column.<br>
-e.g. <code>uuid not null</code></p>
+for example, <code>uuid not null</code></p>
 </dd>
 </dl>
 </div></div></td>
@@ -519,7 +545,7 @@ e.g. <code>uuid not null</code></p>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="dlist">
 <dl>
-<dt class="hdlist1"><code>quarkus.debezium-outbox.aggregate-id.name</code></dt>
+<dt class="hdlist1"><a id="quarkus-debezium-outbox-aggregate-id-name"></a><a href="#quarkus-debezium-outbox-aggregate-id-name"><code>quarkus.debezium-outbox.aggregate-id.name</code></a></dt>
 <dd>
 <p>The column name for the event key column.</p>
 </dd>
@@ -533,10 +559,10 @@ e.g. <code>uuid not null</code></p>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="dlist">
 <dl>
-<dt class="hdlist1"><code>quarkus.debezium-outbox.aggregate-id.column-definition</code></dt>
+<dt class="hdlist1"><a id="quarkus-debezium-outbox-aggregate-id-column-definition"></a><a href="#quarkus-debezium-outbox-aggregate-id-column-definition"><code>quarkus.debezium-outbox.aggregate-id.column-definition</code></a></dt>
 <dd>
 <p>The database-specific column definition for the aggregate id.<br>
-e.g. <code>varchar(50) not null</code></p>
+for example, <code>varchar(50) not null</code></p>
 </dd>
 </dl>
 </div></div></td>
@@ -548,10 +574,10 @@ e.g. <code>varchar(50) not null</code></p>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="dlist">
 <dl>
-<dt class="hdlist1"><code>quarkus.debezium-outbox.aggregate-id.converter</code></dt>
+<dt class="hdlist1"><a id="quarkus-debezium-outbox-aggregate-id-converter"></a><a href="#quarkus-debezium-outbox-aggregate-id-converter"><code>quarkus.debezium-outbox.aggregate-id.converter</code></a></dt>
 <dd>
 <p>The JPA AttributeConverter for the event key column.<br>
-e.g. <code>com.company.TheAttributeConverter</code></p>
+for example, <code>com.company.TheAttributeConverter</code></p>
 </dd>
 </dl>
 </div></div></td>
@@ -563,7 +589,7 @@ e.g. <code>com.company.TheAttributeConverter</code></p>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="dlist">
 <dl>
-<dt class="hdlist1"><code>quarkus.debezium-outbox.aggregate-type.name</code></dt>
+<dt class="hdlist1"><a id="quarkus-debezium-outbox-aggregate-type-name"></a><a href="#quarkus-debezium-outbox-aggregate-type-name"><code>quarkus.debezium-outbox.aggregate-type.name</code></a></dt>
 <dd>
 <p>The column name for the event aggregate type column.</p>
 </dd>
@@ -577,10 +603,10 @@ e.g. <code>com.company.TheAttributeConverter</code></p>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="dlist">
 <dl>
-<dt class="hdlist1"><code>quarkus.debezium-outbox.aggregate-type.column-definition</code></dt>
+<dt class="hdlist1"><a id="quarkus-debezium-outbox-aggregate-type-column-definition"></a><a href="#quarkus-debezium-outbox-aggregate-type-column-definition"><code>quarkus.debezium-outbox.aggregate-type.column-definition</code></a></dt>
 <dd>
 <p>The database-specific column definition for the aggregate type.<br>
-e.g. <code>varchar(15) not null</code></p>
+for example, <code>varchar(15) not null</code></p>
 </dd>
 </dl>
 </div></div></td>
@@ -592,10 +618,10 @@ e.g. <code>varchar(15) not null</code></p>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="dlist">
 <dl>
-<dt class="hdlist1"><code>quarkus.debezium-outbox.aggregate-type.converter</code></dt>
+<dt class="hdlist1"><a id="quarkus-debezium-outbox-aggregate-type-converter"></a><a href="#quarkus-debezium-outbox-aggregate-type-converter"><code>quarkus.debezium-outbox.aggregate-type.converter</code></a></dt>
 <dd>
 <p>The JPA AttributeConverter for the event aggregate type column.<br>
-e.g. <code>com.company.TheAttributeConverter</code></p>
+for example, <code>com.company.TheAttributeConverter</code></p>
 </dd>
 </dl>
 </div></div></td>
@@ -607,7 +633,7 @@ e.g. <code>com.company.TheAttributeConverter</code></p>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="dlist">
 <dl>
-<dt class="hdlist1"><code>quarkus.debezium-outbox.type.name</code></dt>
+<dt class="hdlist1"><a id="quarkus-debezium-outbox-type-name"></a><a href="#quarkus-debezium-outbox-type-name"><code>quarkus.debezium-outbox.type.name</code></a></dt>
 <dd>
 <p>The column name for the event type column.</p>
 </dd>
@@ -621,10 +647,10 @@ e.g. <code>com.company.TheAttributeConverter</code></p>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="dlist">
 <dl>
-<dt class="hdlist1"><code>quarkus.debezium-outbox.type.column-definition</code></dt>
+<dt class="hdlist1"><a id="quarkus-debezium-outbox-type-column-definition"></a><a href="#quarkus-debezium-outbox-type-column-definition"><code>quarkus.debezium-outbox.type.column-definition</code></a></dt>
 <dd>
 <p>The database-specific column definition for the event type.<br>
-e.g. <code>varchar(50) not null</code></p>
+for example, <code>varchar(50) not null</code></p>
 </dd>
 </dl>
 </div></div></td>
@@ -636,10 +662,10 @@ e.g. <code>varchar(50) not null</code></p>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="dlist">
 <dl>
-<dt class="hdlist1"><code>quarkus.debezium-outbox.type.converter</code></dt>
+<dt class="hdlist1"><a id="quarkus-debezium-outbox-type-converter"></a><a href="#quarkus-debezium-outbox-type-converter"><code>quarkus.debezium-outbox.type.converter</code></a></dt>
 <dd>
 <p>The JPA AttributeConverter for the event type column.<br>
-e.g. <code>com.company.TheAttributeConverter</code></p>
+for example, <code>com.company.TheAttributeConverter</code></p>
 </dd>
 </dl>
 </div></div></td>
@@ -651,7 +677,7 @@ e.g. <code>com.company.TheAttributeConverter</code></p>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="dlist">
 <dl>
-<dt class="hdlist1"><code>quarkus.debezium-outbox.timestamp.name</code></dt>
+<dt class="hdlist1"><a id="quarkus-debezium-outbox-timestamp-name"></a><a href="#quarkus-debezium-outbox-timestamp-name"><code>quarkus.debezium-outbox.timestamp.name</code></a></dt>
 <dd>
 <p>The column name for the event timestamp column.</p>
 </dd>
@@ -665,10 +691,10 @@ e.g. <code>com.company.TheAttributeConverter</code></p>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="dlist">
 <dl>
-<dt class="hdlist1"><code>quarkus.debezium-outbox.timestamp.column-definition</code></dt>
+<dt class="hdlist1"><a id="quarkus-debezium-outbox-timestamp-column-definition"></a><a href="#quarkus-debezium-outbox-timestamp-column-definition"><code>quarkus.debezium-outbox.timestamp.column-definition</code></a></dt>
 <dd>
 <p>The database-specific column definition for the event timestamp.<br>
-e.g. <code>timestamp not null</code></p>
+for example, <code>timestamp not null</code></p>
 </dd>
 </dl>
 </div></div></td>
@@ -680,10 +706,10 @@ e.g. <code>timestamp not null</code></p>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="dlist">
 <dl>
-<dt class="hdlist1"><code>quarkus.debezium-outbox.timestamp.converter</code></dt>
+<dt class="hdlist1"><a id="quarkus-debezium-outbox-timestamp-converter"></a><a href="#quarkus-debezium-outbox-timestamp-converter"><code>quarkus.debezium-outbox.timestamp.converter</code></a></dt>
 <dd>
 <p>The JPA AttributeConverter for the event timestamp column.<br>
-e.g. <code>com.company.TheAttributeConverter</code></p>
+for example, <code>com.company.TheAttributeConverter</code></p>
 </dd>
 </dl>
 </div></div></td>
@@ -695,7 +721,7 @@ e.g. <code>com.company.TheAttributeConverter</code></p>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="dlist">
 <dl>
-<dt class="hdlist1"><code>quarkus.debezium-outbox.payload.name</code></dt>
+<dt class="hdlist1"><a id="quarkus-debezium-outbox-payload-name"></a><a href="#quarkus-debezium-outbox-payload-name"><code>quarkus.debezium-outbox.payload.name</code></a></dt>
 <dd>
 <p>The column name for the event payload column.</p>
 </dd>
@@ -709,10 +735,10 @@ e.g. <code>com.company.TheAttributeConverter</code></p>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="dlist">
 <dl>
-<dt class="hdlist1"><code>quarkus.debezium-outbox.payload.column-definition</code></dt>
+<dt class="hdlist1"><a id="quarkus-debezium-outbox-payload-column-definition"></a><a href="#quarkus-debezium-outbox-payload-column-definition"><code>quarkus.debezium-outbox.payload.column-definition</code></a></dt>
 <dd>
 <p>The database-specific column definition for the event payload.<br>
-e.g. <code>text not null</code></p>
+for example, <code>text not null</code></p>
 </dd>
 </dl>
 </div></div></td>
@@ -724,10 +750,10 @@ e.g. <code>text not null</code></p>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="dlist">
 <dl>
-<dt class="hdlist1"><code>quarkus.debezium-outbox.payload.converter</code></dt>
+<dt class="hdlist1"><a id="quarkus-debezium-outbox-payload-converter"></a><a href="#quarkus-debezium-outbox-payload-converter"><code>quarkus.debezium-outbox.payload.converter</code></a></dt>
 <dd>
 <p>The JPA AttributeConverter for the event payload column.<br>
-e.g. <code>com.company.TheAttributeConverter</code></p>
+for example, <code>com.company.TheAttributeConverter</code></p>
 </dd>
 </dl>
 </div></div></td>
@@ -739,7 +765,7 @@ e.g. <code>com.company.TheAttributeConverter</code></p>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="dlist">
 <dl>
-<dt class="hdlist1"><code>quarkus.debezium-outbox.tracingspancontext.name</code></dt>
+<dt class="hdlist1"><a id="quarkus-debezium-outbox-tracingspancontext-name"></a><a href="#quarkus-debezium-outbox-tracingspancontext-name"><code>quarkus.debezium-outbox.tracingspancontext.name</code></a></dt>
 <dd>
 <p>The column name for the tracing span context column.</p>
 </dd>
@@ -753,10 +779,10 @@ e.g. <code>com.company.TheAttributeConverter</code></p>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="dlist">
 <dl>
-<dt class="hdlist1"><code>quarkus.debezium-outbox.tracingspancontext.column-definition</code></dt>
+<dt class="hdlist1"><a id="quarkus-debezium-outbox-tracingspancontext-column-definition"></a><a href="#quarkus-debezium-outbox-tracingspancontext-column-definition"><code>quarkus.debezium-outbox.tracingspancontext.column-definition</code></a></dt>
 <dd>
 <p>The database-specific column definition for the tracingspancontext.<br>
-e.g. <code>text not null</code></p>
+for example, <code>text not null</code></p>
 </dd>
 </dl>
 </div></div></td>
@@ -804,7 +830,7 @@ When not using the default values, be sure that the SMT configuration matches.</
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="dlist">
 <dl>
-<dt class="hdlist1"><code>quarkus.debezium-outbox.remove-after-insert</code></dt>
+<dt class="hdlist1"><a id="quarkus-debezium-outbox-remove-after-insert"></a><a href="#quarkus-debezium-outbox-remove-after-insert"><code>quarkus.debezium-outbox.remove-after-insert</code></a></dt>
 <dd>
 <p>Whether the outbox entry is removed after having been inserted.<br></p>
 <div class="paragraph">
@@ -839,7 +865,7 @@ See <a href="/documentation/reference/integrations/tracing">tracing documentatio
 
 <div id="toc-rightbar"></div>    <footer class="footer">
         <div class="wrapper">
-            <div class="copyright">Copyright &copy; 2020 Debezium Community</div>
+            <div class="copyright">Copyright &copy; 2021 Debezium Community</div>
         </div>
     </footer>
 </main>

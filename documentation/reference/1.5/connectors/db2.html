@@ -4,7 +4,7 @@
         <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Debezium connector for Db2 :: Debezium Documentation</title>
-    <link rel="canonical" href="https://www.debezium.io/documentation/reference/connectors/db2.html">
+    <link rel="canonical" href="https://www.debezium.io/documentation/reference/1.7/connectors/db2.html">
     <meta name="generator" content="Antora 2.3.4">
 <link rel="stylesheet" href="../../../debezium-antora/css/site.css">
 <link rel="stylesheet" href="../../../debezium-antora/css/debezium-antora.css">
@@ -100,7 +100,13 @@
     <a class="nav-link" href="../configuration/content-based-routing.html">Content-Based Routing</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../configuration/applying-transformations-selectively.html">Using SMT Predicates to Selectively Apply Transformations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../configuration/topic-auto-create-config.html">Customizing Topic Auto-Creation</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../configuration/signalling.html">Sending Signals to Debezium</a>
   </li>
 </ul>
   </li>
@@ -205,8 +211,14 @@
     <li class="component is-current">
       <span class="title">Debezium Documentation</span>
       <ul class="versions">
+        <li class="version">
+          <a href="../../index.html">nightly</a>
+        </li>
         <li class="version is-latest">
-          <a href="../../index.html">master</a>
+          <a href="../../1.7/index.html">1.7</a>
+        </li>
+        <li class="version">
+          <a href="../../1.6/index.html">1.6</a>
         </li>
         <li class="version is-current">
           <a href="../index.html">1.5</a>
@@ -242,7 +254,7 @@
 <main role="main" class="main">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="../../index.html" class="home-link"></a>
+  <a href="../../1.7/index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../index.html">Debezium Documentation</a></li>
@@ -256,7 +268,9 @@
         <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">1.5</button>
         <!--<button class="version-menu-toggle versions-menu-select" title="Select other versions">Select</button>-->
         <div class="version-menu">
-                <a class="version" href="../../connectors/db2.html">master</a>
+                <a class="version" href="../../connectors/db2.html">nightly</a>
+                <a class="version" href="../../1.7/connectors/db2.html">1.7</a>
+                <a class="version" href="../../1.6/connectors/db2.html">1.6</a>
                 <a class="version is-current" href="db2.html">1.5</a>
                 <a class="version" href="../../1.4/connectors/db2.html">1.4</a>
                 <a class="version" href="../../1.3/connectors/db2.html">1.3</a>
@@ -274,10 +288,10 @@
 <div class="article-grid">
 <div class="article-cell1">
 <article class="doc">
-            <div class="version-banner version-banner-development">
-    You are viewing documentation for the current development version of Debezium.
+            <div class="version-banner version-banner-outdated">
+    You are viewing documentation for an outdated version of Debezium.
     <br/>
-            If you want to view the latest stable version of this page, please go <a href="../../1.3/connectors/db2.html">here</a>.
+            If you want to view the latest stable version of this page, please go <a href="../../1.6/connectors/db2.html">here</a>.
             
 </div>            <h1 class="page">Debezium connector for Db2</h1>
         <div id="preamble">
@@ -312,10 +326,16 @@
 <li><a href="#db2-decimal-types">Decimal types</a></li>
 </ul>
 </li>
-<li><a href="#setting-up-db2">Set up</a></li>
+<li><a href="#setting-up-db2">Setting up Db2</a>
+<ul class="sectlevel2">
+<li><a href="#_putting_tables_into_capture_mode">Putting tables into capture mode</a></li>
+<li><a href="#_effect_of_db2_capture_agent_configuration_on_server_load_and_latency">Effect of Db2 capture agent configuration on server load and latency</a></li>
+<li><a href="#_db2_capture_agent_configuration_parameters">Db2 capture agent configuration parameters</a></li>
+</ul>
+</li>
 <li><a href="#db2-deploying-a-connector">Deployment</a>
 <ul class="sectlevel2">
-<li><a href="#db2-example-configuration">Connector configuration example</a></li>
+<li><a href="#db2-example-configuration">Db2 connector configuration example</a></li>
 <li><a href="#db2-adding-connector-configuration">Adding connector configuration</a></li>
 <li><a href="#db2-connector-properties">Connector properties</a></li>
 </ul>
@@ -348,11 +368,26 @@
 <div class="paragraph">
 <p>When the snapshot is complete the connector begins emitting change events for committed updates to tables that are in capture mode. By default, change events for a particular table go to a Kafka topic that has the same name as the table. Applications and services consume change events from these topics.</p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
 <div class="paragraph">
-<p>The connector uses the abstract syntax notation (ASN) libraries that come as a standard part of Db2 LUW (Db2 for Linux, UNIX and Windows) and which you can add to Db2 zOS. To use ASN and hence this connector, you must have a license for the IBM InfoSphere Data Replication (IIDR) product. However, IIDR does not need to be installed.</p>
+<p>The connector requires the use of the abstract syntax notation (ASN) libraries, which are available as a standard part of Db2 for Linux.
+To use the ASN libraries, you must have a license for IBM InfoSphere Data Replication (IIDR).
+You do not have to install IIDR to use the ASN libraries.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>The Db2 connector has been tested with Db2/Linux 11.5.0.0. It is expected that the connector would also work on Windows, AIX and zOS.</p>
+<p>The Db2 connector has been tested with Db2 for Linux.
+It is expected that the connector would also work on other platforms such as Windows,
+and we&#8217;d love to get your feedback if you can confirm this to be the case.</p>
 </div>
 </div>
 </div>
@@ -581,7 +616,7 @@ The level of the lock is determined by the <code>snapshot.isolation.mode</code> 
   },
   "payload": {
     "source": {
-      "version": "1.5.0.Alpha1",
+      "version": "1.5.4.Final",
       "connector": "db2",
       "name": "db2",
       "ts_ms": 1588252618953,
@@ -1243,7 +1278,7 @@ It is possible to override the table&#8217;s primary key by setting the <a href=
       "EMAIL": "john.doe@example.org"
     },
     "source": {  <i class="conum" data-value="8"></i><b>(8)</b>
-      "version": "1.5.0.Alpha1",
+      "version": "1.5.4.Final",
       "connector": "db2",
       "name": "myconnector",
       "ts_ms": 1559729468470,
@@ -1413,7 +1448,7 @@ In the <code>source</code> object, <code>ts_ms</code> indicates the time that th
       "EMAIL": "noreply@example.org"
     },
     "source": {  <i class="conum" data-value="3"></i><b>(3)</b>
-      "version": "1.5.0.Alpha1",
+      "version": "1.5.4.Final",
       "connector": "db2",
       "name": "myconnector",
       "ts_ms": 1559729995937,
@@ -1539,7 +1574,7 @@ In the <code>source</code> object, <code>ts_ms</code> indicates the time that th
     },
     "after": null,  <i class="conum" data-value="2"></i><b>(2)</b>
     "source": {  <i class="conum" data-value="3"></i><b>(3)</b>
-      "version": "1.5.0.Alpha1",
+      "version": "1.5.4.Final",
       "connector": "db2",
       "name": "myconnector",
       "ts_ms": 1559730445243,
@@ -2245,19 +2280,29 @@ The <code>connect.decimal.precision</code> schema parameter contains an integer 
 </div>
 </div>
 <div class="sect1">
-<h2 id="setting-up-db2"><a class="anchor" href="#setting-up-db2"></a>Set up</h2>
+<h2 id="setting-up-db2"><a class="anchor" href="#setting-up-db2"></a>Setting up Db2</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>A database administrator must put tables into capture mode before you can run a Debezium Db2 connector to capture changes that are committed to a Db2 database. To put tables into capture mode, Debezium provides a set of user-defined functions (UDFs) for your convenience. The procedure here shows how to install and run these management UDFs. Alternatively, you can run Db2 control commands to put tables into capture mode.</p>
+<p>For Debezium to capture change events that are committed to Db2 tables, a Db2 database administrator with the necessary privileges must configure tables in the database for change data capture.
+After you begin to run Debezium you can adjust the configuration of the capture agent to optimize performance.</p>
 </div>
+<div class="sect2">
+<h3 id="_putting_tables_into_capture_mode"><a class="anchor" href="#_putting_tables_into_capture_mode"></a>Putting tables into capture mode</h3>
 <div class="paragraph">
-<p>This procedure assumes that you are logged in as the <code>db2instl</code> user, which is the default instance and user name when using the Db2 docker container image.</p>
+<p>To put tables into capture mode, Debezium provides a set of user-defined functions (UDFs) for your convenience.
+The procedure here shows how to install and run these management UDFs.
+Alternatively, you can run Db2 control commands to put tables into capture mode.
+The administrator must then enable CDC for each table that you want Debezium to capture.</p>
 </div>
 <div class="ulist">
 <div class="title">Prerequisites</div>
 <ul>
 <li>
-<p>On the machine on which Db2 is running, the content in <code>debezium-connector-db2/src/test/docker/db2-cdc-docker</code> is available in the <code>$HOME/asncdctools/src</code> directory.</p>
+<p>You are logged in to Db2 as the <code>db2instl</code> user.</p>
+</li>
+<li>
+<p>On the Db2 host, the Debezium management UDFs are available in the $HOME/asncdctools/src directory.
+UDFs are available from the <a href="https://github.com/debezium/debezium-examples/tree/master/tutorial/debezium-db2-init/db2server">Debezium examples repository</a>.</p>
 </li>
 </ul>
 </div>
@@ -2401,17 +2446,119 @@ command provided with Db2:</p>
 <p><a href="#managing-debezium-db2-connectors">Reference table for Debezium Db2 management UDFs</a></p>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_effect_of_db2_capture_agent_configuration_on_server_load_and_latency"><a class="anchor" href="#_effect_of_db2_capture_agent_configuration_on_server_load_and_latency"></a>Effect of Db2 capture agent configuration on server load and latency</h3>
+<div class="paragraph">
+<p>When a database administrator enables change data capture for a source table, the capture agent begins to run.
+The agent reads new change event records from the transaction log and replicates the event records to a capture table.
+Between the time that a change is committed in the source table, and the time that the change appears in the corresponding change table, there is always a small latency interval.
+This latency interval represents a gap between when changes occur in the source table and when they become available for Debezium to stream to Apache Kafka.</p>
+</div>
+<div class="paragraph">
+<p>Ideally, for applications that must respond quickly to changes in data, you want to maintain close synchronization between the source and capture tables.
+You might imagine that running the capture agent to continuously process change events as rapidly as possible might result in increased throughput and reduced latency&#8201;&#8212;&#8201;populating change tables with new event records as soon as possible after the events occur, in near real time.
+However, this is not necessarily the case.
+There is a performance penalty to pay in the pursuit of more immediate synchronization.
+Each time that the change agent queries the database for new event records, it increases the CPU load on the database host.
+The additional load on the server can have a negative effect on overall database performance, and potentially reduce transaction efficiency, especially during times of peak database use.</p>
+</div>
+<div class="paragraph">
+<p>It&#8217;s important to monitor database metrics so that you know if the database reaches the point where the server can no longer support the capture agent&#8217;s level of activity.
+If you experience performance issues while running the capture agent, adjust capture agent settings to reduce CPU load.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_db2_capture_agent_configuration_parameters"><a class="anchor" href="#_db2_capture_agent_configuration_parameters"></a>Db2 capture agent configuration parameters</h3>
+<div class="paragraph">
+<p>On Db2, the <code>IBMSNAP_CAPPARMS</code> table contains parameters that control the behavior of the capture agent.
+You can adjust the values for these parameters to balance the configuration of the capture process to reduce CPU load and still maintain acceptable levels of latency.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Specific guidance about how to configure Db2 capture agent parameters is beyond the scope of this documentation.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In the <code>IBMSNAP_CAPPARMS</code> table, the following parameters have the greatest effect on reducing CPU load:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>COMMIT_INTERVAL</code></dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>Specifies the number of seconds that the capture agent waits to commit data to the change data tables.</p>
+</li>
+<li>
+<p>A higher value reduces the load on the database host and increases latency.</p>
+</li>
+<li>
+<p>The default value is <code>30</code>.</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1"><code>SLEEP_INTERVAL</code></dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>Specifies the number of seconds that the capture agent waits to start a new commit cycle after it reaches the end of the active transaction log.</p>
+</li>
+<li>
+<p>A higher value reduces the load on the server, and increases latency.</p>
+</li>
+<li>
+<p>The default value is <code>5</code>.</p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+<div class="ulist">
+<div class="title">Additional resources</div>
+<ul>
+<li>
+<p>For more information about capture agent parameters, see the Db2 documentation.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 </div>
 <div class="sect1">
 <h2 id="db2-deploying-a-connector"><a class="anchor" href="#db2-deploying-a-connector"></a>Deployment</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>With <a href="https://zookeeper.apache.org">Zookeeper</a>, <a href="http://kafka.apache.org/">Kafka</a>, and <a href="https://kafka.apache.org/documentation.html#connect">Kafka Connect</a> installed, the remaining tasks to deploy a Debezium Db2 connector are:</p>
+<p>To deploy a Debezium Db2 connector, you install the Debezium Db2 connector archive, configure the connector, and start the connector by adding its configuration to Kafka Connect.</p>
+</div>
+<div class="ulist">
+<div class="title">Prerequisites</div>
+<ul>
+<li>
+<p><a href="https://zookeeper.apache.org/">Apache ZooKeeper</a>, <a href="http://kafka.apache.org/">Apache Kafka</a>, and <a href="https://kafka.apache.org/documentation.html#connect">Kafka Connect</a> are installed.</p>
+</li>
+<li>
+<p>Db2 is installed and <a href="#setting-up-db2">capture mode is enabled for tables</a> to prepare the database to be used with the Debezium connector.</p>
+</li>
+</ul>
 </div>
 <div class="olist arabic">
+<div class="title">Procedure</div>
 <ol class="arabic">
 <li>
-<p>Download the <a href="https://repo1.maven.org/maven2/io/debezium/debezium-connector-db2/1.5.0.Alpha1/debezium-connector-db2-1.5.0.Alpha1-plugin.tar.gz">connector&#8217;s plug-in archive</a>.</p>
+<p>Download the <a href="https://repo1.maven.org/maven2/io/debezium/debezium-connector-db2/1.5.4.Final/debezium-connector-db2-1.5.4.Final-plugin.tar.gz">connector&#8217;s plug-in archive</a>.</p>
 </li>
 <li>
 <p>Extract the JAR files into your Kafka Connect environment.</p>
@@ -2434,16 +2581,20 @@ command provided with Db2:</p>
 </ol>
 </div>
 <div class="paragraph">
-<p>If you are working with immutable containers, see <a href="https://hub.docker.com/r/debezium/">Debezium&#8217;s Container images</a> for Zookeeper, Kafka and Kafka Connect with the Db2 connector already installed and ready to run.
-You can also <a href="../operations/openshift.html" class="page">run Debezium on Kubernetes and OpenShift</a>.</p>
-</div>
-<div class="sect2">
-<h3 id="db2-example-configuration"><a class="anchor" href="#db2-example-configuration"></a>Connector configuration example</h3>
-<div id="db2-example" class="paragraph">
-<p>Following is an example of the configuration for a Db2 connector that connects to a Db2 server on port 50000 at 192.168.99.100, whose logical name is <code>fullfillment</code>. Typically, you configure the Debezium Db2 connector in a <code>.json</code> file using the configuration properties available for the connector.</p>
+<p>If you are working with immutable containers, see <a href="https://hub.docker.com/r/debezium/">Debezium&#8217;s container images</a> for Apache ZooKeeper, Apache Kafka and Kafka Connect with the Db2 connector already installed and ready to run.</p>
 </div>
 <div class="paragraph">
-<p>You can choose to produce events for a subset of the schemas and tables. Optionally, ignore, mask, or truncate columns that are sensitive, too large, or not needed.</p>
+<p>You can also <a href="../operations/openshift.html" class="page">run Debezium on Kubernetes and OpenShift</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="db2-example-configuration"><a class="anchor" href="#db2-example-configuration"></a>Db2 connector configuration example</h3>
+<div class="paragraph">
+<p>Following is an example of the configuration for a connector instance that captures data from a Db2 server on port 50000 at 192.168.99.100, which we logically name <code>fullfillment</code>.
+Typically, you configure the Debezium Db2 connector in a JSON file by setting the configuration properties that are available for the connector.</p>
+</div>
+<div class="paragraph">
+<p>You can choose to produce events for a subset of the schemas and tables in a database.
+Optionally, you can ignore, mask, or truncate columns that contain sensitive data, that are larger than a specified size, or that you do not need.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2513,10 +2664,24 @@ You can also <a href="../operations/openshift.html" class="page">run Debezium on
 </table>
 </div>
 <div class="paragraph">
-<p>See the <a href="#db2-connector-properties">complete list of connector properties</a> that you can specify in these configurations.</p>
+<p>For the complete list of the configuration properties that you can set for the Debezium Db2 connector, see <a href="#db2-connector-properties">Db2 connector properties</a>.</p>
 </div>
 <div class="paragraph">
-<p>You can send this configuration with a <code>POST</code> command to a running Kafka Connect service. The service records the configuration and starts one connector task that connects to the Db2 database, reads change-data tables for tables in capture mode, and streams change event records to Kafka topics.</p>
+<p>You can send this configuration with a <code>POST</code> command to a running Kafka Connect service.
+The service records the configuration and starts one connector task that performs the following actions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Connects to the Db2 database.</p>
+</li>
+<li>
+<p>Reads change-data tables for tables that are in capture mode.</p>
+</li>
+<li>
+<p>Streams change event records to Kafka topics.</p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect2">
@@ -2528,7 +2693,7 @@ You can also <a href="../operations/openshift.html" class="page">run Debezium on
 <div class="title">Prerequisites</div>
 <ul>
 <li>
-<p>The <a href="#setting-up-db2-to-run-a-debezium-connector">Db2 replication</a> is enabled to expose change-data for tables that are in capture mode</p>
+<p><a href="#setting-up-db2">Db2 replication is enabled</a> to expose change data for tables that are in capture mode.</p>
 </li>
 <li>
 <p>The Db2 connector is installed.</p>
@@ -2548,13 +2713,16 @@ You can also <a href="../operations/openshift.html" class="page">run Debezium on
 </div>
 <div class="paragraph">
 <div class="title">Results</div>
-<p>When the connector starts, it <a href="#db2-snapshots">performs a consistent snapshot</a> of the Db2 database tables that the connector is configured to capture changes for. The connector then starts generating data change events for row-level operations and streaming change event records to Kafka topics.</p>
+<p>When the connector starts, it <a href="#db2-snapshots">performs a consistent snapshot</a> of the Db2 database tables that the connector is configured to capture changes for.
+The connector then starts generating data change events for row-level operations and streaming change event records to Kafka topics.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="db2-connector-properties"><a class="anchor" href="#db2-connector-properties"></a>Connector properties</h3>
 <div class="paragraph">
-<p>The Debezium Db2 connector has numerous configuration properties that you can use to achieve the right connector behavior for your application. Many properties have default values. Information about the properties is organized as follows:</p>
+<p>The Debezium Db2 connector has numerous configuration properties that you can use to achieve the right connector behavior for your application.
+Many properties have default values.
+Information about the properties is organized as follows:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2565,15 +2733,26 @@ You can also <a href="../operations/openshift.html" class="page">run Debezium on
 <p><a href="#db2-advanced-configuration-properties">Advanced configuration properties</a></p>
 </li>
 <li>
-<p><a href="#db2-pass-through-properties">Pass-through configuration properties</a></p>
+<p><a href="#debezium-db2-connector-database-history-configuration-properties">Database history connector configuration properties</a> that control how Debezium processes events that it reads from the database history topic.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#db2-pass-through-database-history-properties-for-configuring-producer-and-consumer-clients">Pass-through database history properties</a></p>
 </li>
 </ul>
 </div>
-<div id="db2-required-configuration-properties" class="paragraph">
+</li>
+<li>
+<p><a href="#debezium-db2-connector-pass-through-database-driver-configuration-properties">Pass-through database driver properties</a> that control the behavior of the database driver.</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="db2-required-configuration-properties"><a class="anchor" href="#db2-required-configuration-properties"></a>Required Debezium Db2 connector configuration properties</h4>
+<div class="paragraph">
 <p>The following configuration properties are <em>required</em> unless a default value is available.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 10. Required connector configuration properties</caption>
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 25%;">
@@ -2665,7 +2844,7 @@ You can also <a href="../operations/openshift.html" class="page">run Debezium on
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="db2-property-database-server-name"></a><a href="#db2-property-database-server-name"><code>database.server&#8203;.name</code></a></p>
+<p><a id="db2-property-database-server-name"></a><a href="#db2-property-database-server-name"><code>database.server.name</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
@@ -2674,24 +2853,6 @@ You can also <a href="../operations/openshift.html" class="page">run Debezium on
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="db2-property-database-history-kafka-topic"></a><a href="#db2-property-database-history-kafka-topic"><code>database.history&#8203;.kafka.topic</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>The full name of the Kafka topic where the connector stores the database schema history.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="db2-property-database-history-kafka-bootstrap-servers"></a><a href="#db2-property-database-history-kafka-bootstrap-servers"><code>database.history&#8203;.kafka.bootstrap&#8203;.servers</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>A list of host/port pairs that the connector uses to establish an initial connection to the Kafka cluster. This connection is used for retrieving database schema history previously stored by the connector, and for writing each DDL statement read from the source database. Each pair should point to the same Kafka cluster used by the Debezium Kafka Connect process.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="db2-property-table-include-list" class="paragraph">
 <p><a id="db2-property-table-include-list"></a><a href="#db2-property-table-include-list"><code>table.include.list</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"></div></td>
@@ -2700,7 +2861,7 @@ You can also <a href="../operations/openshift.html" class="page">run Debezium on
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="db2-property-table-exclude-list" class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a id="db2-property-table-exclude-list"></a><a href="#db2-property-table-exclude-list"><code>table.exclude.list</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"></div></td>
@@ -2709,7 +2870,7 @@ You can also <a href="../operations/openshift.html" class="page">run Debezium on
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="db2-property-column-exclude-list" class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a id="db2-property-column-exclude-list"></a><a href="#db2-property-column-exclude-list"><code>column.exclude.list</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
@@ -2723,24 +2884,33 @@ Primary key columns are always included in the event&#8217;s key, even if they a
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="db2-property-column-mask-hash"></a><a href="#db2-property-column-mask-hash"><code>column.mask&#8203;.hash.<em>hashAlgorithm</em>&#8203;.with.salt.<em>salt</em></code></a></p>
+<p><a id="db2-property-column-mask-hash"></a><a href="#db2-property-column-mask-hash"><code>column.mask.hash.<em>hashAlgorithm</em>.with.salt.<em>salt</em></code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><em>n/a</em></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>An optional, comma-separated list of regular expressions that match the fully-qualified names of character-based columns whose values should be pseudonyms in change event values. A pseudonym is a field value that  consists of the hashed value obtained by applying the <code><em>hashAlgorithm</em></code> algorithm and the <code><em>salt</em></code> salt that you specify in the property name.<br>
+<p>An optional, comma-separated list of regular expressions that match the fully-qualified names of character-based columns.
+Fully-qualified names for columns are of the form <em>schemaName</em>.<em>tableName</em>.<em>columnName</em>.
+In the resulting change event record, the values for the specified columns are replaced with pseudonyms.<br></p>
+</div>
+<div class="paragraph">
+<p>A pseudonym consists of the hashed value that results from applying the specified <em>hashAlgorithm</em> and <em>salt</em>.
+Based on the hash function that is used, referential integrity is maintained, while column values are replaced with pseudonyms.
+Supported hash functions are described in the <a href="https://docs.oracle.com/javase/7/docs/technotes/guides/security/StandardNames.html#MessageDigest">MessageDigest section</a> of the Java Cryptography Architecture Standard Algorithm Name Documentation.<br>
 <br>
-Based on the hash algorithm applied, referential integrity is kept while data is masked. Supported hash algorithms are described in the <a href="https://docs.oracle.com/javase/7/docs/technotes/guides/security/StandardNames.html#MessageDigest">MessageDigest section</a> of the Java Cryptography Architecture Standard Algorithm Name Documentation.
-The hash value is automatically shortened to the length of the column.<br>
+In the following example, <code>CzQMA0cB5K</code> is a randomly selected salt.<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>column.mask.hash.SHA-256.with.salt.CzQMA0cB5K = inventory.orders.customerName, inventory.shipment.customerName</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If necessary, the pseudonym is automatically shortened to the length of the column.
+The connector configuration can include multiple properties that specify different hash algorithms and salts.<br>
 <br>
-You can specify multiple instances of this property with different algorthims and salts. Fully-qualified names for columns are of the form <em>schemaName</em>.<em>tableName</em>.<em>columnName</em>. For example:<br>
-<br>
-<code>column.mask.hash.SHA-256.with.salt.CzQMA0cB5K =</code> + <code>inventory.orders.customerName, inventory.shipment.customerName</code><br>
-<br>
-where <code>CzQMA0cB5K</code> is a randomly selected salt.
-<br>
-Depending on the <code><em>hashAlgorithm</em></code> used, the <code><em>salt</em></code> selected, and the actual data set, the field value may not be completely masked.</p>
+Depending on the <em>hashAlgorithm</em> used, the <em>salt</em> selected, and the actual data set, the resulting data set might not be completely masked.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -2760,24 +2930,24 @@ Depending on the <code><em>hashAlgorithm</em></code> used, the <code><em>salt</e
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="db2-property-tombstones-on-delete"></a><a href="#db2-property-tombstones-on-delete"><code>tombstones.on&#8203;.delete</code></a></p>
+<p><a id="db2-property-tombstones-on-delete"></a><a href="#db2-property-tombstones-on-delete"><code>tombstones.on.delete</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>true</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Controls whether a tombstone event should be generated after a <em>delete</em> event.<br>
+<p>Controls whether a <em>delete</em> event is followed by a tombstone event.<br>
 <br>
-<code>true</code> - delete operations are represented by a <em>delete</em> event and a subsequent tombstone event.<br>
+<code>true</code> - a delete operation is represented by a <em>delete</em> event and a subsequent tombstone event. <br>
 <br>
-<code>false</code> - only a <em>delete</em> event is sent.<br>
+<code>false</code> - only a <em>delete</em> event is emitted.<br>
 <br>
-After a <em>delete</em> operation, emitting a tombstone event enables Kafka to delete all change event records that have the same key as the deleted row.</p>
+After a source record is deleted, emitting a tombstone event (the default behavior) allows Kafka to completely delete all events that pertain to the key of the deleted row in case <a href="https://kafka.apache.org/documentation/#compaction">log compaction</a> is enabled for the topic.</p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="db2-property-include-schema-changes"></a><a href="#db2-property-include-schema-changes"><code>include.schema&#8203;.changes</code></a></p>
+<p><a id="db2-property-include-schema-changes"></a><a href="#db2-property-include-schema-changes"><code>include.schema.changes</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>true</code></p>
@@ -2788,7 +2958,7 @@ After a <em>delete</em> operation, emitting a tombstone event enables Kafka to d
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="db2-property-column-truncate-to-length-chars"></a><a href="#db2-property-column-truncate-to-length-chars"><code>column.truncate.to.&#8203;_length_.chars</code></a></p>
+<p><a id="db2-property-column-truncate-to-length-chars"></a><a href="#db2-property-column-truncate-to-length-chars"><code>column.truncate.to._length_.chars</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><em>n/a</em></p>
@@ -2799,7 +2969,7 @@ After a <em>delete</em> operation, emitting a tombstone event enables Kafka to d
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="db2-property-column-mask-with-length-chars"></a><a href="#db2-property-column-mask-with-length-chars"><code>column.mask&#8203;.with.<em>length</em>.chars</code></a></p>
+<p><a id="db2-property-column-mask-with-length-chars"></a><a href="#db2-property-column-mask-with-length-chars"><code>column.mask.with._length_.chars</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><em>n/a</em></p>
@@ -2810,7 +2980,7 @@ After a <em>delete</em> operation, emitting a tombstone event enables Kafka to d
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="db2-property-column-propagate-source-type"></a><a href="#db2-property-column-propagate-source-type"><code>column.propagate&#8203;.source.type</code></a></p>
+<p><a id="db2-property-column-propagate-source-type"></a><a href="#db2-property-column-propagate-source-type"><code>column.propagate.source.type</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><em>n/a</em></p>
@@ -2827,7 +2997,7 @@ This property is useful for properly sizing corresponding columns in sink databa
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="db2-property-datatype-propagate-source-type"></a><a href="#db2-property-datatype-propagate-source-type"><code>datatype.propagate&#8203;.source.type</code></a></p>
+<p><a id="db2-property-datatype-propagate-source-type"></a><a href="#db2-property-datatype-propagate-source-type"><code>datatype.propagate.source.type</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><em>n/a</em></p>
@@ -2846,7 +3016,7 @@ See <a href="#db2-data-types">Db2 data types</a> for the list of Db2-specific da
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="db2-property-message-key-columns"></a><a href="#db2-property-message-key-columns"><code>message.key&#8203;.columns</code></a></p>
+<p><a id="db2-property-message-key-columns"></a><a href="#db2-property-message-key-columns"><code>message.key.columns</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><em>empty string</em></p>
@@ -2867,11 +3037,13 @@ If <code>table_a</code> has a an <code>id</code> column, and <code>regex_1</code
 </tr>
 </tbody>
 </table>
-<div id="db2-advanced-configuration-properties" class="paragraph">
+</div>
+<div class="sect3">
+<h4 id="db2-advanced-configuration-properties"><a class="anchor" href="#db2-advanced-configuration-properties"></a>Advanced connector configuration properties</h4>
+<div class="paragraph">
 <p>The following <em>advanced</em> configuration properties have defaults that work in most situations and therefore rarely need to be specified in the connector&#8217;s configuration.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 11. Advanced connector configuration properties</caption>
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 25%;">
@@ -2902,7 +3074,7 @@ If <code>table_a</code> has a an <code>id</code> column, and <code>regex_1</code
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="db2-property-snapshot-isolation-mode"></a><a href="#db2-property-snapshot-isolation-mode"><code>snapshot.isolation&#8203;.mode</code></a></p>
+<p><a id="db2-property-snapshot-isolation-mode"></a><a href="#db2-property-snapshot-isolation-mode"><code>snapshot.isolation.mode</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>repeatable_read</code></p>
@@ -2921,7 +3093,7 @@ If <code>table_a</code> has a an <code>id</code> column, and <code>regex_1</code
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="db2-property-event-processing-failure-handling-mode"></a><a href="#db2-property-event-processing-failure-handling-mode"><code>event.processing&#8203;.failure.handling&#8203;.mode</code></a></p>
+<p><a id="db2-property-event-processing-failure-handling-mode"></a><a href="#db2-property-event-processing-failure-handling-mode"><code>event.processing.failure.handling.mode</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>fail</code></p>
@@ -2982,7 +3154,7 @@ If <code>table_a</code> has a an <code>id</code> column, and <code>regex_1</code
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="db2-property-heartbeat-interval-ms"></a><a href="#db2-property-heartbeat-interval-ms"><code>heartbeat.interval&#8203;.ms</code></a></p>
+<p><a id="db2-property-heartbeat-interval-ms"></a><a href="#db2-property-heartbeat-interval-ms"><code>heartbeat.interval.ms</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>0</code></p>
@@ -2997,7 +3169,7 @@ Heartbeat messages are useful when there are many updates in a database that is 
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="db2-property-heartbeat-topics-prefix"></a><a href="#db2-property-heartbeat-topics-prefix"><code>heartbeat.topics&#8203;.prefix</code></a></p>
+<p><a id="db2-property-heartbeat-topics-prefix"></a><a href="#db2-property-heartbeat-topics-prefix"><code>heartbeat.topics.prefix</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>__debezium-heartbeat</code></p>
@@ -3028,7 +3200,7 @@ Heartbeat messages are useful when there are many updates in a database that is 
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="db2-property-snapshot-lock-timeout-ms"></a><a href="#db2-property-snapshot-lock-timeout-ms"><code>snapshot.lock&#8203;.timeout.ms</code></a></p>
+<p><a id="db2-property-snapshot-lock-timeout-ms"></a><a href="#db2-property-snapshot-lock-timeout-ms"><code>snapshot.lock.timeout.ms</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>10000</code></p>
@@ -3043,7 +3215,7 @@ Heartbeat messages are useful when there are many updates in a database that is 
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="db2-property-snapshot-select-statement-overrides"></a><a href="#db2-property-snapshot-select-statement-overrides"><code>snapshot.select&#8203;.statement&#8203;.overrides</code></a></p>
+<p><a id="db2-property-snapshot-select-statement-overrides"></a><a href="#db2-property-snapshot-select-statement-overrides"><code>snapshot.select.statement.overrides</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
@@ -3056,7 +3228,7 @@ A possible use case for setting these properties is large, append-only tables. Y
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="db2-property-sanitize-field-names"></a><a href="#db2-property-sanitize-field-names"><code>sanitize.field&#8203;.names</code></a></p>
+<p><a id="db2-property-sanitize-field-names"></a><a href="#db2-property-sanitize-field-names"><code>sanitize.field.names</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>true</code> if connector configuration sets the <code>key.converter</code> or <code>value.converter</code> property to the Avro converter.</p>
@@ -3070,7 +3242,7 @@ A possible use case for setting these properties is large, append-only tables. Y
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="db2-property-provide-transaction-metadata"></a><a href="#db2-property-provide-transaction-metadata"><code>provide.transaction&#8203;.metadata</code></a></p>
+<p><a id="db2-property-provide-transaction-metadata"></a><a href="#db2-property-provide-transaction-metadata"><code>provide.transaction.metadata</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>false</code></p>
@@ -3081,22 +3253,129 @@ A possible use case for setting these properties is large, append-only tables. Y
 </tr>
 </tbody>
 </table>
-<div id="db2-pass-through-properties" class="paragraph">
-<div class="title">Pass-through connector configuration properties</div>
-<p>The connector also supports <em>pass-through</em> configuration properties that it uses when it creates Kafka producers and consumers:</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>All connector configuration properties that begin with the <code>database.history.producer.</code> prefix are used (without the prefix) when creating the Kafka producer that writes to the database history topic.</p>
-</li>
-<li>
-<p>All connector configuration properties that begin with the  <code>database.history.consumer.</code> prefix are used (without the prefix) when creating the Kafka consumer that reads the database history when the connector starts.</p>
-</li>
-</ul>
+<div class="sect3">
+<h4 id="debezium-db2-connector-database-history-configuration-properties"><a class="anchor" href="#debezium-db2-connector-database-history-configuration-properties"></a>Debezium connector database history configuration properties</h4>
+<div class="paragraph">
+<p>Debezium provides a set of <code>database.history.*</code> properties that control how the connector interacts with the schema history topic.</p>
 </div>
 <div class="paragraph">
-<p>For example, the following connector configuration properties <a href="https://kafka.apache.org/documentation.html#security_configclients">secure connections to the Kafka broker</a>:</p>
+<p>The following table describes the <code>database.history</code> properties for configuring the Debezium connector.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 10. Connector database history configuration properties</caption>
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 17%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="db2-property-database-history-kafka-topic"></a><a href="#db2-property-database-history-kafka-topic"><code>database.history.kafka.topic</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>The full name of the Kafka topic where the connector stores the database schema history.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="db2-property-database-history-kafka-bootstrap-servers"></a><a href="#db2-property-database-history-kafka-bootstrap-servers"><code>database.history.kafka.bootstrap.servers</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>A list of host/port pairs that the connector uses for establishing an initial connection to the Kafka cluster. This connection is used for retrieving the database schema history previously stored by the connector, and for writing each DDL statement read from the source database. Each pair should point to the same Kafka cluster used by the Kafka Connect process.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="db2-property-database-history-kafka-recovery-poll-interval-ms"></a><a href="#db2-property-database-history-kafka-recovery-poll-interval-ms"><code>database.history.kafka.recovery.poll.interval.ms</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>100</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>An integer value that specifies the maximum number of milliseconds the connector should wait during startup/recovery while polling for persisted data. The default is 100ms.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="db2-property-database-history-kafka-recovery-attempts"></a><a href="#db2-property-database-history-kafka-recovery-attempts"><code>database.history.kafka.recovery.attempts</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>4</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>The maximum number of times that the connector should try to read persisted history data before the connector recovery fails with an error. The maximum amount of time to wait after receiving no data is <code>recovery.attempts</code> x <code>recovery.poll.interval.ms</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="db2-property-database-history-skip-unparseable-ddl"></a><a href="#db2-property-database-history-skip-unparseable-ddl"><code>database.history.skip.unparseable.ddl</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>false</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>A Boolean value that specifies whether the connector should ignore malformed or unknown database statements or stop processing so a human can fix the issue.
+The safe default is <code>false</code>.
+Skipping should be used only with care as it can lead to data loss or mangling when the binlog is being processed.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="db2-property-database-history-store-only-monitored-tables-ddl"></a><a href="#db2-property-database-history-store-only-monitored-tables-ddl"><code>database.history.store.only.monitored.tables.ddl</code></a><br></p>
+</div>
+<div class="paragraph">
+<p><em>Deprecated and scheduled for removal in a future release; use <a href="#db2-property-database-history-store-only-captured-tables-ddl"><code>database.history.store.only.captured.tables.ddl</code></a> instead.</em></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>false</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>A Boolean value that specifies whether the connector should record all DDL statements<br></p>
+</div>
+<div class="paragraph">
+<p><code>true</code> records only those DDL statements that are relevant to tables whose changes are being captured by Debezium. Set to <code>true</code> with care because missing data might become necessary if you change which tables have their changes captured.<br></p>
+</div>
+<div class="paragraph">
+<p>The safe default is <code>false</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="db2-property-database-history-store-only-captured-tables-ddl"></a><a href="#db2-property-database-history-store-only-captured-tables-ddl"><code>database.history.store.only.captured.tables.ddl</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>false</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>A Boolean value that specifies whether the connector should record all DDL statements<br></p>
+</div>
+<div class="paragraph">
+<p><code>true</code> records only those DDL statements that are relevant to tables whose changes are being captured by Debezium. Set to <code>true</code> with care because missing data might become necessary if you change which tables have their changes captured.<br></p>
+</div>
+<div class="paragraph">
+<p>The safe default is <code>false</code>.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div id="db2-pass-through-database-history-properties-for-configuring-producer-and-consumer-clients" class="paragraph">
+<div class="title">Pass-through database history properties for configuring producer and consumer clients</div>
+<p><br>
+Debezium relies on a Kafka producer to write schema changes to database history topics.
+Similarly, it relies on a Kafka consumer to read from database history topics when a connector starts.
+You define the configuration for the Kafka producer and consumer clients by assigning values to a set of pass-through configuration properties that begin with the <code>database.history.producer.*</code> and <code>database.history.consumer.*</code> prefixes.
+The pass-through producer and consumer database history properties control a range of behaviors, such as how these clients secure connections with the Kafka broker, as shown in the following example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3106,6 +3385,7 @@ database.history.producer.ssl.keystore.password=test1234
 database.history.producer.ssl.truststore.location=/var/private/ssl/kafka.server.truststore.jks
 database.history.producer.ssl.truststore.password=test1234
 database.history.producer.ssl.key.password=test1234
+
 database.history.consumer.security.protocol=SSL
 database.history.consumer.ssl.keystore.location=/var/private/ssl/kafka.server.keystore.jks
 database.history.consumer.ssl.keystore.password=test1234
@@ -3115,10 +3395,22 @@ database.history.consumer.ssl.key.password=test1234</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Be sure to consult the <a href="https://kafka.apache.org/documentation.html">Kafka documentation</a> for all of the configuration properties for Kafka producers and consumers. Note that the Db2 connector uses the <a href="https://kafka.apache.org/documentation.html#newconsumerconfigs">new consumer</a>.</p>
+<p>Debezium strips the prefix from the property name before it passes the property to the Kafka client.</p>
 </div>
 <div class="paragraph">
-<p>Also, the connector passes configuration properties that start with <code>database.</code> to the JDBC URL, for example, <code>database.applicationName=debezium</code>.</p>
+<p>See the Kafka documentation for more details about <a href="https://kafka.apache.org/documentation.html#producerconfigs">Kafka producer configuration properties</a> and <a href="https://kafka.apache.org/documentation.html#consumerconfigs">Kafka consumer configuration properties</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="debezium-db2-connector-pass-through-database-driver-configuration-properties"><a class="anchor" href="#debezium-db2-connector-pass-through-database-driver-configuration-properties"></a>Debezium connector pass-through database driver configuration properties</h4>
+<div class="paragraph">
+<p>The Debezium connector provides for pass-through configuration of the database driver.
+Pass-through database properties begin with the prefix <code>database.*</code>.
+For example, the connector passes properties such as <code>database.foobar=false</code> to the JDBC URL.</p>
+</div>
+<div class="paragraph">
+<p>As is the case with the <a href="#db2-pass-through-database-history-properties-for-configuring-producer-and-consumer-clients">pass-through properties for database history clients</a>, Debezium strips the prefixes from the properties before it passes them to the database driver.</p>
+</div>
 </div>
 </div>
 </div>
@@ -3127,7 +3419,7 @@ database.history.consumer.ssl.key.password=test1234</code></pre>
 <h2 id="db2-monitoring"><a class="anchor" href="#db2-monitoring"></a>Monitoring</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The Debezium Db2 connector provides three types of metrics that are in addition to the built-in support for JMX metrics that Zookeeper, Kafka, and Kafka Connect provide.</p>
+<p>The Debezium Db2 connector provides three types of metrics that are in addition to the built-in support for JMX metrics that Apache ZooKeeper, Apache Kafka, and Kafka Connect provide.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -3641,7 +3933,7 @@ The values will incoporate any differences between the clocks on the machines wh
 <p>After you deploy a Debezium Db2 connector, use the Debezium management UDFs to control Db2 replication (ASN) with SQL commands. Some of the UDFs expect a return value in which case you use the  SQL <code>VALUE</code> statement to invoke them. For other UDFs, use the SQL <code>CALL</code> statement.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 12. Descriptions of Debezium management UDFs</caption>
+<caption class="title">Table 11. Descriptions of Debezium management UDFs</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 80%;">
@@ -3889,7 +4181,7 @@ Do this after you put a table into capture mode or after you remove a table from
 
 <div id="toc-rightbar"></div>    <footer class="footer">
         <div class="wrapper">
-            <div class="copyright">Copyright &copy; 2020 Debezium Community</div>
+            <div class="copyright">Copyright &copy; 2021 Debezium Community</div>
         </div>
     </footer>
 </main>

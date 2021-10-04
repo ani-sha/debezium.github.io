@@ -4,7 +4,7 @@
         <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Using Docker with Debezium :: Debezium Documentation</title>
-    <link rel="canonical" href="https://www.debezium.io/documentation/reference/docker.html">
+    <link rel="canonical" href="https://www.debezium.io/documentation/reference/1.7/docker.html">
     <meta name="generator" content="Antora 2.3.4">
 <link rel="stylesheet" href="../debezium-antora/css/site.css">
 <link rel="stylesheet" href="../debezium-antora/css/debezium-antora.css">
@@ -82,25 +82,10 @@
     <a class="nav-link" href="configuration/avro.html">Avro Serialization</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="configuration/topic-routing.html">Topic Routing</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="configuration/event-flattening.html">New Record State Extraction</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="configuration/mongodb-event-flattening.html">MongoDB New Document State Extraction</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="configuration/outbox-event-router.html">Outbox Event Router</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="configuration/filtering.html">Message Filtering</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="configuration/content-based-routing.html">Content-Based Routing</a>
-  </li>
-  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="configuration/topic-auto-create-config.html">Customizing Topic Auto-Creation</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="configuration/signalling.html">Sending Signals to Debezium</a>
   </li>
 </ul>
   </li>
@@ -134,6 +119,36 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="connectors/vitess.html">Vitess</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Transformations</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="transformations/index.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="transformations/topic-routing.html">Topic Routing</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="transformations/event-flattening.html">New Record State Extraction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="transformations/mongodb-event-flattening.html">MongoDB New Document State Extraction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="transformations/outbox-event-router.html">Outbox Event Router</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="transformations/filtering.html">Message Filtering</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="transformations/content-based-routing.html">Content-Based Routing</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="transformations/applying-transformations-selectively.html">Using SMT Predicates to Selectively Apply Transformations</a>
   </li>
 </ul>
   </li>
@@ -189,6 +204,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="operations/embedded.html">Embedding Debezium</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="operations/debezium-ui.html">Debezium UI</a>
+  </li>
 </ul>
   </li>
 </ul>
@@ -199,14 +217,20 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">Debezium Documentation</span>
-    <span class="version">master</span>
+    <span class="version">nightly</span>
   </div>
   <ul class="components">
     <li class="component is-current">
       <span class="title">Debezium Documentation</span>
       <ul class="versions">
-        <li class="version is-current is-latest">
-          <a href="index.html">master</a>
+        <li class="version is-current">
+          <a href="index.html">nightly</a>
+        </li>
+        <li class="version is-latest">
+          <a href="1.7/index.html">1.7</a>
+        </li>
+        <li class="version">
+          <a href="1.6/index.html">1.6</a>
         </li>
         <li class="version">
           <a href="1.5/index.html">1.5</a>
@@ -242,7 +266,7 @@
 <main role="main" class="main">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="index.html" class="home-link"></a>
+  <a href="1.7/index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Debezium Documentation</a></li>
@@ -252,10 +276,12 @@
     <div class="page-versions-container">
     Version:
     <div class="page-versions">
-        <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">master</button>
+        <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">nightly</button>
         <!--<button class="version-menu-toggle versions-menu-select" title="Select other versions">Select</button>-->
         <div class="version-menu">
-                <a class="version is-current" href="docker.html">master</a>
+                <a class="version is-current" href="docker.html">nightly</a>
+                <a class="version" href="1.7/docker.html">1.7</a>
+                <a class="version" href="1.6/docker.html">1.6</a>
                 <a class="version" href="1.5/docker.html">1.5</a>
                 <a class="version" href="1.4/docker.html">1.4</a>
                 <a class="version" href="1.3/docker.html">1.3</a>
@@ -276,7 +302,7 @@
             <div class="version-banner version-banner-development">
     You are viewing documentation for the current development version of Debezium.
     <br/>
-            If you want to view the latest stable version of this page, please go <a href="1.3/docker.html">here</a>.
+            If you want to view the latest stable version of this page, please go <a href="1.6/docker.html">here</a>.
             
 </div>            <h1 class="page">Using Docker with Debezium</h1>
         <div id="preamble">
@@ -458,7 +484,7 @@ $ boot2docker ssh -vnNTL *:4242:$(boot2docker ip 2&gt;/dev/null):4242</code></pr
 
 <div id="toc-rightbar"></div>    <footer class="footer">
         <div class="wrapper">
-            <div class="copyright">Copyright &copy; 2020 Debezium Community</div>
+            <div class="copyright">Copyright &copy; 2021 Debezium Community</div>
         </div>
     </footer>
 </main>

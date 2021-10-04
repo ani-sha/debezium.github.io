@@ -4,7 +4,7 @@
         <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Debezium Connector for Cassandra :: Debezium Documentation</title>
-    <link rel="canonical" href="https://www.debezium.io/documentation/reference/connectors/cassandra.html">
+    <link rel="canonical" href="https://www.debezium.io/documentation/reference/1.7/connectors/cassandra.html">
     <meta name="generator" content="Antora 2.3.4">
 <link rel="stylesheet" href="../../debezium-antora/css/site.css">
 <link rel="stylesheet" href="../../debezium-antora/css/debezium-antora.css">
@@ -82,25 +82,10 @@
     <a class="nav-link" href="../configuration/avro.html">Avro Serialization</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../configuration/topic-routing.html">Topic Routing</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../configuration/event-flattening.html">New Record State Extraction</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../configuration/mongodb-event-flattening.html">MongoDB New Document State Extraction</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../configuration/outbox-event-router.html">Outbox Event Router</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../configuration/filtering.html">Message Filtering</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../configuration/content-based-routing.html">Content-Based Routing</a>
-  </li>
-  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../configuration/topic-auto-create-config.html">Customizing Topic Auto-Creation</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../configuration/signalling.html">Sending Signals to Debezium</a>
   </li>
 </ul>
   </li>
@@ -134,6 +119,36 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="vitess.html">Vitess</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Transformations</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/index.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/topic-routing.html">Topic Routing</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/event-flattening.html">New Record State Extraction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/mongodb-event-flattening.html">MongoDB New Document State Extraction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/outbox-event-router.html">Outbox Event Router</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/filtering.html">Message Filtering</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/content-based-routing.html">Content-Based Routing</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/applying-transformations-selectively.html">Using SMT Predicates to Selectively Apply Transformations</a>
   </li>
 </ul>
   </li>
@@ -189,6 +204,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../operations/embedded.html">Embedding Debezium</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../operations/debezium-ui.html">Debezium UI</a>
+  </li>
 </ul>
   </li>
 </ul>
@@ -199,14 +217,20 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">Debezium Documentation</span>
-    <span class="version">master</span>
+    <span class="version">nightly</span>
   </div>
   <ul class="components">
     <li class="component is-current">
       <span class="title">Debezium Documentation</span>
       <ul class="versions">
-        <li class="version is-current is-latest">
-          <a href="../index.html">master</a>
+        <li class="version is-current">
+          <a href="../index.html">nightly</a>
+        </li>
+        <li class="version is-latest">
+          <a href="../1.7/index.html">1.7</a>
+        </li>
+        <li class="version">
+          <a href="../1.6/index.html">1.6</a>
         </li>
         <li class="version">
           <a href="../1.5/index.html">1.5</a>
@@ -242,7 +266,7 @@
 <main role="main" class="main">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="../index.html" class="home-link"></a>
+  <a href="../1.7/index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../index.html">Debezium Documentation</a></li>
@@ -253,10 +277,12 @@
     <div class="page-versions-container">
     Version:
     <div class="page-versions">
-        <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">master</button>
+        <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">nightly</button>
         <!--<button class="version-menu-toggle versions-menu-select" title="Select other versions">Select</button>-->
         <div class="version-menu">
-                <a class="version is-current" href="cassandra.html">master</a>
+                <a class="version is-current" href="cassandra.html">nightly</a>
+                <a class="version" href="../1.7/connectors/cassandra.html">1.7</a>
+                <a class="version" href="../1.6/connectors/cassandra.html">1.6</a>
                 <a class="version" href="../1.5/connectors/cassandra.html">1.5</a>
                 <a class="version" href="../1.4/connectors/cassandra.html">1.4</a>
                 <a class="version" href="../1.3/connectors/cassandra.html">1.3</a>
@@ -277,7 +303,7 @@
             <div class="version-banner version-banner-development">
     You are viewing documentation for the current development version of Debezium.
     <br/>
-            If you want to view the latest stable version of this page, please go <a href="../1.3/connectors/cassandra.html">here</a>.
+            If you want to view the latest stable version of this page, please go <a href="../1.6/connectors/cassandra.html">here</a>.
             
 </div>            <h1 class="page">Debezium Connector for Cassandra</h1>
         <div id="preamble">
@@ -597,16 +623,23 @@ ALTER TABLE foo WITH cdc=true;</code></pre>
 <div class="sect2">
 <h3 id="cassandra-schema-evolution"><a class="anchor" href="#cassandra-schema-evolution"></a>Schema Evolution</h3>
 <div class="paragraph">
-<p>DDLs are not recorded in commit logs. When the schema of a table change, this change is issued from one of the Cassandra node and propagated to other nodes via Gossip Protocol. This implies detection of schema changes are achieved on a best-effort basis. This is done by periodically polling the schema of each cdc-enabled table in the cluster via a Cassandra driver, and then update the cached version of the schema. Because of this implementation, if a new column is added to a table and then writes are issued against that column immediately, it is possible that data from that column will not be reflected in the CDC event. This is why it is recommened to pause for some time (configured with <code>schema.refresh.interval.ms</code>) after issuing a schema change.</p>
+<p>DDLs are not recorded in commit logs. When the schema of a table change, this change is issued from one of the Cassandra node and propagated to other nodes via Gossip Protocol.</p>
 </div>
 <div class="paragraph">
-<p><strong>TODO</strong>: it may be possible to reactively refresh schema whenever an unexpect column appears in a mutation to improve schema change detection; worth looking into.</p>
+<p>Schema changes in Cassandra will be detected by an implemented SchemaChangeListener with latency less than 1s, which will then update the schema instance loaded from Cassandra as well as the Kafka key value schemas cached for each table.</p>
 </div>
 <div class="paragraph">
-<p>When sending a message to a topic, the Kafka Connect schema for the key and the value will be automatically registered in the Confluent Schema Registry under the subject t-key and t-value, respectively, if the compatibility test passes. Although it is possible to replay a history of all table schemas via the Schema Registry, only the latest schema of each table is used to generate CDC events.</p>
+<p>Please note that with the current schema evolution approach, the Cassandra connector won&#8217;t be able to provide accurate data change information for a small period of time in the following cases:</p>
 </div>
-<div class="paragraph">
-<p><strong>TODO</strong>: look into whether it is possible to leverage schema history to rebuild schema that exist at the specific position in the commit log, rather than the current schema, when restarting the connector. I don&#8217;t think it is possible right now, because writes to Cassandra node are not received in order.</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>If CDC gets disabled for a table, data changes which have happened before CDC got disabled will be skipped.</p>
+</li>
+<li>
+<p>If a column is removed from a table, data changes involving this column before it&#8217;s removed cannot be deserialized correctly and will be skipped.</p>
+</li>
+</ol>
 </div>
 </div>
 <div class="sect2">
@@ -722,7 +755,7 @@ ALTER TABLE foo WITH cdc=true;</code></pre>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
   "type": "record",
-  "name": "cassandra-cluster-1.inventory.customers.Value",
+  "name": "cassandra-cluster-1.inventory.customers.Envelope",
   "namespace": "io.debezium.connector.cassandra",
   "fields": [
       {
@@ -903,7 +936,7 @@ ALTER TABLE foo WITH cdc=true;</code></pre>
             "type": "int"
           },
           {
-            "name": "ts_micro",
+            "name": "ts_ms",
             "type": "long",
             "logicalType": "timestamp-micros"
           }
@@ -972,7 +1005,7 @@ VALUES (
   }
   },
   "source": {
-    "version": "0.9.5.Final",
+    "version": "1.7.0.Final",
     "connector": "cassandra",
     "cluster": "cassandra-cluster-1",
     "snapshot": false,
@@ -980,7 +1013,7 @@ VALUES (
     "table": "customers",
     "file": "commitlog-6-123456.log",
     "pos": 54,
-    "ts_micro": 1562202942666382
+    "ts_ms": 1562202942666382
   }
 }</code></pre>
 </div>
@@ -1023,7 +1056,7 @@ WHERE id = 1001 AND registration_date = 1562202942545</code></pre>
   }
   },
   "source": {
-    "version": "0.9.5.Final",
+    "version": "1.7.0.Final",
     "connector": "cassandra",
     "cluster": "cassandra-cluster-1",
     "snapshot": false,
@@ -1031,7 +1064,7 @@ WHERE id = 1001 AND registration_date = 1562202942545</code></pre>
     "table": "customers",
     "file": "commitlog-6-123456.log",
     "pos": 102,
-    "ts_micro": 1562202942666490
+    "ts_ms": 1562202942666490
   }
 }</code></pre>
 </div>
@@ -1088,7 +1121,7 @@ WHERE id = 1001 AND registration_date = 1562202942545;</code></pre>
   "email": null
   },
   "source": {
-    "version": "0.9.5.Final",
+    "version": "1.7.0.Final",
     "connector": "cassandra",
     "cluster": "cassandra-cluster-1",
     "snapshot": false,
@@ -1096,7 +1129,7 @@ WHERE id = 1001 AND registration_date = 1562202942545;</code></pre>
     "table": "customers",
     "file": "commitlog-6-123456.log",
     "pos": 102,
-    "ts_micro": 1562202942666490
+    "ts_ms": 1562202942666490
   }
 }</code></pre>
 </div>
@@ -1825,7 +1858,7 @@ latest.commit.log.only=true</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>The SSL config file path required for storage node.</p>
+<p>The SSL config file path required for storage node. An example of config file can be found at the bottom of the page.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -1834,7 +1867,7 @@ latest.commit.log.only=true</code></pre>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>The local directory which commit logs get relocated to once processed.</p>
+<p>The local directory where commit logs get relocated to from cdc_raw dir once processed.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -1845,7 +1878,18 @@ latest.commit.log.only=true</code></pre>
 <p><code>true</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Determines whether or not the CommitLogPostProcessor should run. If disabled, commit logs would not be deleted post-process.</p>
+<p>Determines whether or not the CommitLogPostProcessor should run to move processed commit logs from relocation dir. If disabled, commit logs would not be moved out of relocation dir.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="cassandra-property-commit-log-relocation-dir-poll-interval-ms"></a><a href="#cassandra-property-commit-log-relocation-dir-poll-interval-ms"><code>commit.log.relocation.dir.poll.interval.ms</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>10000</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>The amount of time the CommitLogPostProcessor should wait to re-fetch all processed commit logs in relocation dir.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -1856,25 +1900,18 @@ latest.commit.log.only=true</code></pre>
 <p><code>io.debezium.connector.cassandra.BlackHoleCommitLogTransfer</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>The fully qualified {@link CommitLogTransfer} class used to transfer commit logs. Built-in transfers are <code>BlackHoleCommitLogTransfer</code> and <code>GCSCommitLogTransfer</code>.</p>
+<p>The class used by CommitLogPostProcessor to move processed commit logs from relocation dir. The built-in transfer class is <code>BlackHoleCommitLogTransfer</code>, which simply removes all processed commit logs from relocation dir. Users are supposed to implement their own customized commit log transfer class if needed.</p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="cassandra-property-remote-commit-log-relocation-dir"></a><a href="#cassandra-property-remote-commit-log-relocation-dir"><code>remote.commit.log.relocation.dir</code></a></p>
+<p><a id="cassandra-property-commit-log-error-reprocessing-enabled"></a><a href="#cassandra-property-commit-log-error-reprocessing-enabled"><code>commit.log.error.reprocessing.enabled</code></a></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>The remote base directory to transfer commit log to. Required to be specified if GCSCommitLogTransfer is used as COMMIT_LOG_TRANSFER_CLASS. For example: "gcs://bucket-name/prefix-name".</p>
+<p>false</p>
 </div></div></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="cassandra-property-storage-credential-key-file"></a><a href="#cassandra-property-storage-credential-key-file"><code>storage.credential.key.file</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>The path of the storage key file used for setting up credential to access remote storage service. If {@link GCSCommitLogTransfer} is used and this config is not provided, then Application Default Credential would be used.</p>
+<p>Determines whether or not the CommitLogProcessor should re-process error commit logs.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -1999,12 +2036,23 @@ refreshing the cached Cassandra table schemas.</p>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="cassandra-property-field-exclude-list" class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a id="cassandra-property-field-exclude-list"></a><a href="#cassandra-property-field-exclude-list"><code>field.exclude.list</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>A comma-separated list of fully-qualified names of fields that should be excluded from change event message values. Fully-qualified names for fields are in the form keyspace_name&gt;.&lt;field_name&gt;.&lt;nested_field_name&gt;.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="cassandra-property-num-of-change-event-queues"></a><a href="#cassandra-property-num-of-change-event-queues"><code>num.of.change.event.queues</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>1</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>The number of change event queues and queue processors. Defaults to 1.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -2019,8 +2067,52 @@ refreshing the cached Cassandra table schemas.</p>
 See <a href="../configuration/avro.html#avro-naming" class="page">Avro naming</a> for more details.</p>
 </div></div></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="cassandra-property-skipped-operations"></a><a href="#cassandra-property-skipped-operations"><code>skipped.operations</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>comma-separated list of operation types that will be skipped during streaming.
+The operations include: <code>c</code> for inserts/create, <code>u</code> for updates, and <code>d</code> for deletes.
+By default, no operations are skipped.</p>
+</div></div></td>
+</tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p>If the Cassandra agent use SSL to connect to Cassandra node, an SSL config file is required.
+The following example shows how to write the SSL config file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">keyStore.location=/var/private/ssl/cassandra.keystore.jks
+keyStore.password=cassandra
+keyStore.type=JKS
+trustStore.location=/var/private/ssl/cassandra.truststore.jks
+trustStore.password=cassandra
+trustStore.type=JKS
+keyManager.algorithm=SunX509
+trustManager.algorithm=SunX509
+cipherSuites=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The cipherSuites field is not mandatory, it simply allows you to add one (or more) ciphers that are not present.
+The default value of trustStore.type and keyStore.type is JKS.
+The default value of keyManager.algorithm and trustManager.algorithm is SunX509.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>The connector also supports pass-through configuration properties that are used when creating the Kafka producer. Specifically, all connector configuration properties that begin with the <code>kafka.producer.</code> prefix are used (without the prefix) when creating the Kafka producer that writes events to Kafka.</p>
 </div>
@@ -2068,7 +2160,7 @@ com.blueapron.connect.protobuf.ProtobufConverter</code></pre>
 
 <div id="toc-rightbar"></div>    <footer class="footer">
         <div class="wrapper">
-            <div class="copyright">Copyright &copy; 2020 Debezium Community</div>
+            <div class="copyright">Copyright &copy; 2021 Debezium Community</div>
         </div>
     </footer>
 </main>

@@ -4,7 +4,7 @@
         <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Debezium logging :: Debezium Documentation</title>
-    <link rel="canonical" href="https://www.debezium.io/documentation/reference/operations/logging.html">
+    <link rel="canonical" href="https://www.debezium.io/documentation/reference/1.7/operations/logging.html">
     <meta name="generator" content="Antora 2.3.4">
 <link rel="stylesheet" href="../../debezium-antora/css/site.css">
 <link rel="stylesheet" href="../../debezium-antora/css/debezium-antora.css">
@@ -82,25 +82,10 @@
     <a class="nav-link" href="../configuration/avro.html">Avro Serialization</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../configuration/topic-routing.html">Topic Routing</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../configuration/event-flattening.html">New Record State Extraction</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../configuration/mongodb-event-flattening.html">MongoDB New Document State Extraction</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../configuration/outbox-event-router.html">Outbox Event Router</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../configuration/filtering.html">Message Filtering</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../configuration/content-based-routing.html">Content-Based Routing</a>
-  </li>
-  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../configuration/topic-auto-create-config.html">Customizing Topic Auto-Creation</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../configuration/signalling.html">Sending Signals to Debezium</a>
   </li>
 </ul>
   </li>
@@ -134,6 +119,36 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../connectors/vitess.html">Vitess</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Transformations</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/index.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/topic-routing.html">Topic Routing</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/event-flattening.html">New Record State Extraction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/mongodb-event-flattening.html">MongoDB New Document State Extraction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/outbox-event-router.html">Outbox Event Router</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/filtering.html">Message Filtering</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/content-based-routing.html">Content-Based Routing</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/applying-transformations-selectively.html">Using SMT Predicates to Selectively Apply Transformations</a>
   </li>
 </ul>
   </li>
@@ -189,6 +204,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="embedded.html">Embedding Debezium</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="debezium-ui.html">Debezium UI</a>
+  </li>
 </ul>
   </li>
 </ul>
@@ -199,14 +217,20 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">Debezium Documentation</span>
-    <span class="version">master</span>
+    <span class="version">nightly</span>
   </div>
   <ul class="components">
     <li class="component is-current">
       <span class="title">Debezium Documentation</span>
       <ul class="versions">
-        <li class="version is-current is-latest">
-          <a href="../index.html">master</a>
+        <li class="version is-current">
+          <a href="../index.html">nightly</a>
+        </li>
+        <li class="version is-latest">
+          <a href="../1.7/index.html">1.7</a>
+        </li>
+        <li class="version">
+          <a href="../1.6/index.html">1.6</a>
         </li>
         <li class="version">
           <a href="../1.5/index.html">1.5</a>
@@ -242,7 +266,7 @@
 <main role="main" class="main">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="../index.html" class="home-link"></a>
+  <a href="../1.7/index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../index.html">Debezium Documentation</a></li>
@@ -253,10 +277,12 @@
     <div class="page-versions-container">
     Version:
     <div class="page-versions">
-        <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">master</button>
+        <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">nightly</button>
         <!--<button class="version-menu-toggle versions-menu-select" title="Select other versions">Select</button>-->
         <div class="version-menu">
-                <a class="version is-current" href="logging.html">master</a>
+                <a class="version is-current" href="logging.html">nightly</a>
+                <a class="version" href="../1.7/operations/logging.html">1.7</a>
+                <a class="version" href="../1.6/operations/logging.html">1.6</a>
                 <a class="version" href="../1.5/operations/logging.html">1.5</a>
                 <a class="version" href="../1.4/operations/logging.html">1.4</a>
                 <a class="version" href="../1.3/operations/logging.html">1.3</a>
@@ -277,7 +303,7 @@
             <div class="version-banner version-banner-development">
     You are viewing documentation for the current development version of Debezium.
     <br/>
-            If you want to view the latest stable version of this page, please go <a href="../1.3/operations/logging.html">here</a>.
+            If you want to view the latest stable version of this page, please go <a href="../1.6/operations/logging.html">here</a>.
             
 </div>            <h1 class="page">Debezium logging</h1>
         <div id="preamble">
@@ -289,8 +315,9 @@
 <li><a href="#understanding-default-logging-configuration">Understanding the default logging configuration</a></li>
 <li><a href="#configuring-logging">Configuring logging</a>
 <ul class="sectlevel2">
-<li><a href="#changing-logging-level">Changing the logging level</a></li>
-<li><a href="#adding-mapped-diagnostic-contexts">Adding mapped diagnostic contexts</a></li>
+<li><a href="#changing-logging-level">Setting the logging level by configuring loggers</a></li>
+<li><a href="#setting-the-logging-level-with-the-kafka-connect-rest-api">Dynamically setting the logging level with the Kafka Connect REST API</a></li>
+<li><a href="#adding-mapped-diagnostic-contexts">Setting the logging level with mapped diagnostic contexts</a></li>
 </ul>
 </li>
 <li><a href="#configuring-log-level-docker">Configuring the log level in the Debezium container images</a></li>
@@ -413,15 +440,18 @@ all of the loggers that Debezium uses inherit the <code>rootLogger</code> config
 <div class="sectionbody">
 <div class="paragraph">
 <p>By default, Debezium connectors write all <code>INFO</code>, <code>WARN</code>, and <code>ERROR</code> messages to the console.
-However, you can change this configuration in the following ways:</p>
+You can change the default logging configuration by using one of the following methods:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="#changing-logging-level">Changing the logging level</a></p>
+<p><a href="#changing-logging-level">Setting the logging level by configuring loggers</a></p>
 </li>
 <li>
-<p><a href="#adding-mapped-diagnostic-contexts">Adding mapped diagnostic contexts</a></p>
+<p><a href="#setting-the-logging-level-with-the-kafka-connect-rest-api">Dynamically setting the logging level with the Kafka Connect REST API</a></p>
+</li>
+<li>
+<p><a href="#adding-mapped-diagnostic-contexts">Setting the logging level by adding mapped diagnostic contexts</a></p>
 </li>
 </ul>
 </div>
@@ -441,11 +471,10 @@ For more information, search for tutorials about setting up and using appenders 
 </table>
 </div>
 <div class="sect2">
-<h3 id="changing-logging-level"><a class="anchor" href="#changing-logging-level"></a>Changing the logging level</h3>
+<h3 id="changing-logging-level"><a class="anchor" href="#changing-logging-level"></a>Setting the logging level by configuring loggers</h3>
 <div class="paragraph">
 <p>The default Debezium logging level provides sufficient information to show whether a connector is healthy or not.
-However, if a connector is not healthy,
-you can change its logging level to troubleshoot the issue.</p>
+However, if a connector is not healthy, you can change its logging level to troubleshoot the issue.</p>
 </div>
 <div class="paragraph">
 <p>In general, Debezium connectors send their log messages to loggers with names that match the fully-qualified name of the Java class that is generating the log message.
@@ -562,7 +591,53 @@ log4j.additivity.io.debezium.connector.mysql.BinlogReader=false
 </div>
 </div>
 <div class="sect2">
-<h3 id="adding-mapped-diagnostic-contexts"><a class="anchor" href="#adding-mapped-diagnostic-contexts"></a>Adding mapped diagnostic contexts</h3>
+<h3 id="setting-the-logging-level-with-the-kafka-connect-rest-api"><a class="anchor" href="#setting-the-logging-level-with-the-kafka-connect-rest-api"></a>Dynamically setting the logging level with the Kafka Connect REST API</h3>
+<div class="paragraph">
+<p>You can use the Kafka Connect REST API to set logging levels for a connector dynamically at runtime.
+Unlike log level changes that you set in <code>log4j.properties</code>, changes that you make via the API take effect immediately, and do not require you to restart the worker.</p>
+</div>
+<div class="paragraph">
+<p>The log level setting that you specify in the API applies only to the worker at the endpoint that receives the request.
+The log levels of other workers in the cluster remain unchanged.</p>
+</div>
+<div class="paragraph">
+<p>The specified level is not persisted after the worker restarts.
+To make persistent changes to the logging level, set the log level in <code>log4j.properties</code> by <a href="#changing-logging-level">configuring loggers</a> or <a href="#adding-mapped-diagnostic-contexts">adding mapped diagnostic contexts</a>.</p>
+</div>
+<div class="ulist">
+<div class="title">Procedure</div>
+<ul>
+<li>
+<p>Set the log level by sending a PUT request to the <code>admin/loggers</code> endpoint that specifies the following information:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The package for which you want to change the log level.</p>
+</li>
+<li>
+<p>The log level that you want to set.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-shell hljs" data-lang="shell">curl -s -X PUT -H "Content-Type:application/json" http://localhost:8083/admin/loggers/io.debezium.connector.<em>&lt;connector_package&gt;</em> -d '{"level": "<em>&lt;log_level&gt;</em>"}'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example, to log debug information for a Debezium MySQL connector, send the following request to Kafka Connect:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-shell hljs" data-lang="shell">curl -s -X PUT -H "Content-Type:application/json" http://localhost:8083/admin/loggers/io.debezium.connector.mysql -d '{"level": "DEBUG"}'</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="adding-mapped-diagnostic-contexts"><a class="anchor" href="#adding-mapped-diagnostic-contexts"></a>Setting the logging level with mapped diagnostic contexts</h3>
 <div class="paragraph">
 <p>Most Debezium connectors (and the Kafka Connect workers) use multiple threads to perform different activities.
 This can make it difficult to look at a log file and find only those log messages for a particular logical activity.
@@ -692,7 +767,7 @@ COPY log4j.properties $KAFKA_HOME/config/log4j.properties
 
 <div id="toc-rightbar"></div>    <footer class="footer">
         <div class="wrapper">
-            <div class="copyright">Copyright &copy; 2020 Debezium Community</div>
+            <div class="copyright">Copyright &copy; 2021 Debezium Community</div>
         </div>
     </footer>
 </main>

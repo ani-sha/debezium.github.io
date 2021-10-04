@@ -4,7 +4,7 @@
         <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Debezium connector for Vitess :: Debezium Documentation</title>
-    <link rel="canonical" href="https://www.debezium.io/documentation/reference/connectors/vitess.html">
+    <link rel="canonical" href="https://www.debezium.io/documentation/reference/1.7/connectors/vitess.html">
     <meta name="generator" content="Antora 2.3.4">
 <link rel="stylesheet" href="../../../debezium-antora/css/site.css">
 <link rel="stylesheet" href="../../../debezium-antora/css/debezium-antora.css">
@@ -100,7 +100,13 @@
     <a class="nav-link" href="../configuration/content-based-routing.html">Content-Based Routing</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../configuration/applying-transformations-selectively.html">Using SMT Predicates to Selectively Apply Transformations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../configuration/topic-auto-create-config.html">Customizing Topic Auto-Creation</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../configuration/signalling.html">Sending Signals to Debezium</a>
   </li>
 </ul>
   </li>
@@ -205,8 +211,14 @@
     <li class="component is-current">
       <span class="title">Debezium Documentation</span>
       <ul class="versions">
+        <li class="version">
+          <a href="../../index.html">nightly</a>
+        </li>
         <li class="version is-latest">
-          <a href="../../index.html">master</a>
+          <a href="../../1.7/index.html">1.7</a>
+        </li>
+        <li class="version">
+          <a href="../../1.6/index.html">1.6</a>
         </li>
         <li class="version is-current">
           <a href="../index.html">1.5</a>
@@ -242,7 +254,7 @@
 <main role="main" class="main">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="../../index.html" class="home-link"></a>
+  <a href="../../1.7/index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../index.html">Debezium Documentation</a></li>
@@ -256,7 +268,9 @@
         <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">1.5</button>
         <!--<button class="version-menu-toggle versions-menu-select" title="Select other versions">Select</button>-->
         <div class="version-menu">
-                <a class="version" href="../../connectors/vitess.html">master</a>
+                <a class="version" href="../../connectors/vitess.html">nightly</a>
+                <a class="version" href="../../1.7/connectors/vitess.html">1.7</a>
+                <a class="version" href="../../1.6/connectors/vitess.html">1.6</a>
                 <a class="version is-current" href="vitess.html">1.5</a>
                 <a class="version" href="../../1.4/connectors/vitess.html">1.4</a>
                 <a class="version is-missing" href="../../1.3/index.html">1.3</a>
@@ -274,10 +288,10 @@
 <div class="article-grid">
 <div class="article-cell1">
 <article class="doc">
-            <div class="version-banner version-banner-development">
-    You are viewing documentation for the current development version of Debezium.
+            <div class="version-banner version-banner-outdated">
+    You are viewing documentation for an outdated version of Debezium.
     <br/>
-            If you want to view the latest stable version of this page, please go <a href="../../1.3/index.html">here</a>.
+            If you want to view the latest stable version of this page, please go <a href="../../1.6/connectors/vitess.html">here</a>.
             
 </div>            <h1 class="page">Debezium connector for Vitess</h1>
         <div id="preamble">
@@ -329,12 +343,13 @@
 <li><a href="#vitess-kafka-connect-process-crashes">Kafka Connect process crashes</a></li>
 <li><a href="#vitess-kafka-becomes-unavailable">Kafka becomes unavailable</a></li>
 <li><a href="#vitess-connector-is-stopped-for-a-duration">Connector is stopped for a duration</a></li>
+<li><a href="#limitations-with-earlier-vitess-versions">Limitations with earlier Vitess versions</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Debezium&#8217;s Vitess connector captures row-level changes in the shards of a Vitess <a href="https://vitess.io/docs/concepts/keyspace/">keyspace</a>. Vitess version 8 is supported.</p>
+<p>Debezium&#8217;s Vitess connector captures row-level changes in the shards of a Vitess <a href="https://vitess.io/docs/concepts/keyspace/">keyspace</a>. Vitess version <a href="#limitations-with-earlier-vitess-versions">8.0.0</a>, 9.0.0 are supported.</p>
 </div>
 <div class="paragraph">
 <p>The connector does not support snapshot feature at the moment. The first time it connects to a Vitess cluster, it starts from the current VGTID location of the keyspace and continuously captures row-level changes that insert, update, and delete database content and that were committed to a Vitess keyspace. The connector generates data change event records and streams them to Kafka topics. For each table, the default behavior is that the connector streams all generated events to a separate Kafka topic for that table. Applications and services consume data change event records from that topic.</p>
@@ -618,7 +633,7 @@ It is possible to override the table&#8217;s primary key by setting the <a href=
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Vitess_server&#8203;.commerce.customers&#8203;.Key</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Vitess_server.commerce.customers.Key</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Name of the schema that defines the structure of the key&#8217;s payload. This schema describes the structure of the primary key for the table that was changed. Key schema names have the format <em>connector-name</em>.<em>keyspace-name</em>.<em>table-name</em>.<code>Key</code>. In this example:<br></p>
 </div>
@@ -849,7 +864,7 @@ It is possible to override the table&#8217;s primary key by setting the <a href=
             "email": "annek@noanswer.org"
         },
         "source": { <i class="conum" data-value="8"></i><b>(8)</b>
-            "version": "1.5.0.Alpha1",
+            "version": "1.5.4.Final",
             "connector": "vitess",
             "name": "my_sharded_connector",
             "ts_ms": 1559033904863,
@@ -1014,7 +1029,7 @@ In the <code>source</code> object, <code>ts_ms</code> indicates the time that th
             "email": "annek@noanswer.org"
         },
         "source": { <i class="conum" data-value="3"></i><b>(3)</b>
-            "version": "1.5.0.Alpha1",
+            "version": "1.5.4.Final",
             "connector": "vitess",
             "name": "my_sharded_connector",
             "ts_ms": 1559033904863,
@@ -1135,7 +1150,7 @@ In the <code>source</code> object, <code>ts_ms</code> indicates the time that th
         },
         "after": null, <i class="conum" data-value="2"></i><b>(2)</b>
         "source": { <i class="conum" data-value="3"></i><b>(3)</b>
-            "version": "1.5.0.Alpha1",
+            "version": "1.5.4.Final",
             "connector": "vitess",
             "name": "my_sharded_connector",
             "ts_ms": 1559033904863,
@@ -1530,10 +1545,11 @@ In the <code>source</code> object, <code>ts_ms</code> indicates the time that th
 <p><code>JSON</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Unsupported yet</p>
+<p><code>STRING</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><em>n/a</em></p>
+<p><code>io.debezium.data.Json</code><br>
+Contains the string representation of a <code>JSON</code> document, array, or scalar.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -1541,10 +1557,11 @@ In the <code>source</code> object, <code>ts_ms</code> indicates the time that th
 <p><code>ENUM</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Unsupported yet</p>
+<p><code>STRING</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><em>n/a</em></p>
+<p><code>io.debezium.data.Enum</code><br>
+The <code>allowed</code> schema parameter contains the comma-separated list of allowed values.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -1552,10 +1569,11 @@ In the <code>source</code> object, <code>ts_ms</code> indicates the time that th
 <p><code>SET</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Unsupported yet</p>
+<p><code>STRING</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><em>n/a</em></p>
+<p><code>io.debezium.data.EnumSet</code><br>
+The <code>allowed</code> schema parameter contains the comma-separated list of allowed values.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -1672,7 +1690,7 @@ GEOMETRYCOLLECTION</code></p>
 <h2 id="vitess-deploying-a-connector"><a class="anchor" href="#vitess-deploying-a-connector"></a>Deployment</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>With <a href="https://zookeeper.apache.org">Zookeeper</a>, <a href="http://kafka.apache.org/">Kafka</a>, and <a href="https://kafka.apache.org/documentation.html#connect">Kafka Connect</a> installed, the remaining tasks to deploy a Debezium Vitess connector are to download the <a href="https://repo1.maven.org/maven2/io/debezium/debezium-connector-vitess/1.5.0.Alpha1/debezium-connector-vitess-1.5.0.Alpha1-plugin.tar.gz">connector&#8217;s plug-in archive</a>, extract the JAR files into your Kafka Connect environment, and add the directory with the JAR files to <a href="https://kafka.apache.org/documentation/#connectconfigs">Kafka Connect&#8217;s <code>plugin.path</code></a>. You then need to restart your Kafka Connect process to pick up the new JAR files.</p>
+<p>With <a href="https://zookeeper.apache.org">Zookeeper</a>, <a href="http://kafka.apache.org/">Kafka</a>, and <a href="https://kafka.apache.org/documentation.html#connect">Kafka Connect</a> installed, the remaining tasks to deploy a Debezium Vitess connector are to download the <a href="https://repo1.maven.org/maven2/io/debezium/debezium-connector-vitess/1.5.4.Final/debezium-connector-vitess-1.5.4.Final-plugin.tar.gz">connector&#8217;s plug-in archive</a>, extract the JAR files into your Kafka Connect environment, and add the directory with the JAR files to <a href="https://kafka.apache.org/documentation/#connectconfigs">Kafka Connect&#8217;s <code>plugin.path</code></a>. You then need to restart your Kafka Connect process to pick up the new JAR files.</p>
 </div>
 <div class="paragraph">
 <p>If you are working with immutable containers, see <a href="https://hub.docker.com/r/debezium/">Debezium&#8217;s Container images</a> for Zookeeper, Kafka and Kafka Connect with the Vitess connector already installed and ready to run. You can also <a href="../operations/openshift.html" class="page">run Debezium on Kubernetes and OpenShift</a>.</p>
@@ -2146,7 +2164,7 @@ The values will incoporate any differences between the clocks on the machines wh
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="vitess-property-database-server-name"></a><a href="#vitess-property-database-server-name"><code>database.server&#8203;.name</code></a></p>
+<p><a id="vitess-property-database-server-name"></a><a href="#vitess-property-database-server-name"><code>database.server.name</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
@@ -2154,8 +2172,8 @@ The values will incoporate any differences between the clocks on the machines wh
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="vitess-property-table-include-list" class="paragraph">
-<p><a id="vitess-property-table-include-list"></a><a href="#vitess-property-table-include-list"><code>table.include&#8203;.list</code></a></p>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="vitess-property-table-include-list"></a><a href="#vitess-property-table-include-list"><code>table.include.list</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
@@ -2163,8 +2181,8 @@ The values will incoporate any differences between the clocks on the machines wh
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="vitess-property-table-exclude-list" class="paragraph">
-<p><a id="vitess-property-table-exclude.list"></a><a href="#vitess-property-table-exclude.list"><code>table.exclude&#8203;.list</code></a></p>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="vitess-property-table-exclude.list"></a><a href="#vitess-property-table-exclude.list"><code>table.exclude.list</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
@@ -2172,8 +2190,8 @@ The values will incoporate any differences between the clocks on the machines wh
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="vitess-property-column-include-list" class="paragraph">
-<p><a id="vitess-property-column-include-list"></a><a href="#vitess-property-column-include-list"><code>column.include&#8203;.list</code></a></p>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="vitess-property-column-include-list"></a><a href="#vitess-property-column-include-list"><code>column.include.list</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
@@ -2181,8 +2199,8 @@ The values will incoporate any differences between the clocks on the machines wh
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="vitess-property-column-exclude-list" class="paragraph">
-<p><a id="vitess-property-column-exclude-list"></a><a href="#vitess-property-column-exclude-list"><code>column.exclude&#8203;.list</code></a></p>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="vitess-property-column-exclude-list"></a><a href="#vitess-property-column-exclude-list"><code>column.exclude.list</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
@@ -2191,24 +2209,24 @@ The values will incoporate any differences between the clocks on the machines wh
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="vitess-property-tombstones-on-delete"></a><a href="#vitess-property-tombstones-on-delete"><code>tombstones.on&#8203;.delete</code></a></p>
+<p><a id="vitess-property-tombstones-on-delete"></a><a href="#vitess-property-tombstones-on-delete"><code>tombstones.on.delete</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>true</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Controls whether a tombstone event should be generated after a <em>delete</em> event.<br>
+<p>Controls whether a <em>delete</em> event is followed by a tombstone event.<br>
 <br>
-<code>true</code> - delete operations are represented by a <em>delete</em> event and a subsequent tombstone event.<br>
+<code>true</code> - a delete operation is represented by a <em>delete</em> event and a subsequent tombstone event. <br>
 <br>
-<code>false</code> - only a <em>delete</em> event is sent.<br>
+<code>false</code> - only a <em>delete</em> event is emitted.<br>
 <br>
-After a <em>delete</em> operation, emitting a tombstone event enables Kafka to delete all change event records that have the same key as the deleted row.</p>
+After a source record is deleted, emitting a tombstone event (the default behavior) allows Kafka to completely delete all events that pertain to the key of the deleted row in case <a href="https://kafka.apache.org/documentation/#compaction">log compaction</a> is enabled for the topic.</p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="vitess-property-message-key-columns"></a><a href="#vitess-property-message-key-columns"><code>message.key&#8203;.columns</code></a></p>
+<p><a id="vitess-property-message-key-columns"></a><a href="#vitess-property-message-key-columns"><code>message.key.columns</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><em>empty string</em></p>
@@ -2249,7 +2267,7 @@ If <code>table_a</code> has a an <code>id</code> column, and <code>regex_1</code
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="vitess-property-event-processing-failure-handling-mode"></a><a href="#vitess-property-event-processing-failure-handling-mode"><code>event.processing&#8203;.failure.handling&#8203;.mode</code></a></p>
+<p><a id="vitess-property-event-processing-failure-handling-mode"></a><a href="#vitess-property-event-processing-failure-handling-mode"><code>event.processing.failure.handling.mode</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>fail</code></p>
@@ -2411,6 +2429,26 @@ If <code>table_a</code> has a an <code>id</code> column, and <code>regex_1</code
 <p>A properly configured Kafka cluster is able to handle massive throughput. Kafka Connect is written according to Kafka best practices, and given enough resources a Kafka Connect connector can also handle very large numbers of database change events. Because of this, after being stopped for a while, when a Debezium connector restarts, it is very likely to catch up with the database changes that were made while it was stopped. How quickly this happens depends on the capabilities and performance of Kafka and the volume of changes being made to the data in Vitess.</p>
 </div>
 </div>
+<div class="sect2">
+<h3 id="limitations-with-earlier-vitess-versions"><a class="anchor" href="#limitations-with-earlier-vitess-versions"></a>Limitations with earlier Vitess versions</h3>
+<div class="ulist">
+<div class="title">Vitess 8.0.0</div>
+<ul>
+<li>
+<p>Due to a minor Vitess padding issue (which is fixed in Vitess 9.0.0), decimal values with a precision that is greater than or equal to 13 will cause extra whitespaces in front of the number. E.g. if the column type is <code>decimal(13,4)</code> in the table definition, the value <code>-1.2300</code> becomes <code>"-        1.2300"</code>, and the value <code>1.2300</code> becomes <code>"        1.2300"</code>.</p>
+</li>
+<li>
+<p>Does not support the <code>JSON</code> column type.</p>
+</li>
+<li>
+<p>VStream 8.0.0 doesn&#8217;t provide additional metadata of permitted values for <code>ENUM</code> columns.
+Therefore, the Connector does not support the <code>ENUM</code> column type.
+The index number (1-based) will be emitted instead of the enumeration value.
+E.g. <code>"3"</code> will be emitted as the value instead of <code>"L"</code> if the <code>ENUM</code> definition is <code>enum('S','M','L')</code>.</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 </article>
@@ -2421,7 +2459,7 @@ If <code>table_a</code> has a an <code>id</code> column, and <code>regex_1</code
 
 <div id="toc-rightbar"></div>    <footer class="footer">
         <div class="wrapper">
-            <div class="copyright">Copyright &copy; 2020 Debezium Community</div>
+            <div class="copyright">Copyright &copy; 2021 Debezium Community</div>
         </div>
     </footer>
 </main>

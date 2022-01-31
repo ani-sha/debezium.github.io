@@ -230,6 +230,9 @@
           <a href="/documentation/reference/nightly/index.html">nightly</a>
         </li>
         <li class="version">
+          <a href="/documentation/reference/1.9/index.html">1.9</a>
+        </li>
+        <li class="version">
           <a href="/documentation/reference/1.8/index.html">1.8</a>
         </li>
         <li class="version">
@@ -286,6 +289,7 @@
         <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">nightly</button>
         <div class="version-menu">
                 <a class="version is-current" href="/documentation/reference/nightly/index.html">nightly</a>
+                <a class="version" href="/documentation/reference/1.9/index.html">1.9</a>
                 <a class="version" href="/documentation/reference/1.8/index.html">1.8</a>
                 <a class="version" href="/documentation/reference/1.7/index.html">1.7</a>
                 <a class="version" href="/documentation/reference/1.6/index.html">1.6</a>
@@ -369,7 +373,8 @@
 </ul>
 </div>
 <div class="paragraph">
-<p>Debezium&#8217;s Vitess connector captures row-level changes in the shards of a Vitess <a href="https://vitess.io/docs/concepts/keyspace/">keyspace</a>. Vitess version <a href="#limitations-with-earlier-vitess-versions">8.0.0</a>, 9.0.0 are supported.</p>
+<p>Debezium&#8217;s Vitess connector captures row-level changes in the shards of a Vitess <a href="https://vitess.io/docs/concepts/keyspace/">keyspace</a>.
+For information about the Vitess versions that are compatible with this connector, see the <a href="https://debezium.io/releases/">Debezium release overview</a>.</p>
 </div>
 <div class="paragraph">
 <p>The connector does not support snapshot feature at the moment. The first time it connects to a Vitess cluster, it starts from the current VGTID location of the keyspace and continuously captures row-level changes that insert, update, and delete database content and that were committed to a Vitess keyspace. The connector generates data change event records and streams them to Kafka topics. For each table, the default behavior is that the connector streams all generated events to a separate Kafka topic for that table. Applications and services consume data change event records from that topic.</p>
@@ -1000,7 +1005,7 @@ It is possible to override the table&#8217;s primary key by setting the <a href=
             "email": "annek@noanswer.org"
         },
         "source": { <i class="conum" data-value="8"></i><b>(8)</b>
-            "version": "1.8.0.CR1",
+            "version": "1.9.0.Alpha1",
             "connector": "vitess",
             "name": "my_sharded_connector",
             "ts_ms": 1559033904863,
@@ -1165,7 +1170,7 @@ In the <code>source</code> object, <code>ts_ms</code> indicates the time that th
             "email": "annek@noanswer.org"
         },
         "source": { <i class="conum" data-value="3"></i><b>(3)</b>
-            "version": "1.8.0.CR1",
+            "version": "1.9.0.Alpha1",
             "connector": "vitess",
             "name": "my_sharded_connector",
             "ts_ms": 1559033904863,
@@ -1286,7 +1291,7 @@ In the <code>source</code> object, <code>ts_ms</code> indicates the time that th
         },
         "after": null, <i class="conum" data-value="2"></i><b>(2)</b>
         "source": { <i class="conum" data-value="3"></i><b>(3)</b>
-            "version": "1.8.0.CR1",
+            "version": "1.9.0.Alpha1",
             "connector": "vitess",
             "name": "my_sharded_connector",
             "ts_ms": 1559033904863,
@@ -1826,7 +1831,7 @@ GEOMETRYCOLLECTION</code></p>
 <h2 id="vitess-deploying-a-connector"><a class="anchor" href="#vitess-deploying-a-connector"></a>Deployment</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>With <a href="https://zookeeper.apache.org">Zookeeper</a>, <a href="http://kafka.apache.org/">Kafka</a>, and <a href="https://kafka.apache.org/documentation.html#connect">Kafka Connect</a> installed, the remaining tasks to deploy a Debezium Vitess connector are to download the <a href="https://repo1.maven.org/maven2/io/debezium/debezium-connector-vitess/1.8.0.CR1/debezium-connector-vitess-1.8.0.CR1-plugin.tar.gz">connector&#8217;s plug-in archive</a>, extract the JAR files into your Kafka Connect environment, and add the directory with the JAR files to <a href="https://kafka.apache.org/documentation/#connectconfigs">Kafka Connect&#8217;s <code>plugin.path</code></a>. You then need to restart your Kafka Connect process to pick up the new JAR files.</p>
+<p>With <a href="https://zookeeper.apache.org">Zookeeper</a>, <a href="http://kafka.apache.org/">Kafka</a>, and <a href="https://kafka.apache.org/documentation.html#connect">Kafka Connect</a> installed, the remaining tasks to deploy a Debezium Vitess connector are to download the <a href="https://repo1.maven.org/maven2/io/debezium/debezium-connector-vitess/1.9.0.Alpha1/debezium-connector-vitess-1.9.0.Alpha1-plugin.tar.gz">connector&#8217;s plug-in archive</a>, extract the JAR files into your Kafka Connect environment, and add the directory with the JAR files to <a href="https://kafka.apache.org/documentation/#connectconfigs">Kafka Connect&#8217;s <code>plugin.path</code></a>. You then need to restart your Kafka Connect process to pick up the new JAR files.</p>
 </div>
 <div class="paragraph">
 <p>If you are working with immutable containers, see <a href="https://hub.docker.com/r/debezium/">Debezium&#8217;s Container images</a> for Zookeeper, Kafka and Kafka Connect with the Vitess connector already installed and ready to run. You can also <a href="../operations/openshift.html" class="page">run Debezium on Kubernetes and OpenShift</a>.</p>
@@ -2504,6 +2509,64 @@ By default, no operations are skipped.</p>
 <p>Control the interval between periodic gPRC keepalive pings for VStream. Defaults to <code>Long.MAX_VALUE</code> (disabled).</p>
 </div></div></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="vitess-property-grpc-headers"></a><a href="#vitess-property-grpc-headers"><code>vitess.grpc.headers</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Specify a comma-separated list of gRPC headers. Defaults to empty. The format is:<br>
+<br>
+<em>key1:value1,key2:value2</em>,&#8230;&#8203;<br>
+<br>
+For example,<br>
+<br>
+<code>x-envoy-upstream-rq-timeout-ms:0,x-envoy-max-retries:2</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="vitess-property-column-propagate-source-type"></a><a href="#vitess-property-column-propagate-source-type"><code>column.propagate.source.type</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><em>n/a</em></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>An optional, comma-separated list of regular expressions that match the fully-qualified names of columns whose original type and length should be added as a parameter to the corresponding field schemas in the emitted change event records. These schema parameters:</p>
+</div>
+<div class="paragraph">
+<p><code>__debezium.source.column.type</code></p>
+</div>
+<div class="paragraph">
+<p>are used to propagate the original type name and length for variable-width types, respectively. This is useful to properly size corresponding columns in sink databases. Fully-qualified names for columns are of the following form:</p>
+</div>
+<div class="paragraph">
+<p><em>keyspaceName</em>.<em>tableName</em>.<em>columnName</em></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="vitess-property-datatype-propagate-source-type"></a><a href="#vitess-property-datatype-propagate-source-type"><code>datatype.propagate.source.type</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><em>n/a</em></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>An optional, comma-separated list of regular expressions that match the database-specific data type name of columns whose original type and length should be added as a parameter to the corresponding field schemas in the emitted change event records. These schema parameters:</p>
+</div>
+<div class="paragraph">
+<p><code>__debezium.source.column.type</code></p>
+</div>
+<div class="paragraph">
+<p>are used to propagate the original type name and length for variable-width types, respectively. This is useful to properly size corresponding columns in sink databases. Fully-qualified names for columns are of the following form:</p>
+</div>
+<div class="paragraph">
+<p><em>keyspaceName</em>.<em>tableName</em>.<em>columnName</em></p>
+</div>
+<div class="paragraph">
+<p>See <a href="#vitess-data-types">how Vitess connectors map data types</a> for the list of Vitess-specific data type names.</p>
+</div></div></td>
+</tr>
 </tbody>
 </table>
 <div id="vitess-pass-through-properties" class="paragraph">
@@ -2625,7 +2688,7 @@ E.g. <code>"3"</code> will be emitted as the value instead of <code>"L"</code> i
 
 <div id="toc-rightbar"></div>    <footer class="footer">
         <div class="wrapper">
-            <div class="copyright">Copyright &copy; 2021 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/5600ee73beda51956e0b136416a6bc79559b254d">5600ee73</a></span>)
+            <div class="copyright">Copyright &copy; 2022 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/088df2db8e93ba56da38b0c63afb82a6bd14bb87">088df2db</a></span>)
             
         </div>
     </footer>

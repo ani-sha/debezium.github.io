@@ -4,6 +4,7 @@
         <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>MongoDB Outbox Event Router :: Debezium Documentation</title>
+    <link rel="canonical" href="https://debezium.io/documentation/reference/stable/transformations/mongodb-outbox-event-router.html">
     <meta name="generator" content="Antora 3.0.0-alpha.9">
 <link rel="stylesheet" href="../../debezium-antora/css/site.css">
 <link rel="stylesheet" href="../../debezium-antora/css/debezium-antora.css">
@@ -229,6 +230,9 @@
           <a href="/documentation/reference/nightly/index.html">nightly</a>
         </li>
         <li class="version">
+          <a href="/documentation/reference/1.9/index.html">1.9</a>
+        </li>
+        <li class="version">
           <a href="/documentation/reference/1.8/index.html">1.8</a>
         </li>
         <li class="version">
@@ -285,6 +289,7 @@
         <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">nightly</button>
         <div class="version-menu">
                 <a class="version is-current" href="/documentation/reference/nightly/index.html">nightly</a>
+                <a class="version" href="/documentation/reference/1.9/index.html">1.9</a>
                 <a class="version" href="/documentation/reference/1.8/index.html">1.8</a>
                 <a class="version is-missing" href="/documentation/reference/1.7/index.html">1.7</a>
                 <a class="version is-missing" href="/documentation/reference/1.6/index.html">1.6</a>
@@ -428,7 +433,7 @@ For more information, see <a href="#options-for-applying-the-transformation-sele
   "patch": null,
   "after": "{\"_id\": {\"$oid\": \"596e275826f08b2730779e1f\"}, \"aggregateid\": {\"$oid\": \"b2730779e1f596e275826f08\"}, \"aggregatetype\": \"Order\", \"type\": \"OrderCreated\", \"payload\": {\"_id\": {\"$oid\": \"da8d6de63b7745ff8f4457db\"}, \"lineItems\": [{\"id\": 1, \"item\": \"Debezium in Action\", \"status\": \"ENTERED\", \"quantity\": 2, \"totalPrice\": 39.98}, {\"id\": 2, \"item\": \"Debezium for Dummies\", \"status\": \"ENTERED\", \"quantity\": 1, \"totalPrice\": 29.99}], \"orderDate\": \"2019-01-31T12:13:01\", \"customerId\": 123}}",
   "source": {
-    "version": "1.8.0.CR1",
+    "version": "1.9.0.Alpha1",
     "connector": "mongodb",
     "name": "fulfillment",
     "ts_ms": 1558965508000,
@@ -683,13 +688,14 @@ being deduced from the JSON document itself. That way the result in Kafka messag
 </div>
 </div>
 <div class="paragraph">
-<p>To enable this transformation, you have to set the <code>collection.expand.json.payload</code> to true like below:</p>
+<p>To enable this transformation, you have to set the <code>collection.expand.json.payload</code> to true and use the <code>StringConverter</code> like below:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">transforms=outbox,...
 transforms.outbox.type=io.debezium.connector.mongodb.transforms.outbox.MongoEventRouter
-transforms.outbox.collection.expand.json.payload=true</code></pre>
+transforms.outbox.collection.expand.json.payload=true
+value.converter=org.apache.kafka.connect.storage.StringConverter</code></pre>
 </div>
 </div>
 </div>
@@ -814,7 +820,9 @@ This ID will be stored in the emitted event&#8217;s headers under the <code>id</
 <p>Collection</p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Specifies whether the JSON expansion of a String payload should be done. If no content found or in case of parsing error, the content is kept "as is".</p>
+<p>Specifies whether the JSON expansion of a String payload should be done. If no content found or in case of parsing error, the content is kept "as is".<br>
+<br>
+Fore more details, please see the <a href="#expanding-escaped-json-string-as-json">expanding escaped json</a> section.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -994,7 +1002,7 @@ See <a href="/documentation/reference/integrations/tracing">tracing documentatio
 
 <div id="toc-rightbar"></div>    <footer class="footer">
         <div class="wrapper">
-            <div class="copyright">Copyright &copy; 2021 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/5600ee73beda51956e0b136416a6bc79559b254d">5600ee73</a></span>)
+            <div class="copyright">Copyright &copy; 2022 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/088df2db8e93ba56da38b0c63afb82a6bd14bb87">088df2db</a></span>)
             
         </div>
     </footer>

@@ -230,6 +230,9 @@
           <a href="/documentation/reference/nightly/index.html">nightly</a>
         </li>
         <li class="version">
+          <a href="/documentation/reference/1.9/index.html">1.9</a>
+        </li>
+        <li class="version">
           <a href="/documentation/reference/1.8/index.html">1.8</a>
         </li>
         <li class="version">
@@ -286,6 +289,7 @@
         <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">nightly</button>
         <div class="version-menu">
                 <a class="version is-current" href="/documentation/reference/nightly/index.html">nightly</a>
+                <a class="version" href="/documentation/reference/1.9/index.html">1.9</a>
                 <a class="version" href="/documentation/reference/1.8/index.html">1.8</a>
                 <a class="version" href="/documentation/reference/1.7/index.html">1.7</a>
                 <a class="version" href="/documentation/reference/1.6/index.html">1.6</a>
@@ -540,7 +544,7 @@ value.converter.apicurio.registry.find-latest=true</code></pre>
     -e CONNECT_VALUE_CONVERTER_APICURIO_REGISTRY_URL=http://apicurio:8080/apis/registry/v2 \
     -e CONNECT_VALUE_CONVERTER_APICURIO_REGISTRY_AUTO-REGISTER=true \
     -e CONNECT_VALUE_CONVERTER_APICURIO_REGISTRY_FIND-LATEST=true \
-    -p 8083:8083 debezium/connect:1.8</code></pre>
+    -p 8083:8083 debezium/connect:1.9</code></pre>
 </div>
 </div>
 </li>
@@ -597,7 +601,7 @@ value.converter.schema.registry.url=http://localhost:8081</code></pre>
     -e VALUE_CONVERTER=io.confluent.connect.avro.AvroConverter \
     -e CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL=http://schema-registry:8081 \
     -e CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL=http://schema-registry:8081 \
-    -p 8083:8083 debezium/connect:1.8</code></pre>
+    -p 8083:8083 debezium/connect:1.9</code></pre>
 </div>
 </div>
 </li>
@@ -610,7 +614,7 @@ value.converter.schema.registry.url=http://localhost:8081</code></pre>
     --link kafka:kafka \
     --link mysql:mysql \
     --link schema-registry:schema-registry \
-    debezium/connect:1.8 \
+    debezium/connect:1.9 \
     /kafka/bin/kafka-console-consumer.sh \
       --bootstrap-server kafka:9092 \
       --property print.key=true \
@@ -670,7 +674,7 @@ see <a href="https://github.com/debezium/debezium-examples/tree/main/tutorial#us
 
 <div id="toc-rightbar"></div>    <footer class="footer">
         <div class="wrapper">
-            <div class="copyright">Copyright &copy; 2021 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/5600ee73beda51956e0b136416a6bc79559b254d">5600ee73</a></span>)
+            <div class="copyright">Copyright &copy; 2022 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/088df2db8e93ba56da38b0c63afb82a6bd14bb87">088df2db</a></span>)
             
         </div>
     </footer>

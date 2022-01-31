@@ -46,7 +46,7 @@
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
-    <h3 class="title"><a href="../index.html">Debezium 1.7 Documentation</a></h3>
+    <h3 class="title"><a href="../index.html">Debezium 1.8 Documentation</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
@@ -142,6 +142,9 @@
     <a class="nav-link" href="../transformations/outbox-event-router.html">Outbox Event Router</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/mongodb-outbox-event-router.html">MongoDB Outbox Event Router</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../transformations/filtering.html">Message Filtering</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -217,7 +220,7 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">Debezium Documentation</span>
-    <span class="version">1.7</span>
+    <span class="version">1.8</span>
   </div>
   <ul class="components">
     <li class="component is-current">
@@ -227,9 +230,12 @@
           <a href="/documentation/reference/nightly/index.html">nightly</a>
         </li>
         <li class="version">
-          <a href="/documentation/reference/1.8/index.html">1.8</a>
+          <a href="/documentation/reference/1.9/index.html">1.9</a>
         </li>
         <li class="version is-current">
+          <a href="/documentation/reference/1.8/index.html">1.8</a>
+        </li>
+        <li class="version">
           <a href="/documentation/reference/1.7/index.html">1.7</a>
         </li>
         <li class="version">
@@ -280,11 +286,12 @@
     <div class="page-versions-container">
     Version:
     <div class="page-versions">
-        <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">1.7</button>
+        <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">1.8</button>
         <div class="version-menu">
                 <a class="version" href="/documentation/reference/nightly/index.html">nightly</a>
-                <a class="version" href="/documentation/reference/1.8/index.html">1.8</a>
-                <a class="version is-current" href="/documentation/reference/1.7/index.html">1.7</a>
+                <a class="version" href="/documentation/reference/1.9/index.html">1.9</a>
+                <a class="version is-current" href="/documentation/reference/1.8/index.html">1.8</a>
+                <a class="version" href="/documentation/reference/1.7/index.html">1.7</a>
                 <a class="version" href="/documentation/reference/1.6/index.html">1.6</a>
                 <a class="version" href="/documentation/reference/1.5/index.html">1.5</a>
                 <a class="version" href="/documentation/reference/1.4/index.html">1.4</a>
@@ -298,7 +305,7 @@
         |
     </div>
     </div>
-  <div class="edit-this-page"><a href="https://github.com/debezium/debezium/edit/1.7/documentation/modules/ROOT/pages/integrations/outbox.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/debezium/debezium/edit/1.8/documentation/modules/ROOT/pages/integrations/outbox.adoc">Edit this Page</a></div>
   </div>
 <div class="article-grid">
 <div class="article-cell1">
@@ -367,7 +374,7 @@ As discussed in the blog post <a href="/blog/2019/02/19/reliable-microservices-d
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
   &lt;groupId&gt;io.debezium&lt;/groupId&gt;
   &lt;artifactId&gt;debezium-quarkus-outbox&lt;/artifactId&gt;
-  &lt;version&gt;1.7.2.Final&lt;/version&gt;
+  &lt;version&gt;1.8.0.Final&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
@@ -451,6 +458,10 @@ It&#8217;s important that for a given Quarkus application, <strong>all</strong> 
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@ApplicationScoped
 public class OrderService {
+
+    @Inject
+    OrderRepository orderRepository;
+
     @Inject
     Event&lt;ExportedEvent&lt;?, ?&gt;&gt; event;
 
@@ -468,7 +479,7 @@ public class OrderService {
 The Debezium CDC connector in conjunction with the Outbox Event Router will be monitoring this table and will be responsible for relaying that data using CDC events.</p>
 </div>
 <div class="paragraph">
-<p>To see a full end-to-end demo, the <a href="https://github.com/debezium/debezium-examples/tree/master/outbox">Outbox</a> example illustrates two Quarkus microservice applications using the outbox pattern to share data between them when orders are placed or cancelled.</p>
+<p>To see a full end-to-end demo, the <a href="https://github.com/debezium/debezium-examples/tree/main/outbox">Outbox</a> example illustrates two Quarkus microservice applications using the outbox pattern to share data between them when orders are placed or cancelled.</p>
 </div>
 </div>
 </div>
@@ -764,6 +775,21 @@ for example, <code>com.company.TheAttributeConverter</code></p>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="dlist">
 <dl>
+<dt class="hdlist1"><a id="quarkus-debezium-outbox-payload-type"></a><a href="#quarkus-debezium-outbox-payload-type"><code>quarkus.debezium-outbox.payload.type</code></a></dt>
+<dd>
+<p>A fully-qualified class name of a Hibernate <a href="https://docs.jboss.org/hibernate/orm/current/userguide/html_single/Hibernate_User_Guide.html#basic-custom-type">user type</a> implementation.<br>
+for example, <code>io.company.types.JsonNodeBinaryType</code></p>
+</dd>
+</dl>
+</div></div></td>
+<td class="tableblock halign-right valign-top"><div class="content"><div class="paragraph">
+<p>string</p>
+</div></div></td>
+<td class="tableblock halign-right valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="dlist">
+<dl>
 <dt class="hdlist1"><a id="quarkus-debezium-outbox-tracingspancontext-name"></a><a href="#quarkus-debezium-outbox-tracingspancontext-name"><code>quarkus.debezium-outbox.tracingspancontext.name</code></a></dt>
 <dd>
 <p>The column name for the tracing span context column.</p>
@@ -864,7 +890,7 @@ See <a href="/documentation/reference/integrations/tracing">tracing documentatio
 
 <div id="toc-rightbar"></div>    <footer class="footer">
         <div class="wrapper">
-            <div class="copyright">Copyright &copy; 2021 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/76255097cc67c55093230fcd045a87fb1eb0772d">76255097</a></span>)
+            <div class="copyright">Copyright &copy; 2022 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/14db0dbab56600a4aae6f83d1709b3bb08339463">14db0dba</a></span>)
             
         </div>
     </footer>

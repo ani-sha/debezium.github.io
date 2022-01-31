@@ -46,7 +46,7 @@
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
-    <h3 class="title"><a href="../index.html">Debezium 1.7 Documentation</a></h3>
+    <h3 class="title"><a href="../index.html">Debezium 1.8 Documentation</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
@@ -142,6 +142,9 @@
     <a class="nav-link" href="outbox-event-router.html">Outbox Event Router</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="mongodb-outbox-event-router.html">MongoDB Outbox Event Router</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="filtering.html">Message Filtering</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -217,7 +220,7 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">Debezium Documentation</span>
-    <span class="version">1.7</span>
+    <span class="version">1.8</span>
   </div>
   <ul class="components">
     <li class="component is-current">
@@ -227,9 +230,12 @@
           <a href="/documentation/reference/nightly/index.html">nightly</a>
         </li>
         <li class="version">
-          <a href="/documentation/reference/1.8/index.html">1.8</a>
+          <a href="/documentation/reference/1.9/index.html">1.9</a>
         </li>
         <li class="version is-current">
+          <a href="/documentation/reference/1.8/index.html">1.8</a>
+        </li>
+        <li class="version">
           <a href="/documentation/reference/1.7/index.html">1.7</a>
         </li>
         <li class="version">
@@ -280,11 +286,12 @@
     <div class="page-versions-container">
     Version:
     <div class="page-versions">
-        <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">1.7</button>
+        <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">1.8</button>
         <div class="version-menu">
                 <a class="version" href="/documentation/reference/nightly/index.html">nightly</a>
-                <a class="version" href="/documentation/reference/1.8/index.html">1.8</a>
-                <a class="version is-current" href="/documentation/reference/1.7/index.html">1.7</a>
+                <a class="version" href="/documentation/reference/1.9/index.html">1.9</a>
+                <a class="version is-current" href="/documentation/reference/1.8/index.html">1.8</a>
+                <a class="version" href="/documentation/reference/1.7/index.html">1.7</a>
                 <a class="version" href="/documentation/reference/1.6/index.html">1.6</a>
                 <a class="version" href="/documentation/reference/1.5/index.html">1.5</a>
                 <a class="version" href="/documentation/reference/1.4/index.html">1.4</a>
@@ -298,7 +305,7 @@
         |
     </div>
     </div>
-  <div class="edit-this-page"><a href="https://github.com/debezium/debezium/edit/1.7/documentation/modules/ROOT/pages/transformations/event-flattening.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/debezium/debezium/edit/1.8/documentation/modules/ROOT/pages/transformations/event-flattening.adoc">Edit this Page</a></div>
   </div>
 <div class="article-grid">
 <div class="article-cell1">
@@ -553,7 +560,7 @@ transforms.unwrap.add.fields=table,lsn</code></pre>
 <p>For more information on what is available see <a href="../connectors/index.html" class="page">the documentation for each connector</a>.</p>
 </div>
 <div class="paragraph">
-<p>To add metadata to the simplified Kafka record&#8217;s header, specify the <code>add.header</code> option.
+<p>To add metadata to the simplified Kafka record&#8217;s header, specify the <code>add.headers</code> option.
 To add metadata to the simplified Kafka record&#8217;s value, specify the <code>add.fields</code> option.
 Each of these options takes a comma separated list of change event field names. Do not specify spaces. When there are duplicate field names, to add metadata for one of those fields, specify the struct as well as the field. For example:</p>
 </div>
@@ -730,7 +737,7 @@ If you specify a field that is not in the change event record, the SMT does not 
 
 <div id="toc-rightbar"></div>    <footer class="footer">
         <div class="wrapper">
-            <div class="copyright">Copyright &copy; 2021 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/76255097cc67c55093230fcd045a87fb1eb0772d">76255097</a></span>)
+            <div class="copyright">Copyright &copy; 2022 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/14db0dbab56600a4aae6f83d1709b3bb08339463">14db0dba</a></span>)
             
         </div>
     </footer>

@@ -230,6 +230,9 @@
           <a href="/documentation/reference/nightly/index.html">nightly</a>
         </li>
         <li class="version">
+          <a href="/documentation/reference/1.9/index.html">1.9</a>
+        </li>
+        <li class="version">
           <a href="/documentation/reference/1.8/index.html">1.8</a>
         </li>
         <li class="version">
@@ -286,6 +289,7 @@
         <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">nightly</button>
         <div class="version-menu">
                 <a class="version is-current" href="/documentation/reference/nightly/index.html">nightly</a>
+                <a class="version" href="/documentation/reference/1.9/index.html">1.9</a>
                 <a class="version" href="/documentation/reference/1.8/index.html">1.8</a>
                 <a class="version" href="/documentation/reference/1.7/index.html">1.7</a>
                 <a class="version" href="/documentation/reference/1.6/index.html">1.6</a>
@@ -350,10 +354,8 @@
 For more information, see <a href="#options-for-applying-the-transformation-selectively">Options for applying the transformation selectively</a>.</p>
 </div>
 <div class="paragraph">
-<p>A connector can capture changes in more than one outbox table only if each outbox table has the same structure.</p>
-</div>
-<div class="paragraph">
-<p>See <a href="https://debezium.io/blog/2019/02/19/reliable-microservices-data-exchange-with-the-outbox-pattern/">Reliable Microservices Data Exchange With the Outbox Pattern</a> to learn about why the outbox pattern is useful and how it works.</p>
+<p>A connector can capture changes in more than one outbox table only if each outbox table has the same structure.
+See <a href="https://debezium.io/blog/2019/02/19/reliable-microservices-data-exchange-with-the-outbox-pattern/">Reliable Microservices Data Exchange With the Outbox Pattern</a> to learn about why the outbox pattern is useful and how it works.</p>
 </div>
 <div class="paragraph">
 <p>For an example that you can run, see the  <a href="https://github.com/debezium/debezium-examples/tree/main/outbox">outbox pattern demo</a>, which is in the Debezium examples repository. It includes an example of how to configure a Debezium connector to run the outbox event router SMT.</p>
@@ -366,8 +368,10 @@ For more information, see <a href="#options-for-applying-the-transformation-sele
 </td>
 <td class="content">
 <div class="paragraph">
-<p>This SMT does <strong>not</strong> support the MongoDB connector;
-please use the <a href="mongodb-outbox-event-router.html" class="page">MongoDB outbox event router</a> SMT with that connector.</p>
+<p>The outbox event router SMT is not compatible with the MongoDB connector.</p>
+</div>
+<div class="paragraph">
+<p>As an alternative, MongoDB users can run the <a href="mongodb-outbox-event-router.html" class="page">MongoDB outbox event router SMT</a>.</p>
 </div>
 </td>
 </tr>
@@ -411,7 +415,7 @@ please use the <a href="mongodb-outbox-event-router.html" class="page">MongoDB o
     "type": "OrderCreated"
   },
   "source": {
-    "version": "1.8.0.CR1",
+    "version": "1.9.0.Alpha1",
     "connector": "postgresql",
     "name": "dbserver1-bare",
     "db": "orderdb",
@@ -521,7 +525,7 @@ To obtain the event payload from a different outbox table column, set the <a hre
 <p>Additional custom columns</p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Any additional columns from the outbox table can be <a href="#outbox-event-router-emitting-messages-with-additional-fields">added to outbox events</a> either within the payload section or as a message header.<br>
+<p>Any additional columns from the outbox table can be <a href="#emitting-messages-with-additional-fields">added to outbox events</a> either within the payload section or as a message header.<br>
 <br>
 One example could be a column <code>eventType</code> which conveys a user-defined value that helps to categorize or organize events.</p>
 </div></div></td>
@@ -668,13 +672,14 @@ being deduced from the JSON document itself. That way the result in Kafka messag
 </div>
 </div>
 <div class="paragraph">
-<p>To enable this transformation, you have to set the <a href="#outbox-event-router-property-table-expand-json-payload"><code>table.expand.json.payload</code></a> to true like below:</p>
+<p>To enable this transformation, you have to set the <a href="#outbox-event-router-property-table-expand-json-payload"><code>table.expand.json.payload</code></a> to true and use the <code>StringConverter</code> like below:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">transforms=outbox,...
 transforms.outbox.type=io.debezium.transforms.outbox.EventRouter
-transforms.outbox.table.expand.json.payload=true</code></pre>
+transforms.outbox.table.expand.json.payload=true
+value.converter=org.apache.kafka.connect.storage.StringConverter</code></pre>
 </div>
 </div>
 </div>
@@ -816,7 +821,9 @@ This option is deprecated, use <a href="#outbox-event-router-property-table-fiel
 <p>Table</p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Specifies whether the JSON expansion of a String payload should be done. If no content found or in case of parsing error, the content is kept "as is".</p>
+<p>Specifies whether the JSON expansion of a String payload should be done. If no content found or in case of parsing error, the content is kept "as is".<br>
+<br>
+Fore more details, please see the <a href="#expanding-escaped-json-string-as-json">expanding escaped json</a> section.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -1027,7 +1034,7 @@ See <a href="/documentation/reference/integrations/tracing">tracing documentatio
 
 <div id="toc-rightbar"></div>    <footer class="footer">
         <div class="wrapper">
-            <div class="copyright">Copyright &copy; 2021 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/5600ee73beda51956e0b136416a6bc79559b254d">5600ee73</a></span>)
+            <div class="copyright">Copyright &copy; 2022 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/088df2db8e93ba56da38b0c63afb82a6bd14bb87">088df2db</a></span>)
             
         </div>
     </footer>

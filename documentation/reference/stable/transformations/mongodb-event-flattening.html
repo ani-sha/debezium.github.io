@@ -46,7 +46,7 @@
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
-    <h3 class="title"><a href="../index.html">Debezium 1.7 Documentation</a></h3>
+    <h3 class="title"><a href="../index.html">Debezium 1.8 Documentation</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
@@ -142,6 +142,9 @@
     <a class="nav-link" href="outbox-event-router.html">Outbox Event Router</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="mongodb-outbox-event-router.html">MongoDB Outbox Event Router</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="filtering.html">Message Filtering</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -217,7 +220,7 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">Debezium Documentation</span>
-    <span class="version">1.7</span>
+    <span class="version">1.8</span>
   </div>
   <ul class="components">
     <li class="component is-current">
@@ -227,9 +230,12 @@
           <a href="/documentation/reference/nightly/index.html">nightly</a>
         </li>
         <li class="version">
-          <a href="/documentation/reference/1.8/index.html">1.8</a>
+          <a href="/documentation/reference/1.9/index.html">1.9</a>
         </li>
         <li class="version is-current">
+          <a href="/documentation/reference/1.8/index.html">1.8</a>
+        </li>
+        <li class="version">
           <a href="/documentation/reference/1.7/index.html">1.7</a>
         </li>
         <li class="version">
@@ -280,11 +286,12 @@
     <div class="page-versions-container">
     Version:
     <div class="page-versions">
-        <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">1.7</button>
+        <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">1.8</button>
         <div class="version-menu">
                 <a class="version" href="/documentation/reference/nightly/index.html">nightly</a>
-                <a class="version" href="/documentation/reference/1.8/index.html">1.8</a>
-                <a class="version is-current" href="/documentation/reference/1.7/index.html">1.7</a>
+                <a class="version" href="/documentation/reference/1.9/index.html">1.9</a>
+                <a class="version is-current" href="/documentation/reference/1.8/index.html">1.8</a>
+                <a class="version" href="/documentation/reference/1.7/index.html">1.7</a>
                 <a class="version" href="/documentation/reference/1.6/index.html">1.6</a>
                 <a class="version" href="/documentation/reference/1.5/index.html">1.5</a>
                 <a class="version" href="/documentation/reference/1.4/index.html">1.4</a>
@@ -298,7 +305,7 @@
         |
     </div>
     </div>
-  <div class="edit-this-page"><a href="https://github.com/debezium/debezium/edit/1.7/documentation/modules/ROOT/pages/transformations/mongodb-event-flattening.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/debezium/debezium/edit/1.8/documentation/modules/ROOT/pages/transformations/mongodb-event-flattening.adoc">Edit this Page</a></div>
   </div>
 <div class="article-grid">
 <div class="article-cell1">
@@ -376,7 +383,7 @@ E.g. the general message structure for a insert event looks like this:</p>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
   "op": "r",
-  "after": "{\"field1\":newvalue1,\"field2\":\"newvalue1\"}",
+  "after": "{\"field1\":\"newvalue1\",\"field2\":\"newvalue1\"}",
   "source": { ... }
 }</code></pre>
 </div>
@@ -539,8 +546,8 @@ Those elements are separated with string defined by an option <code>struct.delim
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
     "_id": 1,
-    "a_c": 1,
-    "a_d": "none",
+    "a_b": 1,
+    "a_c": "none",
     "d": 100
 }</code></pre>
 </div>
@@ -801,7 +808,7 @@ Specifically, all fields of documents within one collection with the same name m
 
 <div id="toc-rightbar"></div>    <footer class="footer">
         <div class="wrapper">
-            <div class="copyright">Copyright &copy; 2021 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/76255097cc67c55093230fcd045a87fb1eb0772d">76255097</a></span>)
+            <div class="copyright">Copyright &copy; 2022 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/14db0dbab56600a4aae6f83d1709b3bb08339463">14db0dba</a></span>)
             
         </div>
     </footer>

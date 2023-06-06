@@ -87,6 +87,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="configuration/signalling.html">Sending Signals to Debezium</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="configuration/notification.html">Receive notifications from Debezium</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -120,6 +123,12 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="connectors/vitess.html">Vitess</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="connectors/spanner.html">Spanner</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="connectors/jdbc.html">Jdbc</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -139,6 +148,9 @@
     <a class="nav-link" href="transformations/mongodb-event-flattening.html">MongoDB New Document State Extraction</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="transformations/event-changes.html">Event Changes</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="transformations/outbox-event-router.html">Outbox Event Router</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -152,6 +164,15 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="transformations/applying-transformations-selectively.html">Using SMT Predicates to Selectively Apply Transformations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="transformations/compute-partition.html">Compute Partition [Deprecated]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="transformations/partition-routing.html">Partition Routing</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="transformations/header-to-value.html">HeaderToValue</a>
   </li>
 </ul>
   </li>
@@ -202,6 +223,9 @@
     <a class="nav-link" href="operations/monitoring.html">Monitoring</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="operations/kubernetes.html">Running on Kubernetes</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="operations/openshift.html">Running on Openshift</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -228,6 +252,18 @@
       <ul class="versions">
         <li class="version is-current">
           <a href="/documentation/reference/nightly/index.html">nightly</a>
+        </li>
+        <li class="version">
+          <a href="/documentation/reference/2.3/index.html">2.3</a>
+        </li>
+        <li class="version">
+          <a href="/documentation/reference/2.2/index.html">2.2</a>
+        </li>
+        <li class="version">
+          <a href="/documentation/reference/2.1/index.html">2.1</a>
+        </li>
+        <li class="version">
+          <a href="/documentation/reference/2.0/index.html">2.0</a>
         </li>
         <li class="version">
           <a href="/documentation/reference/1.9/index.html">1.9</a>
@@ -289,6 +325,10 @@
         <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">nightly</button>
         <div class="version-menu">
                 <a class="version is-current" href="/documentation/reference/nightly/index.html">nightly</a>
+                <a class="version" href="/documentation/reference/2.3/index.html">2.3</a>
+                <a class="version" href="/documentation/reference/2.2/index.html">2.2</a>
+                <a class="version" href="/documentation/reference/2.1/index.html">2.1</a>
+                <a class="version" href="/documentation/reference/2.0/index.html">2.0</a>
                 <a class="version" href="/documentation/reference/1.9/index.html">1.9</a>
                 <a class="version" href="/documentation/reference/1.8/index.html">1.8</a>
                 <a class="version" href="/documentation/reference/1.7/index.html">1.7</a>
@@ -366,10 +406,16 @@ Then you&#8217;d specify the following in the worker config:</p>
 <p><a href="https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=io.debezium&a=debezium-connector-db2&v=LATEST&c=plugin&e=tar.gz">Db2 Connector plugin archive</a></p>
 </li>
 <li>
-<p><a href="https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=io.debezium&a=debezium-connector-cassandra&v=LATEST&c=plugin&e=tar.gz">Cassandra plugin archive</a> (incubating)</p>
+<p><a href="https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=io.debezium&a=debezium-connector-cassandra-3&v=LATEST&c=plugin&e=tar.gz">Cassandra 3.x plugin archive</a></p>
+</li>
+<li>
+<p><a href="https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=io.debezium&a=debezium-connector-cassandra-4&v=LATEST&c=plugin&e=tar.gz">Cassandra 4.x plugin archive</a></p>
 </li>
 <li>
 <p><a href="https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=io.debezium&a=debezium-connector-vitess&v=LATEST&c=plugin&e=tar.gz">Vitess plugin archive</a> (incubating)</p>
+</li>
+<li>
+<p><a href="https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=io.debezium&a=debezium-connector-spanner&v=LATEST&c=plugin&e=tar.gz">Spanner plugin archive</a> (incubating)</p>
 </li>
 </ul>
 </div>
@@ -399,8 +445,7 @@ Alternatively, you can add further directories to the plugin path by specifying 
 When using the container image for Kafka Connect provided by Confluent, you can specify the <code>CONNECT_PLUGIN_PATH</code> environment variable to achieve the same.</p>
 </div>
 <div class="paragraph">
-<p>Note that Java 8 or later is required to run the Debezium connectors.
-Java 11 or later is required for running Debezium UI.</p>
+<p>Note that Java 11 or later is required to run the Debezium connectors or Debezium UI.</p>
 </div>
 <div class="sect2">
 <h3 id="_consuming_snapshot_releases"><a class="anchor" href="#_consuming_snapshot_releases"></a>Consuming Snapshot Releases</h3>
@@ -418,7 +463,7 @@ The installation procedure is the same as for regular releases.</p>
 <div class="paragraph">
 <p>To use a connector to produce change events for a particular source server/cluster, simply create a configuration file for the
 <a href="connectors/mysql.html" class="page">MySQL Connector</a>,
-<a href="connectors/postgresql.html#postgresql-deploying-a-connector" class="page">Postgres Connector</a>,
+<a href="connectors/postgresql.html#postgresql-deployment" class="page">Postgres Connector</a>,
 <a href="connectors/mongodb.html#mongodb-deploying-a-connector" class="page">MongoDB Connector</a>,
 <a href="connectors/sqlserver.html#sqlserver-deploying-a-connector" class="page">SQL Server Connector</a>,
 <a href="connectors/oracle.html#oracle-deploying-a-connector" class="page">Oracle Connector</a>,
@@ -435,7 +480,7 @@ for each inserted, updated, and deleted row or document.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_configuring_debezium_topics"><a class="anchor" href="#_configuring_debezium_topics"></a>Configuring Debezium Topics</h2>
+<h2 id="configuring-debezium-topics"><a class="anchor" href="#configuring-debezium-topics"></a>Configuring Debezium Topics</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Debezium uses (either via Kafka Connect or directly) multiple topics for storing data.
@@ -445,7 +490,7 @@ There are certain limitations and recommendations which apply to topics:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Database history topic (for the Debezium connectors for MySQL and SQL Server)</p>
+<p>Database schema history topic (for the Debezium connectors for MySQL and SQL Server)</p>
 <div class="ulist">
 <ul>
 <li>
@@ -514,7 +559,7 @@ e.g. when updating them</p>
 
 <div id="toc-rightbar"></div>    <footer class="footer">
         <div class="wrapper">
-            <div class="copyright">Copyright &copy; 2022 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/59fe105150ff74dfec2c6b51404c4fd57c8e221d">59fe1051</a></span>)
+            <div class="copyright">Copyright &copy; 2023 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/537cc50d65ff8a47b75fe97631d2a3573bcae9a3">537cc50d</a></span>)
             
         </div>
     </footer>

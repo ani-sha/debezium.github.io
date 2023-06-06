@@ -87,6 +87,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../configuration/signalling.html">Sending Signals to Debezium</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../configuration/notification.html">Receive notifications from Debezium</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -120,6 +123,12 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../connectors/vitess.html">Vitess</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../connectors/spanner.html">Spanner</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../connectors/jdbc.html">Jdbc</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -139,6 +148,9 @@
     <a class="nav-link" href="mongodb-event-flattening.html">MongoDB New Document State Extraction</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="event-changes.html">Event Changes</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="outbox-event-router.html">Outbox Event Router</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -152,6 +164,15 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="applying-transformations-selectively.html">Using SMT Predicates to Selectively Apply Transformations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="compute-partition.html">Compute Partition [Deprecated]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="partition-routing.html">Partition Routing</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="header-to-value.html">HeaderToValue</a>
   </li>
 </ul>
   </li>
@@ -202,6 +223,9 @@
     <a class="nav-link" href="../operations/monitoring.html">Monitoring</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../operations/kubernetes.html">Running on Kubernetes</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../operations/openshift.html">Running on Openshift</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -228,6 +252,18 @@
       <ul class="versions">
         <li class="version is-current">
           <a href="/documentation/reference/nightly/index.html">nightly</a>
+        </li>
+        <li class="version">
+          <a href="/documentation/reference/2.3/index.html">2.3</a>
+        </li>
+        <li class="version">
+          <a href="/documentation/reference/2.2/index.html">2.2</a>
+        </li>
+        <li class="version">
+          <a href="/documentation/reference/2.1/index.html">2.1</a>
+        </li>
+        <li class="version">
+          <a href="/documentation/reference/2.0/index.html">2.0</a>
         </li>
         <li class="version">
           <a href="/documentation/reference/1.9/index.html">1.9</a>
@@ -289,6 +325,10 @@
         <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">nightly</button>
         <div class="version-menu">
                 <a class="version is-current" href="/documentation/reference/nightly/index.html">nightly</a>
+                <a class="version" href="/documentation/reference/2.3/index.html">2.3</a>
+                <a class="version" href="/documentation/reference/2.2/index.html">2.2</a>
+                <a class="version" href="/documentation/reference/2.1/index.html">2.1</a>
+                <a class="version" href="/documentation/reference/2.0/index.html">2.0</a>
                 <a class="version" href="/documentation/reference/1.9/index.html">1.9</a>
                 <a class="version" href="/documentation/reference/1.8/index.html">1.8</a>
                 <a class="version" href="/documentation/reference/1.7/index.html">1.7</a>
@@ -391,6 +431,30 @@
 <p>Applies a filter to the change events emitted by the connectors, based on their content. This lets you propagate only those records that are relevant to you.</p>
 </div></div></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="compute-partition.html" class="page">Compute Partition</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Re-routes records to specific partition based on configured table column.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="header-to-value.html" class="page">HeaderToValue</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Moves or copies headers into the record value.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="partition-routing.html" class="page">Partition Routing</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Re-routes records to specific partitions based on configured payload fields.</p>
+</div></div></td>
+</tr>
 </tbody>
 </table>
 <div class="paragraph">
@@ -404,7 +468,7 @@
 </td>
 <td class="content">
 <div class="paragraph">
-<p>Most of the above SMTs are available by default with the Debezium container image, but you need to opt-in for the scripting-based ones (Message Filtering or Content-based Routing). See the <a href="https://github.com/debezium/docker-images/tree/main/connect/1.7#enable_debezium_scripting">README</a> file of the container image for more details.</p>
+<p>Most of the above SMTs are available by default with the Debezium container image, but you need to opt-in for the scripting-based ones (Message Filtering or Content-based Routing). See the <a href="https://github.com/debezium/container-images/tree/main/connect/1.7#enable_debezium_scripting">README</a> file of the container image for more details.</p>
 </div>
 </td>
 </tr>
@@ -418,7 +482,7 @@
 
 <div id="toc-rightbar"></div>    <footer class="footer">
         <div class="wrapper">
-            <div class="copyright">Copyright &copy; 2022 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/59fe105150ff74dfec2c6b51404c4fd57c8e221d">59fe1051</a></span>)
+            <div class="copyright">Copyright &copy; 2023 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/537cc50d65ff8a47b75fe97631d2a3573bcae9a3">537cc50d</a></span>)
             
         </div>
     </footer>

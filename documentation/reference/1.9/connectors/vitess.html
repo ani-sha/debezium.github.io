@@ -202,6 +202,9 @@
     <a class="nav-link" href="../operations/monitoring.html">Monitoring</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../operations/kubernetes.html">Running on Kubernetes</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../operations/openshift.html">Running on Openshift</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -228,6 +231,18 @@
       <ul class="versions">
         <li class="version">
           <a href="/documentation/reference/nightly/index.html">nightly</a>
+        </li>
+        <li class="version">
+          <a href="/documentation/reference/2.3/index.html">2.3</a>
+        </li>
+        <li class="version">
+          <a href="/documentation/reference/2.2/index.html">2.2</a>
+        </li>
+        <li class="version">
+          <a href="/documentation/reference/2.1/index.html">2.1</a>
+        </li>
+        <li class="version">
+          <a href="/documentation/reference/2.0/index.html">2.0</a>
         </li>
         <li class="version is-current">
           <a href="/documentation/reference/1.9/index.html">1.9</a>
@@ -289,6 +304,10 @@
         <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">1.9</button>
         <div class="version-menu">
                 <a class="version" href="/documentation/reference/nightly/index.html">nightly</a>
+                <a class="version" href="/documentation/reference/2.3/index.html">2.3</a>
+                <a class="version" href="/documentation/reference/2.2/index.html">2.2</a>
+                <a class="version" href="/documentation/reference/2.1/index.html">2.1</a>
+                <a class="version" href="/documentation/reference/2.0/index.html">2.0</a>
                 <a class="version is-current" href="/documentation/reference/1.9/index.html">1.9</a>
                 <a class="version" href="/documentation/reference/1.8/index.html">1.8</a>
                 <a class="version" href="/documentation/reference/1.7/index.html">1.7</a>
@@ -311,8 +330,8 @@
 <div class="article-cell1">
 <article class="doc">
         
-    <div class="version-banner version-banner-development">
-    You are viewing documentation for the current development version of Debezium.
+    <div class="version-banner version-banner-outdated">
+    You are viewing documentation for an outdated version of Debezium.
     <br/>
             If you want to view the latest stable version of this page, please go <a href=/documentation/reference/stable/index.html>here</a>.
             
@@ -344,9 +363,8 @@
 <li><a href="#vitess-basic-types">Basic types</a></li>
 </ul>
 </li>
-<li><a href="#setting-up-vitess">Set up</a>
+<li><a href="#setting-up-vitess">Seting up Vitess</a>
 <ul class="sectlevel2">
-<li><a href="#setup-vitess">Setup Vitess</a></li>
 <li><a href="#grpc-authentication">gRPC authentication</a></li>
 </ul>
 </li>
@@ -1005,7 +1023,7 @@ It is possible to override the table&#8217;s primary key by setting the <a href=
             "email": "annek@noanswer.org"
         },
         "source": { <i class="conum" data-value="8"></i><b>(8)</b>
-            "version": "1.9.0.Alpha1",
+            "version": "1.9.7.Final",
             "connector": "vitess",
             "name": "my_sharded_connector",
             "ts_ms": 1559033904863,
@@ -1170,7 +1188,7 @@ In the <code>source</code> object, <code>ts_ms</code> indicates the time that th
             "email": "annek@noanswer.org"
         },
         "source": { <i class="conum" data-value="3"></i><b>(3)</b>
-            "version": "1.9.0.Alpha1",
+            "version": "1.9.7.Final",
             "connector": "vitess",
             "name": "my_sharded_connector",
             "ts_ms": 1559033904863,
@@ -1291,7 +1309,7 @@ In the <code>source</code> object, <code>ts_ms</code> indicates the time that th
         },
         "after": null, <i class="conum" data-value="2"></i><b>(2)</b>
         "source": { <i class="conum" data-value="3"></i><b>(3)</b>
-            "version": "1.9.0.Alpha1",
+            "version": "1.9.7.Final",
             "connector": "vitess",
             "name": "my_sharded_connector",
             "ts_ms": 1559033904863,
@@ -1397,6 +1415,9 @@ In the <code>source</code> object, <code>ts_ms</code> indicates the time that th
 <div class="sectionbody">
 <div class="paragraph">
 <p>The Vitess connector represents changes to rows with events that are structured like the table in which the row exists. The event contains a field for each column value. How that value is represented in the event depends on the Vitess data type of the column. This section describes these mappings.</p>
+</div>
+<div class="paragraph">
+<p>If the default data type conversions do not meet your needs, you can <a href="../development/converters.html#custom-converters" class="page">create a custom converter</a> for the connector.</p>
 </div>
 <div class="sect2">
 <h3 id="vitess-basic-types"><a class="anchor" href="#vitess-basic-types"></a>Basic types</h3>
@@ -1551,7 +1572,7 @@ In the <code>source</code> object, <code>ts_ms</code> indicates the time that th
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>CHAR(M)]</code></p>
+<p><code>CHAR[(M)]</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>STRING</code></p>
@@ -1562,7 +1583,7 @@ In the <code>source</code> object, <code>ts_ms</code> indicates the time that th
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>VARCHAR(M)]</code></p>
+<p><code>VARCHAR[(M)]</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>STRING</code></p>
@@ -1573,10 +1594,10 @@ In the <code>source</code> object, <code>ts_ms</code> indicates the time that th
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>BINARY(M)]</code></p>
+<p><code>BINARY[(M)]</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>STRING</code></p>
+<p><code>BYTES</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><em>n/a</em></p>
@@ -1584,10 +1605,10 @@ In the <code>source</code> object, <code>ts_ms</code> indicates the time that th
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>VARBINARY(M)]</code></p>
+<p><code>VARBINARY[(M)]</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>STRING</code></p>
+<p><code>BYTES</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><em>n/a</em></p>
@@ -1598,7 +1619,7 @@ In the <code>source</code> object, <code>ts_ms</code> indicates the time that th
 <p><code>TINYBLOB</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>STRING</code></p>
+<p><code>BYTES</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><em>n/a</em></p>
@@ -1620,7 +1641,7 @@ In the <code>source</code> object, <code>ts_ms</code> indicates the time that th
 <p><code>BLOB</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>STRING</code></p>
+<p><code>BYTES</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><em>n/a</em></p>
@@ -1642,7 +1663,7 @@ In the <code>source</code> object, <code>ts_ms</code> indicates the time that th
 <p><code>MEDIUMBLOB</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>STRING</code></p>
+<p><code>BYTES</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><em>n/a</em></p>
@@ -1664,7 +1685,7 @@ In the <code>source</code> object, <code>ts_ms</code> indicates the time that th
 <p><code>LONGBLOB</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>STRING</code></p>
+<p><code>BYTES</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><em>n/a</em></p>
@@ -1797,15 +1818,10 @@ GEOMETRYCOLLECTION</code></p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="setting-up-vitess"><a class="anchor" href="#setting-up-vitess"></a>Set up</h2>
+<h2 id="setting-up-vitess"><a class="anchor" href="#setting-up-vitess"></a>Seting up Vitess</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Vitess does not require special setup before you can install and run a Debezium connector.</p>
-</div>
-<div class="sect2">
-<h3 id="setup-vitess"><a class="anchor" href="#setup-vitess"></a>Setup Vitess</h3>
-<div class="paragraph">
-<p>You can follow the <a href="https://vitess.io/docs/get-started/local-docker/">Local Install via Docker</a> guide, or the <a href="https://vitess.io/docs/get-started/operator/">Vitess Operator for Kubernetes</a> guide to install Vitess. No special setup is needed to support Vitess connector.</p>
+<p>Debezium does not require any specific configuration for use with Vitess. Install Vitess according to the standard instructions in the <a href="https://vitess.io/docs/get-started/local-docker/">Local Install via Docker</a> guide, or the <a href="https://vitess.io/docs/get-started/operator/">Vitess Operator for Kubernetes</a> guide.</p>
 </div>
 <div class="ulist">
 <div class="title">Checklist</div>
@@ -1817,7 +1833,6 @@ GEOMETRYCOLLECTION</code></p>
 <p>Make sure that the VTCtld host and its gRPC port (default is 15999) is accessible from the machine where the Vitess connector is installed</p>
 </li>
 </ul>
-</div>
 </div>
 <div class="sect2">
 <h3 id="grpc-authentication"><a class="anchor" href="#grpc-authentication"></a>gRPC authentication</h3>
@@ -1831,7 +1846,7 @@ GEOMETRYCOLLECTION</code></p>
 <h2 id="vitess-deploying-a-connector"><a class="anchor" href="#vitess-deploying-a-connector"></a>Deployment</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>With <a href="https://zookeeper.apache.org">Zookeeper</a>, <a href="http://kafka.apache.org/">Kafka</a>, and <a href="https://kafka.apache.org/documentation.html#connect">Kafka Connect</a> installed, the remaining tasks to deploy a Debezium Vitess connector are to download the <a href="https://repo1.maven.org/maven2/io/debezium/debezium-connector-vitess/1.9.0.Alpha1/debezium-connector-vitess-1.9.0.Alpha1-plugin.tar.gz">connector&#8217;s plug-in archive</a>, extract the JAR files into your Kafka Connect environment, and add the directory with the JAR files to <a href="https://kafka.apache.org/documentation/#connectconfigs">Kafka Connect&#8217;s <code>plugin.path</code></a>. You then need to restart your Kafka Connect process to pick up the new JAR files.</p>
+<p>With <a href="https://zookeeper.apache.org">Zookeeper</a>, <a href="http://kafka.apache.org/">Kafka</a>, and <a href="https://kafka.apache.org/documentation.html#connect">Kafka Connect</a> installed, the remaining tasks to deploy a Debezium Vitess connector are to download the <a href="https://repo1.maven.org/maven2/io/debezium/debezium-connector-vitess/1.9.7.Final/debezium-connector-vitess-1.9.7.Final-plugin.tar.gz">connector&#8217;s plug-in archive</a>, extract the JAR files into your Kafka Connect environment, and add the directory with the JAR files to <a href="https://kafka.apache.org/documentation/#connectconfigs">Kafka Connect&#8217;s <code>plugin.path</code></a>. You then need to restart your Kafka Connect process to pick up the new JAR files.</p>
 </div>
 <div class="paragraph">
 <p>If you are working with immutable containers, see <a href="https://hub.docker.com/r/debezium/">Debezium&#8217;s Container images</a> for Zookeeper, Kafka and Kafka Connect with the Vitess connector already installed and ready to run. You can also <a href="../operations/openshift.html" class="page">run Debezium on Kubernetes and OpenShift</a>.</p>
@@ -1986,7 +2001,7 @@ GEOMETRYCOLLECTION</code></p>
 <div class="sect3">
 <h4 id="vitess-streaming-metrics"><a class="anchor" href="#vitess-streaming-metrics"></a>Streaming metrics</h4>
 <div class="paragraph">
-<p>The <strong>MBean</strong> is <code>debezium.vitess:type=connector-metrics,context=streaming,server=<em>&lt;database.server.name&gt;</em></code>.</p>
+<p>The <strong>MBean</strong> is <code>debezium.vitess:type=connector-metrics,context=streaming,server=<em>&lt;vitess.server.name&gt;</em></code>.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -2295,7 +2310,27 @@ If set to <code>true</code>, you should also consider setting <code>vitess.gtid<
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Logical name that identifies and provides a namespace for the particular Vitess database server or cluster in which Debezium is capturing changes. Only alphanumeric characters, hyphens, dots and underscores must be used in the database server logical name. The logical name should be unique across all other connectors, since it is used as a topic name prefix for all Kafka topics that receive records from this connector.</p>
+<p>Logical name that identifies and provides a namespace for the particular Vitess database server or cluster in which Debezium is capturing changes.
+Only alphanumeric characters, hyphens, dots and underscores must be used in the database server logical name.
+The logical name should be unique across all other connectors, since it is used as a topic name prefix for all Kafka topics that receive records from this connector.</p>
+</div>
+<div class="paragraph">
+<p>+</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Do not change the value of this property.
+If you change the name value, after a restart, instead of continuing to emit events to the original topics, the connector emits subsequent events to topics whose names are based on the new value.</p>
+</div>
+</td>
+</tr>
+</table>
 </div></div></td>
 </tr>
 <tr>
@@ -2372,6 +2407,27 @@ For example,<br>
 If <code>table_a</code> has a an <code>id</code> column, and <code>regex_1</code> is <code>^i</code> (matches any column that starts with <code>i</code>), the connector maps the value in <code>table_a</code>'s <code>id</code> column to a key field in change events that the connector sends to Kafka.</p>
 </div></div></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="vitess-property-schema-name-adjustment-mode"></a><a href="#vitess-property-schema-name-adjustment-mode"><code>schema.name.adjustment.mode</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>avro</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Specifies how schema names should be adjusted for compatibility with the message converter used by the connector. Possible settings: <br></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>avro</code> replaces the characters that cannot be used in the Avro type name with underscore.<br></p>
+</li>
+<li>
+<p><code>none</code> does not apply any adjustment.<br></p>
+</li>
+</ul>
+</div></div></td>
+</tr>
 </tbody>
 </table>
 <div id="vitess-advanced-configuration-properties" class="paragraph">
@@ -2392,6 +2448,49 @@ If <code>table_a</code> has a an <code>id</code> column, and <code>regex_1</code
 </tr>
 </thead>
 <tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="vitess-property-converters"></a><a href="#vitess-property-converters"><code>converters</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>No default</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Enumerates a comma-separated list of the symbolic names of the <a href="../development/converters.html#custom-converters" class="page">custom converter</a> instances that the connector can use.
+For example,<br></p>
+</div>
+<div class="paragraph">
+<p><code>isbn</code></p>
+</div>
+<div class="paragraph">
+<p>You must set the <code>converters</code> property to enable the connector to use a custom converter.</p>
+</div>
+<div class="paragraph">
+<p>For each converter that you configure for a connector, you must also add a <code>.type</code> property, which specifies the fully-qualifed name of the class that implements the converter interface.
+The <code>.type</code> property uses the following format:<br></p>
+</div>
+<div class="paragraph">
+<p><code><em>&lt;converterSymbolicName&gt;</em>.type</code><br></p>
+</div>
+<div class="paragraph">
+<p>For example,<br></p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>isbn.type: io.debezium.test.IsbnConverter</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you want to further control the behavior of a configured converter, you can add one or more configuration parameters to pass values to the converter.
+To associate any additional configuration parameter with a converter, prefix the parameter names with the symbolic name of the converter.
+For example,<br></p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>isbn.schema.name: io.debezium.vitess.type.Isbn</pre>
+</div>
+</div></div></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a id="vitess-property-event-processing-failure-handling-mode"></a><a href="#vitess-property-event-processing-failure-handling-mode"><code>event.processing.failure.handling.mode</code></a></p>
@@ -2417,7 +2516,12 @@ If <code>table_a</code> has a an <code>id</code> column, and <code>regex_1</code
 <p><code>20240</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Positive integer value for the maximum size of the blocking queue. The connector places change events received from streaming replication in the blocking queue before writing them to Kafka. This queue can provide backpressure when, for example, writing records to Kafka is slower that it should be or Kafka is not available.</p>
+<p>Positive integer value that specifies the maximum number of records that the blocking queue can hold.
+When Debezium reads events streamed from the database, it places the events in the blocking queue before it writes them to Kafka.
+The blocking queue can provide backpressure for reading change events from the database
+in cases where the connector ingests messages faster than it can write them to Kafka, or when Kafka becomes unavailable.
+Events that are held in the queue are disregarded when the connector periodically records offsets.
+Always set the value of <code>max.queue.size</code> to be larger than the value of <a href="#vitess-property-max-batch-size"><code>max.batch.size</code></a>.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -2439,7 +2543,11 @@ If <code>table_a</code> has a an <code>id</code> column, and <code>regex_1</code
 <p><code>0</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Long value for the maximum size in bytes of the blocking queue. The feature is disabled by default, it will be active if it&#8217;s set with a positive long value.</p>
+<p>A long integer value that specifies the maximum volume of the blocking queue in bytes.
+By default, volume limits are not specified for the blocking queue.
+To specify the number of bytes that the queue can consume, set this property to a positive long value.<br>
+If <a href="#vitess-property-max-queue-size"><code>max.queue.size</code></a> is also set, writing to the queue is blocked when the size of the queue reaches the limit specified by either property.
+For example, if you set <code>max.queue.size=1000</code>, and <code>max.queue.size.in.bytes=5000</code>, writing to the queue is blocked after the queue contains 1000 records, or after the volume of the records in the queue reaches 5000 bytes.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -2522,6 +2630,17 @@ By default, no operations are skipped.</p>
 For example,<br>
 <br>
 <code>x-envoy-upstream-rq-timeout-ms:0,x-envoy-max-retries:2</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="vitess-property-grpc-max-inbound-message-size"></a><a href="#vitess-property-grpc-max-inbound-message-size"><code>vitess.grpc.max_inbound_message_size</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Specify the maximum message size in bytes allowed to be received on the channel.<br>
+<br>
+Default is 4MiB</p>
 </div></div></td>
 </tr>
 <tr>
@@ -2688,7 +2807,7 @@ E.g. <code>"3"</code> will be emitted as the value instead of <code>"L"</code> i
 
 <div id="toc-rightbar"></div>    <footer class="footer">
         <div class="wrapper">
-            <div class="copyright">Copyright &copy; 2022 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/99e107c88cf406583d11da32b012488ce8363609">99e107c8</a></span>)
+            <div class="copyright">Copyright &copy; 2023 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/f81564c8ee8a4c3565648dcadaae05c42e158d70">f81564c8</a></span>)
             
         </div>
     </footer>

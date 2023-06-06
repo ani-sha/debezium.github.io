@@ -87,6 +87,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../configuration/signalling.html">Sending Signals to Debezium</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../configuration/notification.html">Receive notifications from Debezium</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -120,6 +123,12 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../connectors/vitess.html">Vitess</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../connectors/spanner.html">Spanner</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../connectors/jdbc.html">Jdbc</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -139,6 +148,9 @@
     <a class="nav-link" href="../transformations/mongodb-event-flattening.html">MongoDB New Document State Extraction</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/event-changes.html">Event Changes</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../transformations/outbox-event-router.html">Outbox Event Router</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -152,6 +164,15 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../transformations/applying-transformations-selectively.html">Using SMT Predicates to Selectively Apply Transformations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/compute-partition.html">Compute Partition [Deprecated]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/partition-routing.html">Partition Routing</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/header-to-value.html">HeaderToValue</a>
   </li>
 </ul>
   </li>
@@ -202,6 +223,9 @@
     <a class="nav-link" href="../operations/monitoring.html">Monitoring</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../operations/kubernetes.html">Running on Kubernetes</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../operations/openshift.html">Running on Openshift</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -228,6 +252,18 @@
       <ul class="versions">
         <li class="version is-current">
           <a href="/documentation/reference/nightly/index.html">nightly</a>
+        </li>
+        <li class="version">
+          <a href="/documentation/reference/2.3/index.html">2.3</a>
+        </li>
+        <li class="version">
+          <a href="/documentation/reference/2.2/index.html">2.2</a>
+        </li>
+        <li class="version">
+          <a href="/documentation/reference/2.1/index.html">2.1</a>
+        </li>
+        <li class="version">
+          <a href="/documentation/reference/2.0/index.html">2.0</a>
         </li>
         <li class="version">
           <a href="/documentation/reference/1.9/index.html">1.9</a>
@@ -289,6 +325,10 @@
         <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">nightly</button>
         <div class="version-menu">
                 <a class="version is-current" href="/documentation/reference/nightly/index.html">nightly</a>
+                <a class="version" href="/documentation/reference/2.3/index.html">2.3</a>
+                <a class="version" href="/documentation/reference/2.2/index.html">2.2</a>
+                <a class="version" href="/documentation/reference/2.1/index.html">2.1</a>
+                <a class="version" href="/documentation/reference/2.0/index.html">2.0</a>
                 <a class="version" href="/documentation/reference/1.9/index.html">1.9</a>
                 <a class="version" href="/documentation/reference/1.8/index.html">1.8</a>
                 <a class="version" href="/documentation/reference/1.7/index.html">1.7</a>
@@ -401,7 +441,7 @@ Please let us know your specific requirements or if you encounter any problems w
   "time" : "2020-01-13T13:55:39.738Z",               <i class="conum" data-value="5"></i><b>(5)</b>
   "datacontenttype" : "application/json",            <i class="conum" data-value="6"></i><b>(6)</b>
   "iodebeziumop" : "r",                              <i class="conum" data-value="7"></i><b>(7)</b>
-  "iodebeziumversion" : "1.9.0.Alpha2",        <i class="conum" data-value="8"></i><b>(8)</b>
+  "iodebeziumversion" : "2.3.0.Beta1",        <i class="conum" data-value="8"></i><b>(8)</b>
   "iodebeziumconnector" : "postgresql",
   "iodebeziumname" : "test_server",
   "iodebeziumtsms" : "1578923739738",
@@ -409,7 +449,6 @@ Please let us know your specific requirements or if you encounter any problems w
   "iodebeziumdb" : "postgres",
   "iodebeziumschema" : "s1",
   "iodebeziumtable" : "a",
-  "iodebeziumtxId" : "565",
   "iodebeziumlsn" : "29274832",
   "iodebeziumxmin" : null,
   "iodebeziumtxid": "565",                           <i class="conum" data-value="9"></i><b>(9)</b>
@@ -433,7 +472,7 @@ Please let us know your specific requirements or if you encounter any problems w
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>The source of the event, which is the logical name of the database as specified by the <code>database.server.name</code> property in the connector&#8217;s configuration.</td>
+<td>The source of the event, which is the logical name of the database as specified by the <code>topic.prefix</code> property in the connector&#8217;s configuration.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
@@ -484,7 +523,7 @@ The only alternative is Avro.</td>
   "datacontenttype" : "application/avro",            <i class="conum" data-value="1"></i><b>(1)</b>
   "dataschema" : "http://my-registry/schemas/ids/1", <i class="conum" data-value="2"></i><b>(2)</b>
   "iodebeziumop" : "r",
-  "iodebeziumversion" : "1.9.0.Alpha2",
+  "iodebeziumversion" : "2.3.0.Beta1",
   "iodebeziumconnector" : "postgresql",
   "iodebeziumname" : "test_server",
   "iodebeziumtsms" : "1578924258597",
@@ -635,6 +674,17 @@ The value can be <code>json</code> or <code>avro</code>.</p>
 <p>Any configuration options to be passed through to the underlying converter when using Avro. The <code>avro.</code> prefix is removed. For example, for Avro <code>data</code>, you would specify the <code>avro.schema.registry.url</code> option.</p>
 </div></div></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="cloud-events-converter-schema-name-adjustment-mode"></a><a href="#cloud-events-converter-schema-name-adjustment-mode"><code>schema.name.adjustment.mode</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>none</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Specifies how schema names should be adjusted for compatibility with the message converter used by the connector. The value can be <code>none</code> or <code>avro</code>.</p>
+</div></div></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -647,7 +697,7 @@ The value can be <code>json</code> or <code>avro</code>.</p>
 
 <div id="toc-rightbar"></div>    <footer class="footer">
         <div class="wrapper">
-            <div class="copyright">Copyright &copy; 2022 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/59fe105150ff74dfec2c6b51404c4fd57c8e221d">59fe1051</a></span>)
+            <div class="copyright">Copyright &copy; 2023 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/537cc50d65ff8a47b75fe97631d2a3573bcae9a3">537cc50d</a></span>)
             
         </div>
     </footer>

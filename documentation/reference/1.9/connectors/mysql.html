@@ -202,6 +202,9 @@
     <a class="nav-link" href="../operations/monitoring.html">Monitoring</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../operations/kubernetes.html">Running on Kubernetes</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../operations/openshift.html">Running on Openshift</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -228,6 +231,18 @@
       <ul class="versions">
         <li class="version">
           <a href="/documentation/reference/nightly/index.html">nightly</a>
+        </li>
+        <li class="version">
+          <a href="/documentation/reference/2.3/index.html">2.3</a>
+        </li>
+        <li class="version">
+          <a href="/documentation/reference/2.2/index.html">2.2</a>
+        </li>
+        <li class="version">
+          <a href="/documentation/reference/2.1/index.html">2.1</a>
+        </li>
+        <li class="version">
+          <a href="/documentation/reference/2.0/index.html">2.0</a>
         </li>
         <li class="version is-current">
           <a href="/documentation/reference/1.9/index.html">1.9</a>
@@ -289,6 +304,10 @@
         <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">1.9</button>
         <div class="version-menu">
                 <a class="version" href="/documentation/reference/nightly/index.html">nightly</a>
+                <a class="version" href="/documentation/reference/2.3/index.html">2.3</a>
+                <a class="version" href="/documentation/reference/2.2/index.html">2.2</a>
+                <a class="version" href="/documentation/reference/2.1/index.html">2.1</a>
+                <a class="version" href="/documentation/reference/2.0/index.html">2.0</a>
                 <a class="version is-current" href="/documentation/reference/1.9/index.html">1.9</a>
                 <a class="version" href="/documentation/reference/1.8/index.html">1.8</a>
                 <a class="version" href="/documentation/reference/1.7/index.html">1.7</a>
@@ -311,8 +330,8 @@
 <div class="article-cell1">
 <article class="doc">
         
-    <div class="version-banner version-banner-development">
-    You are viewing documentation for the current development version of Debezium.
+    <div class="version-banner version-banner-outdated">
+    You are viewing documentation for an outdated version of Debezium.
     <br/>
             If you want to view the latest stable version of this page, please go <a href=/documentation/reference/stable/index.html>here</a>.
             
@@ -353,7 +372,7 @@
 <li><a href="#mysql-spatial-types">Spatial types</a></li>
 </ul>
 </li>
-<li><a href="#setting-up-mysql">Set up</a>
+<li><a href="#setting-up-mysql">Setting up MySQL</a>
 <ul class="sectlevel2">
 <li><a href="#mysql-creating-user">Creating a user</a></li>
 <li><a href="#enable-mysql-binlog">Enabling the binlog</a></li>
@@ -387,30 +406,6 @@
 </ul>
 </li>
 </ul>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>A new capturing implementation for the Debezium MySQL connector has been created as of Debezium 1.5,
-based on the common connector framework used by the other Debezium Kafka Connect connectors.</p>
-</div>
-<div class="paragraph">
-<p>If you encounter any issues with the new MySQL connector implementation, please log a <a href="https://issues.redhat.com/browse/DBZ">Jira issue</a>; in this case, you can use the legacy implementation by setting the <code>internal.implementation=legacy</code> connector configuration option
-(note this option as well as the legacy connector implementation itself is scheduled for removal in a future Debezium version).</p>
-</div>
-<div class="paragraph">
-<p>The new connector implementation is intended to behave exactly the same as the existing one,
-with the exception of the <strong>experimental</strong> parallel snapshotting feature, which isn&#8217;t available any longer.
-Users of the parallel snapshotting feature should move to the more robust and flexible notion of "incremental snapshotting" introduced in Debezium 1.6.</p>
-</div>
-</td>
-</tr>
-</table>
 </div>
 <div class="paragraph">
 <p>MySQL has a binary log (binlog) that records all operations in the order in which they are committed to the database. This includes changes to table schemas as well as changes to the data in tables. MySQL uses the binlog for replication and recovery.</p>
@@ -620,7 +615,7 @@ The message contains a logical representation of the table schema.</p>
   },
   "payload": {
         "source": {  // (1)
-        "version": "1.9.0.Alpha1",
+        "version": "1.9.7.Final",
         "connector": "mysql",
         "name": "dbserver1",
         "ts_ms": 0,
@@ -727,7 +722,7 @@ The message contains a logical representation of the table schema.</p>
     "databaseName": "inventory",
     "ddl": "CREATE TABLE products ( id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255) NOT NULL, description VARCHAR(512), weight FLOAT ); ALTER TABLE products AUTO_INCREMENT = 101;",
     "source" : {
-      "version": "1.9.0.Alpha1",
+      "version": "1.9.7.Final",
       "name": "mysql-server-1",
       "server_id": 0,
       "ts_ms": 0,
@@ -1002,21 +997,6 @@ The snapshot itself does not prevent other clients from applying DDL that might 
 </div>
 <div class="sect3">
 <h4 id="mysql-ad-hoc-snapshots"><a class="anchor" href="#mysql-ad-hoc-snapshots"></a>Ad hoc snapshots</h4>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>This feature is currently in incubating state, i.e. exact semantics, configuration options etc. may change in future revisions, based on the feedback we receive.
-Please let us know if you encounter any problems while using this extension.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
 <div class="paragraph">
 <p>By default, a connector runs an initial snapshot operation only after it starts for the first time.
 Following this initial snapshot, under normal circumstances, the connector does not repeat the snapshot process.
@@ -1101,21 +1081,6 @@ For more information, see <a href="#mysql-incremental-snapshots">Incremental sna
 </div>
 <div class="sect3">
 <h4 id="mysql-incremental-snapshots"><a class="anchor" href="#mysql-incremental-snapshots"></a>Incremental snapshots</h4>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>This feature is currently in incubating state. The exact semantics, configuration options, and so forth is subject to change in future revisions, based on the feedback we receive.
-Please let us know if you encounter any problems while using this extension.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
 <div class="paragraph">
 <p>To provide flexibility in managing snapshots, Debezium includes a supplementary snapshot mechanism, known as <em>incremental snapshotting</em>.
 Incremental snapshots rely on the Debezium mechanism for <a href="../configuration/signalling.html#sending-signals-to-a-debezium-connector" class="page">sending signals to a Debezium connector</a>.
@@ -1190,23 +1155,43 @@ Debezium emits these remaining <code>READ</code> events to the table&#8217;s Kaf
 <div class="paragraph">
 <p>The connector repeats the process for each snapshot chunk.</p>
 </div>
+</div>
+<div class="sect3">
+<h4 id="mysql-triggering-an-incremental-snapshot"><a class="anchor" href="#mysql-triggering-an-incremental-snapshot"></a>Triggering an incremental snapshot</h4>
 <div class="paragraph">
-<div class="title">Triggering an incremental snapshot</div>
 <p>Currently, the only way to initiate an incremental snapshot is to send an <a href="../configuration/signalling.html#debezium-signaling-ad-hoc-snapshots" class="page">ad hoc snapshot signal</a> to the signaling table on the source database.
-You submit signals to the table as SQL <code>INSERT</code> queries.
-After Debezium detects the change in the signaling table, it reads the signal, and runs the requested snapshot operation.</p>
+You submit a signal to the signaling table as SQL <code>INSERT</code> queries.</p>
+</div>
+<div class="paragraph">
+<p>After Debezium detects the change in the signaling table, it reads the signal, and runs the requested snapshot operation.</p>
 </div>
 <div class="paragraph">
 <p>The query that you submit specifies the tables to include in the snapshot, and, optionally, specifies the kind of snapshot operation.
 Currently, the only valid option for snapshots operations is the default value, <code>incremental</code>.</p>
 </div>
 <div class="paragraph">
-<p>To specify the tables to include in the snapshot, provide a <code>data-collections</code> array that lists the tables, for example,<br>
+<p>To specify the tables to include in the snapshot, provide a <code>data-collections</code> array that lists the tables or an array of regular expressions used to match tables, for example,<br>
 <code>{"data-collections": ["public.MyFirstTable", "public.MySecondTable"]}</code><br></p>
 </div>
 <div class="paragraph">
 <p>The <code>data-collections</code> array for an incremental snapshot signal has no default value.
 If the <code>data-collections</code> array is empty, Debezium detects that no action is required and does not perform a snapshot.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If the name of a table that you want to include in a snapshot contains a dot (<code>.</code>) in the name of the database, schema, or table, to add the table to the <code>data-collections</code> array, you must escape each part of the name in double quotes.<br>
+<br>
+For example, to include a table that exists in the <code><strong>public</strong></code> schema and that has the name <code><strong>My.Table</strong></code>, use the following format: <code><strong>"public"."My.Table"</strong></code>.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="ulist">
 <div class="title">Prerequisites</div>
@@ -1216,7 +1201,7 @@ If the <code>data-collections</code> array is empty, Debezium detects that no ac
 <div class="ulist">
 <ul>
 <li>
-<p>A signaling data collection exists on the source database and the connector is configured to capture it.</p>
+<p>A signaling data collection exists on the source database.</p>
 </li>
 <li>
 <p>The signaling data collection is specified in the <a href="#mysql-property-signal-data-collection"><code>signal.data.collection</code></a> property.</p>
@@ -1233,7 +1218,7 @@ If the <code>data-collections</code> array is empty, Debezium detects that no ac
 <p>Send a SQL query to add the ad hoc incremental snapshot request to the signaling table:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">INSERT INTO _&lt;signalTable&gt;_ (id, type, data) VALUES (_'&lt;id&gt;'_, _'&lt;snapshotType&gt;'_, '{"data-collections": ["_&lt;tableName&gt;_","_&lt;tableName&gt;_"],"type":"_&lt;snapshotType&gt;_"}');</code></pre>
+<pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">INSERT INTO <em>&lt;signalTable&gt;</em> (id, type, data) VALUES (<em>'&lt;id&gt;'</em>, <em>'&lt;snapshotType&gt;'</em>, '{"data-collections": ["<em>&lt;tableName&gt;</em>","<em>&lt;tableName&gt;</em>"],"type":"<em>&lt;snapshotType&gt;</em>","additional-condition":"<em>&lt;additional-condition&gt;</em>"}');</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1241,33 +1226,42 @@ If the <code>data-collections</code> array is empty, Debezium detects that no ac
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">INSERT INTO myschema.debezium_signal (id, type, data) VALUES('ad-hoc-1', 'execute-snapshot', '{"data-collections": ["schema1.table1", "schema2.table2"],"type":"incremental"}');</code></pre>
+<pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">INSERT INTO myschema.debezium_signal (id, type, data) <i class="conum" data-value="1"></i><b>(1)</b>
+values ('ad-hoc-1',   <i class="conum" data-value="2"></i><b>(2)</b>
+    'execute-snapshot',  <i class="conum" data-value="3"></i><b>(3)</b>
+    '{"data-collections": ["schema1.table1", "schema2.table2"], <i class="conum" data-value="4"></i><b>(4)</b>
+    "type":"incremental"}, <i class="conum" data-value="5"></i><b>(5)</b>
+    "additional-condition":"color=blue"}'); <i class="conum" data-value="6"></i><b>(6)</b></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The values of the <code>id</code>,<code>type</code>, and <code>data</code> parameters in the command correspond to the <a href="../configuration/signalling.html#debezium-signaling-required-structure-of-a-signaling-data-collection" class="page">fields of the signaling table</a>.</p>
+<p>The values of the <code>id</code>,<code>type</code>, and <code>data</code> parameters in the command correspond to the <a href="../configuration/signalling.html#debezium-signaling-description-of-required-structure-of-a-signaling-data-collection" class="page">fields of the signaling table</a>.</p>
 </div>
 <div class="paragraph">
-<p>The following table describes the these parameters:</p>
+<p>The following table describes the parameters in the example:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 5. Descriptions of fields in a SQL command for sending an incremental snapshot signal to the signaling table</caption>
 <colgroup>
-<col style="width: 20%;">
-<col style="width: 80%;">
+<col style="width: 4%;">
+<col style="width: 11%;">
+<col style="width: 85%;">
 </colgroup>
 <thead>
 <tr>
+<th class="tableblock halign-left valign-top">Item</th>
 <th class="tableblock halign-left valign-top">Value</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>myschema.debezium_signal</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies the fully-qualified name of the signaling table on the source database</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies the fully-qualified name of the signaling table on the source database.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ad-hoc-1</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The <code>id</code> parameter specifies an arbitrary string that is assigned as the <code>id</code> identifier for the signal request.<br>
 Use this string to identify logging messages to entries in the signaling table.
@@ -1275,25 +1269,95 @@ Debezium does not use this string.
 Rather, during the snapshot, Debezium generates its own <code>id</code> string as a watermarking signal.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>execute-snapshot</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Specifies <code>type</code> parameter specifies the operation that the signal is intended to trigger.<br></p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data-collections</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A required component of the <code>data</code> field of a signal that specifies an array of table names to include in the snapshot.<br>
-The array lists tables by their fully-qualified names, using the same format as you use to specify the name of the connector&#8217;s signaling table in the <a href="#mysql-property-signal-data-collection"><code>signal.data.collection</code></a> configuration property.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A required component of the <code>data</code> field of a signal that specifies an array of table names or regular expressions to match table names to include in the snapshot.<br>
+The array lists regular expressions which match tables by their fully-qualified names, using the same format as you use to specify the name of the connector&#8217;s signaling table in the <a href="#mysql-property-signal-data-collection"><code>signal.data.collection</code></a> configuration property.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>incremental</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">An optional <code>type</code> component of the <code>data</code> field of a signal that specifies the kind of snapshot operation to run.<br>
 Currently, the only valid option is the default value, <code>incremental</code>.<br>
-Specifying a <code>type</code> value in the SQL query that you submit to the signaling table is optional.<br>
 If you do not specify a value, the connector runs an incremental snapshot.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>additional-condition</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional string, which specifies a condition based on the column(s) of the table(s), to capture a
+subset of the contents of the tables.
+For more information about the <code>additional-condition</code> parameter, see <a href="#mysql-incremental-snapshots-additional-condition">Ad hoc incremental snapshots with <code>additional-condition</code></a>.</p></td>
 </tr>
 </tbody>
 </table>
 </li>
 </ol>
+</div>
+<div id="mysql-incremental-snapshots-additional-condition" class="paragraph">
+<div class="title">Ad hoc incremental snapshots with <code>additional-condition</code></div>
+<p>If you want a snapshot to include only a subset of the content in a table, you can modify the signal request by appending an <code>additional-condition</code> parameter to the snapshot signal.</p>
+</div>
+<div class="paragraph">
+<p>The SQL query for a typical snapshot takes the following form:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">SELECT * FROM <em>&lt;tableName&gt;</em> ....</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By adding an <code>additional-condition</code> parameter, you append a <code>WHERE</code> condition to the SQL query, as in the following example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">SELECT * FROM <em>&lt;tableName&gt;</em> WHERE <em>&lt;additional-condition&gt;</em> ....</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following example shows a SQL query to send an ad hoc incremental snapshot request with an additional condition to the signaling table:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">INSERT INTO <em>&lt;signalTable&gt;</em> (id, type, data) VALUES (<em>'&lt;id&gt;'</em>, <em>'&lt;snapshotType&gt;'</em>, '{"data-collections": ["<em>&lt;tableName&gt;</em>","<em>&lt;tableName&gt;</em>"],"type":"<em>&lt;snapshotType&gt;</em>","additional-condition":"<em>&lt;additional-condition&gt;</em>"}');</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example, suppose you have a <code>products</code> table that contains the following columns:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>id</code> (primary key)</p>
+</li>
+<li>
+<p><code>color</code></p>
+</li>
+<li>
+<p><code>quantity</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If you want an incremental snapshot of the <code>products</code> table to include only the data items where <code>color=blue</code>, you can use the following SQL statement to trigger the snapshot:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">INSERT INTO myschema.debezium_signal (id, type, data) VALUES('ad-hoc-1', 'execute-snapshot', '{"data-collections": ["schema1.products"],"type":"incremental", "additional-condition":"color=blue"}');</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>additional-condition</code> parameter also enables you to pass conditions that are based on more than on column.
+For example, using the <code>products</code> table from the previous example, you can submit a query that triggers an incremental snapshot that includes the data of only those items for which <code>color=blue</code> and <code>quantity&gt;10</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">INSERT INTO myschema.debezium_signal (id, type, data) VALUES('ad-hoc-1', 'execute-snapshot', '{"data-collections": ["schema1.products"],"type":"incremental", "additional-condition":"color=blue AND quantity&gt;10"}');</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>The following example, shows the JSON for an incremental snapshot event that is captured by a connector.</p>
@@ -1349,6 +1413,114 @@ The value for snapshot events is <code>r</code>, signifying a <code>READ</code> 
 </table>
 </div>
 <div class="sect3">
+<h4 id="mysql-stopping-an-incremental-snapshot"><a class="anchor" href="#mysql-stopping-an-incremental-snapshot"></a>Stopping an incremental snapshot</h4>
+<div class="paragraph">
+<p>You can also stop an incremental snapshot by sending a signal to the table on the source database.
+You submit a stop snapshot signal to the table by sending a SQL <code>INSERT</code> query.
+After Debezium detects the change in the signaling table, it reads the signal, and stops the incremental snapshot operation if it&#8217;s in progress.</p>
+</div>
+<div class="paragraph">
+<p>The query that you submit specifies the snapshot operation of <code>incremental</code>, and, optionally, the tables of the current running snapshot to be removed.</p>
+</div>
+<div class="ulist">
+<div class="title">Prerequisites</div>
+<ul>
+<li>
+<p><a href="../configuration/signalling.html#debezium-signaling-enabling-signaling" class="page">Signaling is enabled</a>.<br></p>
+<div class="ulist">
+<ul>
+<li>
+<p>A signaling data collection exists on the source database.</p>
+</li>
+<li>
+<p>The signaling data collection is specified in the <a href="#mysql-property-signal-data-collection"><code>signal.data.collection</code></a> property.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="olist arabic">
+<div class="title">Procedure</div>
+<ol class="arabic">
+<li>
+<p>Send a SQL query to stop the ad hoc incremental snapshot to the signaling table:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">INSERT INTO <em>&lt;signalTable&gt;</em> (id, type, data) values (<em>'&lt;id&gt;'</em>, 'stop-snapshot', '{"data-collections": ["<em>&lt;tableName&gt;</em>","<em>&lt;tableName&gt;</em>"],"type":"incremental"}');</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example,</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">INSERT INTO myschema.debezium_signal (id, type, data) <i class="conum" data-value="1"></i><b>(1)</b>
+values ('ad-hoc-1',   <i class="conum" data-value="2"></i><b>(2)</b>
+    'stop-snapshot',  <i class="conum" data-value="3"></i><b>(3)</b>
+    '{"data-collections": ["schema1.table1", "schema2.table2"], <i class="conum" data-value="4"></i><b>(4)</b>
+    "type":"incremental"}'); <i class="conum" data-value="5"></i><b>(5)</b></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The values of the <code>id</code>, <code>type</code>, and <code>data</code> parameters in the signal command correspond to the <a href="../configuration/signalling.html#debezium-signaling-description-of-required-structure-of-a-signaling-data-collection" class="page">fields of the signaling table</a>.</p>
+</div>
+<div class="paragraph">
+<p>The following table describes the parameters in the example:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. Descriptions of fields in a SQL command for sending a stop incremental snapshot signal to the signaling table</caption>
+<colgroup>
+<col style="width: 4%;">
+<col style="width: 11%;">
+<col style="width: 85%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Item</th>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>myschema.debezium_signal</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies the fully-qualified name of the signaling table on the source database.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ad-hoc-1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <code>id</code> parameter specifies an arbitrary string that is assigned as the <code>id</code> identifier for the signal request.<br>
+Use this string to identify logging messages to entries in the signaling table.
+Debezium does not use this string.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>stop-snapshot</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies <code>type</code> parameter specifies the operation that the signal is intended to trigger.<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data-collections</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional component of the <code>data</code> field of a signal that specifies an array of table names or regular expressions to match table names to remove from the snapshot.<br>
+The array lists regular expressions which match tables by their fully-qualified names, using the same format as you use to specify the name of the connector&#8217;s signaling table in the <a href="#mysql-property-signal-data-collection"><code>signal.data.collection</code></a> configuration property.
+If this component of the <code>data</code> field is omitted, the signal stops the entire incremental snapshot that is in progress.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>incremental</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A required component of the <code>data</code> field of a signal that specifies the kind of snapshot operation that is to be stopped.<br>
+Currently, the only valid option is <code>incremental</code>.<br>
+If you do not specify a <code>type</code> value, the signal fails to stop the incremental snapshot.</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
 <h4 id="mysql-read-only-incremental-snapshots"><a class="anchor" href="#mysql-read-only-incremental-snapshots"></a>Read-only incremental snapshots</h4>
 <div class="paragraph">
 <p>The MySQL connector allows for running incremental snapshots with a read-only connection to the database.
@@ -1388,7 +1560,7 @@ you must set one of the following options:</p>
 the <a href="#mysql-property-signal-kafka-topic">signal.kafka.topic</a> property.</p>
 </div>
 <div class="paragraph">
-<p>The key of the Kafka message must match the name of the connector.</p>
+<p>The key of the Kafka message must match the value of the <code>database.server.name</code> connector configuration option.</p>
 </div>
 <div class="paragraph">
 <p>The value is a JSON object with <code>type</code> and <code>data</code> fields.</p>
@@ -1397,7 +1569,7 @@ the <a href="#mysql-property-signal-kafka-topic">signal.kafka.topic</a> property
 <p>The signal type is <code>execute-snapshot</code> and the <code>data</code> field must have the following fields:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. Execute snapshot data fields</caption>
+<caption class="title">Table 7. Execute snapshot data fields</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 20%;">
@@ -1660,7 +1832,7 @@ This field provides information about every event in the form of a composite of 
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. Overview of change event basic content</caption>
+<caption class="title">Table 8. Overview of change event basic content</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 20%;">
@@ -1761,7 +1933,7 @@ It is possible to override the table&#8217;s primary key by setting the <a href=
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 8. Description of change event key</caption>
+<caption class="title">Table 9. Description of change event key</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 20%;">
@@ -2030,7 +2202,7 @@ It is possible to override the table&#8217;s primary key by setting the <a href=
       "email": "annek@noanswer.org"
     },
     "source": { <i class="conum" data-value="10"></i><b>(10)</b>
-      "version": "1.9.0.Alpha1",
+      "version": "1.9.7.Final",
       "connector": "mysql",
       "name": "mysql-server-1",
       "ts_ms": 0,
@@ -2050,7 +2222,7 @@ It is possible to override the table&#8217;s primary key by setting the <a href=
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 9. Descriptions of <em>create</em> event value fields</caption>
+<caption class="title">Table 10. Descriptions of <em>create</em> event value fields</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 20%;">
@@ -2077,7 +2249,8 @@ It is possible to override the table&#8217;s primary key by setting the <a href=
 <br>
 <code>mysql-server-1.inventory.customers.Value</code> is the schema for the payload&#8217;s <code>before</code> and <code>after</code> fields. This schema is specific to the <code>customers</code> table.<br>
 <br>
-Names of schemas for <code>before</code> and <code>after</code> fields are of the form <code><em>logicalName</em>.<em>tableName</em>.Value</code>, which ensures that the schema name is unique in the database. This means that when using the <a href="../configuration/avro.html" class="page">Avro converter</a>, the resulting Avro schema for each table in each logical source has its own evolution and history.</p>
+Names of schemas for <code>before</code> and <code>after</code> fields are of the form <code><em>logicalName</em>.<em>tableName</em>.Value</code>, which ensures that the schema name is unique in the database.
+This means that when using the <a href="../configuration/avro.html#avro-serialization" class="page">Avro converter</a>, the resulting Avro schema for each table in each logical source has its own evolution and history.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -2096,7 +2269,7 @@ Names of schemas for <code>before</code> and <code>after</code> fields are of th
 <td class="tableblock halign-left valign-top"><p class="tableblock">The value&#8217;s actual data. This is the information that the change event is providing.<br>
 <br>
 It may appear that the JSON representations of the events are much larger than the rows they describe. This is because the JSON representation must include the schema and the payload portions of the message.
-However, by using the <a href="../configuration/avro.html" class="page">Avro converter</a>, you can significantly decrease the size of the messages that the connector streams to Kafka topics.</p></td>
+However, by using the <a href="../configuration/avro.html#avro-serialization" class="page">Avro converter</a>, you can significantly decrease the size of the messages that the connector streams to Kafka topics.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
@@ -2210,7 +2383,7 @@ In the <code>source</code> object, <code>ts_ms</code> indicates the time that th
       "email": "annek@noanswer.org"
     },
     "source": { <i class="conum" data-value="3"></i><b>(3)</b>
-      "version": "1.9.0.Alpha1",
+      "version": "1.9.7.Final",
       "name": "mysql-server-1",
       "connector": "mysql",
       "name": "mysql-server-1",
@@ -2233,7 +2406,7 @@ In the <code>source</code> object, <code>ts_ms</code> indicates the time that th
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 10. Descriptions of <em>update</em> event value fields</caption>
+<caption class="title">Table 11. Descriptions of <em>update</em> event value fields</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 20%;">
@@ -2369,7 +2542,7 @@ as a primary key change. For a primary key change, in place of an <code>UPDATE</
     },
     "after": null, <i class="conum" data-value="2"></i><b>(2)</b>
     "source": { <i class="conum" data-value="3"></i><b>(3)</b>
-      "version": "1.9.0.Alpha1",
+      "version": "1.9.7.Final",
       "connector": "mysql",
       "name": "mysql-server-1",
       "ts_ms": 1465581902300,
@@ -2391,7 +2564,7 @@ as a primary key change. For a primary key change, in place of an <code>UPDATE</
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 11. Descriptions of <em>delete</em> event value fields</caption>
+<caption class="title">Table 12. Descriptions of <em>delete</em> event value fields</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 20%;">
@@ -2507,12 +2680,15 @@ In the <code>source</code> object, <code>ts_ms</code> indicates the time that th
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Literal type</strong>: how the value is represented using Kafka Connect schema types</p>
+<p><strong>Literal type</strong>: how the value is represented using Kafka Connect schema types.</p>
 </li>
 <li>
-<p><strong>Semantic type</strong>: how the Kafka Connect schema captures the meaning of the field (schema name)</p>
+<p><strong>Semantic type</strong>: how the Kafka Connect schema captures the meaning of the field (schema name).</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>If the default data type conversions do not meet your needs, you can <a href="../development/converters.html#custom-converters" class="page">create a custom converter</a> for the connector.</p>
 </div>
 <div class="sect2">
 <h3 id="mysql-basic-types"><a class="anchor" href="#mysql-basic-types"></a>Basic types</h3>
@@ -2520,7 +2696,7 @@ In the <code>source</code> object, <code>ts_ms</code> indicates the time that th
 <p>The following table shows how the connector maps basic MySQL data types.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 12. Descriptions of basic type mappings</caption>
+<caption class="title">Table 13. Descriptions of basic type mappings</caption>
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 20%;">
@@ -2898,7 +3074,7 @@ In <a href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a>
 <dd>
 <p>The MySQL connector determines the literal type and semantic type based on the column&#8217;s data type definition so that events represent exactly the values in the database. All time fields are in microseconds. Only positive <code>TIME</code> field values in the range of <code>00:00:00.000000</code> to <code>23:59:59.999999</code> can be captured correctly.</p>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 13. Mappings when <code>time.precision.mode=adaptive_time_microseconds</code></caption>
+<caption class="title">Table 14. Mappings when <code>time.precision.mode=adaptive_time_microseconds</code></caption>
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 20%;">
@@ -2967,7 +3143,7 @@ Represents the number of microseconds past the epoch and does not include time z
 <dd>
 <p>The MySQL connector uses defined Kafka Connect logical types. This approach is less precise than the default approach and the events could be less precise if the database column has a <em>fractional second precision</em> value of greater than <code>3</code>. Values in only the range of <code>00:00:00.000</code> to <code>23:59:59.999</code> can be handled. Set <code>time.precision.mode=connect</code> only if you can ensure that the <code>TIME</code> values in your tables never exceed the supported ranges. The <code>connect</code> setting is expected to be removed in a future version of Debezium.</p>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 14. Mappings when <code>time.precision.mode=connect</code></caption>
+<caption class="title">Table 15. Mappings when <code>time.precision.mode=connect</code></caption>
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 20%;">
@@ -3033,7 +3209,7 @@ Represents the number of milliseconds since the epoch, and does not include time
 <dt class="hdlist1">decimal.handling.mode=precise</dt>
 <dd>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 15. Mappings when <code>decimal.handing.mode=precise</code></caption>
+<caption class="title">Table 16. Mappings when <code>decimal.handling.mode=precise</code></caption>
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 15%;">
@@ -3077,7 +3253,7 @@ The <code>scale</code> schema parameter contains an integer that represents how 
 <dt class="hdlist1">decimal.handling.mode=double</dt>
 <dd>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 16. Mappings when <code>decimal.handing.mode=double</code></caption>
+<caption class="title">Table 17. Mappings when <code>decimal.handling.mode=double</code></caption>
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 30%;">
@@ -3119,7 +3295,7 @@ The <code>scale</code> schema parameter contains an integer that represents how 
 <dt class="hdlist1">decimal.handling.mode=string</dt>
 <dd>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 17. Mappings when <code>decimal.handing.mode=string</code></caption>
+<caption class="title">Table 18. Mappings when <code>decimal.handling.mode=string</code></caption>
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 30%;">
@@ -3170,17 +3346,36 @@ When the table is created during streaming then it uses proper <code>BOOLEAN</co
 During snapshots, Debezium executes <code>SHOW CREATE TABLE</code> to obtain table definitions that return <code>TINYINT(1)</code> for both <code>BOOLEAN</code> and <code>TINYINT(1)</code> columns. Debezium then has no way to obtain the original type mapping and so maps to <code>TINYINT(1)</code>.</p>
 </div>
 <div class="paragraph">
-<p>The operator can configure the out-of-the-box <a href="../development/converters.html" class="page"><code>TinyIntOneToBooleanConverter</code> custom converter</a> that would either map all <code>TINYINT(1)</code> columns to <code>BOOLEAN</code> or if the <code>selector</code> parameter is set then a subset of columns could be enumerated using comma-separated regular expressions.</p>
+<p>To enable you to convert source columns to Boolean data types, Debezium provides a <code>TinyIntOneToBooleanConverter</code> <a href="../development/converters.html#custom-converters" class="page">custom converter</a> that you can use in one of the following ways:</p>
 </div>
-<div class="paragraph">
-<p>Following is an example configuration:</p>
-</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Map all <code>TINYINT(1)</code> or <code>TINYINT(1) UNSIGNED</code> columns to <code>BOOLEAN</code> types.</p>
+</li>
+<li>
+<p>Enumerate a subset of columns by using a comma-separated list of regular expressions.<br>
+To use this type of conversion, you must set the <a href="#mysql-property-converters"><code>converters</code></a> configuration property with the <code>selector</code> parameter, as shown in the following example:</p>
 <div class="listingblock">
 <div class="content">
-<pre>converters=boolean
+<pre class="highlightjs highlight"><code class="language-none hljs">converters=boolean
 boolean.type=io.debezium.connector.mysql.converters.TinyIntOneToBooleanConverter
-boolean.selector=db1.table1.*, db1.table2.column1</pre>
+boolean.selector=db1.table1.*, db1.table2.column1</code></pre>
 </div>
+</div>
+</li>
+<li>
+<p>NOTE: MySQL8 not showing the length of <code>tinyint unsigned</code> type when snapshot executes <code>SHOW CREATE TABLE</code>, which means this converter doesn&#8217;t work. The new option <code>length.checker</code> can solve this issue, the default value is <code>true</code>. Disable the <code>length.checker</code> and specify the columns that need to be converted to <code>selector</code> property instead of converting all columns based on type, as shown in the following example:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">converters=boolean
+boolean.type=io.debezium.connector.mysql.converters.TinyIntOneToBooleanConverter
+boolean.length.checker=false
+boolean.selector=db1.table1.*, db1.table2.column1</code></pre>
+</div>
+</div>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect2">
@@ -3189,7 +3384,7 @@ boolean.selector=db1.table1.*, db1.table2.column1</pre>
 <p>Currently, the Debezium MySQL connector supports the following spatial data types.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 18. Description of spatial type mappings</caption>
+<caption class="title">Table 19. Description of spatial type mappings</caption>
 <colgroup>
 <col style="width: 35%;">
 <col style="width: 15%;">
@@ -3237,7 +3432,7 @@ Contains a structure with two fields:</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="setting-up-mysql"><a class="anchor" href="#setting-up-mysql"></a>Set up</h2>
+<h2 id="setting-up-mysql"><a class="anchor" href="#setting-up-mysql"></a>Setting up MySQL</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Some MySQL setup tasks are required before you can install and run a Debezium connector.</p>
@@ -3303,7 +3498,7 @@ If using a hosted option such as Amazon RDS or Amazon Aurora that does not allow
 </ol>
 </div>
 <table id="permissions-explained-mysql-connector" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 19. Descriptions of user permissions</caption>
+<caption class="title">Table 20. Descriptions of user permissions</caption>
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 70%;">
@@ -3391,8 +3586,12 @@ If using a hosted option such as Amazon RDS or Amazon Aurora that does not allow
 <p>Check whether the <code>log-bin</code> option is already on:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-SQL hljs" data-lang="SQL">mysql&gt; SELECT variable_value as "BINARY LOGGING STATUS (log-bin) ::"
-FROM information_schema.global_variables WHERE variable_name='log_bin';</code></pre>
+<pre class="highlightjs highlight"><code class="language-SQL hljs" data-lang="SQL">// for MySql 5.x
+mysql&gt; SELECT variable_value as "BINARY LOGGING STATUS (log-bin) ::"
+FROM information_schema.global_variables WHERE variable_name='log_bin';
+// for MySql 8.x
+mysql&gt; SELECT variable_value as "BINARY LOGGING STATUS (log-bin) ::"
+FROM performance_schema.global_variables WHERE variable_name='log_bin';</code></pre>
 </div>
 </div>
 </li>
@@ -3412,15 +3611,19 @@ expire_logs_days  = 10</code></pre>
 <p>Confirm your changes by checking the binlog status once more:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-SQL hljs" data-lang="SQL">mysql&gt; SELECT variable_value as "BINARY LOGGING STATUS (log-bin) ::"
-FROM information_schema.global_variables WHERE variable_name='log_bin';</code></pre>
+<pre class="highlightjs highlight"><code class="language-SQL hljs" data-lang="SQL">// for MySql 5.x
+mysql&gt; SELECT variable_value as "BINARY LOGGING STATUS (log-bin) ::"
+FROM information_schema.global_variables WHERE variable_name='log_bin';
+// for MySql 8.x
+mysql&gt; SELECT variable_value as "BINARY LOGGING STATUS (log-bin) ::"
+FROM performance_schema.global_variables WHERE variable_name='log_bin';</code></pre>
 </div>
 </div>
 </li>
 </ol>
 </div>
 <table id="binlog-configuration-properties-mysql-connector" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 20. Descriptions of MySQL binlog configuration properties</caption>
+<caption class="title">Table 21. Descriptions of MySQL binlog configuration properties</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 80%;">
@@ -3518,7 +3721,7 @@ FROM information_schema.global_variables WHERE variable_name='log_bin';</code></
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 21. Descriptions of GTID options</caption>
+<caption class="title">Table 22. Descriptions of GTID options</caption>
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 70%;">
@@ -3606,7 +3809,7 @@ FROM information_schema.global_variables WHERE variable_name='log_bin';</code></
 </ol>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 22. Descriptions of MySQL session timeout options</caption>
+<caption class="title">Table 23. Descriptions of MySQL session timeout options</caption>
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 70%;">
@@ -3705,7 +3908,7 @@ FROM information_schema.global_variables WHERE variable_name='log_bin';</code></
 <div class="title">Procedure</div>
 <ol class="arabic">
 <li>
-<p>Download the Debezium <a href="https://repo1.maven.org/maven2/io/debezium/debezium-connector-mysql/1.9.0.Alpha1/debezium-connector-mysql-1.9.0.Alpha1-plugin.tar.gz">MySQL connector plug-in</a>.</p>
+<p>Download the Debezium <a href="https://repo1.maven.org/maven2/io/debezium/debezium-connector-mysql/1.9.7.Final/debezium-connector-mysql-1.9.7.Final-plugin.tar.gz">MySQL connector plug-in</a>.</p>
 </li>
 <li>
 <p>Extract the files into your Kafka Connect environment.</p>
@@ -3999,7 +4202,26 @@ Information about the properties is organized as follows:</p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Logical name that identifies and provides a namespace for the particular MySQL database server/cluster in which Debezium is capturing changes. The logical name should be unique across all other connectors, since it is used as a prefix for all Kafka topic names that receive events emitted by this connector.
-Only alphanumeric characters, hyphens, dots and underscores must be used in the database server logical name.</p>
+Only alphanumeric characters, hyphens, dots and underscores must be used in the database server logical name.<br></p>
+</div>
+<div class="paragraph">
+<p>+</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Do not change the value of this property.
+If you change the name value, after a restart, instead of continuing to emit events to the original topics, the connector emits subsequent events to topics whose names are based on the new value.
+The connector is also unable to recover its database history topic.</p>
+</div>
+</td>
+</tr>
+</table>
 </div></div></td>
 </tr>
 <tr>
@@ -4322,17 +4544,6 @@ Setting <code>include.query</code> to <code>true</code> might expose tables or f
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="mysql-property-max-queue-size"></a><a href="#mysql-property-max-queue-size"><code>max.queue.size</code></a></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>8192</code></p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Positive integer value that specifies the maximum size of the blocking queue into which change events read from the database log are placed before they are written to Kafka. This queue can provide backpressure to the binlog reader when, for example, writes to Kafka are slow or if Kafka is not available. Events that appear in the queue are not included in the offsets periodically recorded by this connector. Defaults to 8192, and should always be larger than the maximum batch size specified by the <code>max.batch.size</code> property.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a id="mysql-property-max-batch-size"></a><a href="#mysql-property-max-batch-size"><code>max.batch.size</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
@@ -4344,13 +4555,33 @@ Setting <code>include.query</code> to <code>true</code> might expose tables or f
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mysql-property-max-queue-size"></a><a href="#mysql-property-max-queue-size"><code>max.queue.size</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>8192</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Positive integer value that specifies the maximum number of records that the blocking queue can hold.
+When Debezium reads events streamed from the database, it places the events in the blocking queue before it writes them to Kafka.
+The blocking queue can provide backpressure for reading change events from the database
+in cases where the connector ingests messages faster than it can write them to Kafka, or when Kafka becomes unavailable.
+Events that are held in the queue are disregarded when the connector periodically records offsets.
+Always set the value of <code>max.queue.size</code> to be larger than the value of <a href="#mysql-property-max-batch-size"><code>max.batch.size</code></a>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a id="mysql-property-max-queue-size-in-bytes"></a><a href="#mysql-property-max-queue-size-in-bytes"><code>max.queue.size.in.bytes</code></a></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>0</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Long value for the maximum size in bytes of the blocking queue. The feature is disabled by default, it will be active if it&#8217;s set with a positive long value.</p>
+<p>A long integer value that specifies the maximum volume of the blocking queue in bytes.
+By default, volume limits are not specified for the blocking queue.
+To specify the number of bytes that the queue can consume, set this property to a positive long value.<br>
+If <a href="#mysql-property-max-queue-size"><code>max.queue.size</code></a> is also set, writing to the queue is blocked when the size of the queue reaches the limit specified by either property.
+For example, if you set <code>max.queue.size=1000</code>, and <code>max.queue.size.in.bytes=5000</code>, writing to the queue is blocked after the queue contains 1000 records, or after the volume of the records in the queue reaches 5000 bytes.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -4485,6 +4716,27 @@ However, it&#8217;s best to use the minimum number that are required to specify 
 <code>hex</code> represents binary data as a hex-encoded (base16) String.</p>
 </div></div></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mysql-property-schema-name-adjustment-mode"></a><a href="#mysql-property-schema-name-adjustment-mode"><code>schema.name.adjustment.mode</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>avro</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Specifies how schema names should be adjusted for compatibility with the message converter used by the connector. Possible settings: <br></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>avro</code> replaces the characters that cannot be used in the Avro type name with underscore.<br></p>
+</li>
+<li>
+<p><code>none</code> does not apply any adjustment.<br></p>
+</li>
+</ul>
+</div></div></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -4494,7 +4746,7 @@ However, it&#8217;s best to use the minimum number that are required to specify 
 <p>The following table describes <a href="#mysql-advanced-connector-configuration-properties">advanced MySQL connector properties</a>. The default values for these properties rarely need to be changed. Therefore, you do not need to specify them in the connector configuration.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 23. Descriptions of MySQL connector advanced configuration properties</caption>
+<caption class="title">Table 24. Descriptions of MySQL connector advanced configuration properties</caption>
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 20%;">
@@ -4517,6 +4769,45 @@ However, it&#8217;s best to use the minimum number that are required to specify 
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>A Boolean value that specifies whether a separate thread should be used to ensure that the connection to the MySQL server/cluster is kept alive.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mysql-property-converters"></a><a href="#mysql-property-converters"><code>converters</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>No default</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Enumerates a comma-separated list of the symbolic names of the <a href="../development/converters.html#custom-converters" class="page">custom converter</a> instances that the connector can use.<br>
+For example, <code>boolean</code>.<br>
+This property is required to enable the connector to use a custom converter.</p>
+</div>
+<div class="paragraph">
+<p>For each converter that you configure for a connector, you must also add a <code>.type</code> property, which specifies the fully-qualifed name of the class that implements the converter interface.
+The <code>.type</code> property uses the following format:<br></p>
+</div>
+<div class="paragraph">
+<p><code><em>&lt;converterSymbolicName&gt;</em>.type</code><br></p>
+</div>
+<div class="paragraph">
+<p>For example,<br></p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>boolean.type: io.debezium.connector.mysql.converters.TinyIntOneToBooleanConverter</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you want to further control the behavior of a configured converter, you can add one or more configuration parameters to pass values to the converter.
+To associate these additional configuration parameter with a converter, prefix the paraemeter name with the symbolic name of the converter.<br>
+<br>
+For example, to define a <code>selector</code> parameter that specifies the subset of columns that the <code>boolean</code> converter processes, add the following property:<br></p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>boolean.selector=db1.table1.*, db1.table2.column1</pre>
+</div>
 </div></div></td>
 </tr>
 <tr>
@@ -4905,7 +5196,7 @@ Adjust the chunk size to a value that provides the best performance in your envi
 <p>The following table describes the <code>database.history</code> properties for configuring the Debezium connector.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 24. Connector database history configuration properties</caption>
+<caption class="title">Table 25. Connector database history configuration properties</caption>
 <colgroup>
 <col style="width: 33%;">
 <col style="width: 17%;">
@@ -4946,6 +5237,17 @@ Adjust the chunk size to a value that provides the best performance in your envi
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>An integer value that specifies the maximum number of milliseconds the connector should wait during startup/recovery while polling for persisted data. The default is 100ms.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="mysql-property-database-history-kafka-query-timeout-ms"></a><a href="#mysql-property-database-history-kafka-query-timeout-ms"><code>database.history.kafka.query.timeout.ms</code></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>3000</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>An integer value that specifies the maximum number of milliseconds the connector should wait while fetching cluster information using Kafka admin client.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -5055,7 +5357,7 @@ database.history.consumer.ssl.key.password=test1234</code></pre>
 <p>The following table describes the <code>signal</code> properties.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 25. Kafka signals configuration properties</caption>
+<caption class="title">Table 26. Kafka signals configuration properties</caption>
 <colgroup>
 <col style="width: 33%;">
 <col style="width: 17%;">
@@ -5146,7 +5448,7 @@ For example, the connector passes properties such as <code>database.foobar=false
 </ul>
 </div>
 <div class="paragraph">
-<p><a href="../operations/monitoring.html" class="page">Debezium monitoring documentation</a> provides details for how to expose these metrics by using JMX.</p>
+<p><a href="../operations/monitoring.html#monitoring-debezium" class="page">Debezium monitoring documentation</a> provides details for how to expose these metrics by using JMX.</p>
 </div>
 <div class="sect2">
 <h3 id="mysql-snapshot-metrics"><a class="anchor" href="#mysql-snapshot-metrics"></a>Snapshot metrics</h3>
@@ -5337,7 +5639,7 @@ Updates every 10,000 rows scanned and upon completing a table.</p>
 <p><code>long</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>The maximum buffer of the queue in bytes. It will be enabled if <code>max.queue.size.in.bytes</code> is passed with a positive long value.</p>
+<p>The maximum buffer of the queue in bytes. This metric is available if <a href="#mysql-property-max-queue-size-in-bytes"><code>max.queue.size.in.bytes</code></a> is set to a positive long value.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -5348,7 +5650,7 @@ Updates every 10,000 rows scanned and upon completing a table.</p>
 <p><code>long</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>The current data of records in the queue in bytes.</p>
+<p>The current volume, in bytes, of records in the queue.</p>
 </div></div></td>
 </tr>
 </tbody>
@@ -5630,7 +5932,7 @@ The values will incoporate any differences between the clocks on the machines wh
 <p><code>long</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>The maximum buffer of the queue in bytes.</p>
+<p>The maximum buffer of the queue in bytes. This metric is available if <a href="#mysql-property-max-queue-size-in-bytes"><code>max.queue.size.in.bytes</code></a> is set to a positive long value.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -5641,7 +5943,7 @@ The values will incoporate any differences between the clocks on the machines wh
 <p><code>long</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>The current data of records in the queue in bytes.</p>
+<p>The current volume, in bytes, of records in the queue.</p>
 </div></div></td>
 </tr>
 </tbody>
@@ -5650,7 +5952,7 @@ The values will incoporate any differences between the clocks on the machines wh
 <p>The Debezium MySQL connector also provides the following additional streaming metrics:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 26. Descriptions of additional streaming metrics</caption>
+<caption class="title">Table 27. Descriptions of additional streaming metrics</caption>
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 20%;">
@@ -5929,7 +6231,7 @@ The values will incoporate any differences between the clocks on the machines wh
 
 <div id="toc-rightbar"></div>    <footer class="footer">
         <div class="wrapper">
-            <div class="copyright">Copyright &copy; 2022 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/99e107c88cf406583d11da32b012488ce8363609">99e107c8</a></span>)
+            <div class="copyright">Copyright &copy; 2023 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/f81564c8ee8a4c3565648dcadaae05c42e158d70">f81564c8</a></span>)
             
         </div>
     </footer>

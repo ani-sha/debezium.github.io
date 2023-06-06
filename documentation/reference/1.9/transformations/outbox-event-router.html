@@ -202,6 +202,9 @@
     <a class="nav-link" href="../operations/monitoring.html">Monitoring</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../operations/kubernetes.html">Running on Kubernetes</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../operations/openshift.html">Running on Openshift</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -228,6 +231,18 @@
       <ul class="versions">
         <li class="version">
           <a href="/documentation/reference/nightly/index.html">nightly</a>
+        </li>
+        <li class="version">
+          <a href="/documentation/reference/2.3/index.html">2.3</a>
+        </li>
+        <li class="version">
+          <a href="/documentation/reference/2.2/index.html">2.2</a>
+        </li>
+        <li class="version">
+          <a href="/documentation/reference/2.1/index.html">2.1</a>
+        </li>
+        <li class="version">
+          <a href="/documentation/reference/2.0/index.html">2.0</a>
         </li>
         <li class="version is-current">
           <a href="/documentation/reference/1.9/index.html">1.9</a>
@@ -289,6 +304,10 @@
         <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">1.9</button>
         <div class="version-menu">
                 <a class="version" href="/documentation/reference/nightly/index.html">nightly</a>
+                <a class="version" href="/documentation/reference/2.3/index.html">2.3</a>
+                <a class="version" href="/documentation/reference/2.2/index.html">2.2</a>
+                <a class="version" href="/documentation/reference/2.1/index.html">2.1</a>
+                <a class="version" href="/documentation/reference/2.0/index.html">2.0</a>
                 <a class="version is-current" href="/documentation/reference/1.9/index.html">1.9</a>
                 <a class="version" href="/documentation/reference/1.8/index.html">1.8</a>
                 <a class="version" href="/documentation/reference/1.7/index.html">1.7</a>
@@ -311,8 +330,8 @@
 <div class="article-cell1">
 <article class="doc">
         
-    <div class="version-banner version-banner-development">
-    You are viewing documentation for the current development version of Debezium.
+    <div class="version-banner version-banner-outdated">
+    You are viewing documentation for an outdated version of Debezium.
     <br/>
             If you want to view the latest stable version of this page, please go <a href=/documentation/reference/stable/index.html>here</a>.
             
@@ -354,8 +373,10 @@
 For more information, see <a href="#options-for-applying-the-transformation-selectively">Options for applying the transformation selectively</a>.</p>
 </div>
 <div class="paragraph">
-<p>A connector can capture changes in more than one outbox table only if each outbox table has the same structure.
-See <a href="https://debezium.io/blog/2019/02/19/reliable-microservices-data-exchange-with-the-outbox-pattern/">Reliable Microservices Data Exchange With the Outbox Pattern</a> to learn about why the outbox pattern is useful and how it works.</p>
+<p>A connector can capture changes in more than one outbox table only if each outbox table has the same structure.</p>
+</div>
+<div class="paragraph">
+<p>See <a href="https://debezium.io/blog/2019/02/19/reliable-microservices-data-exchange-with-the-outbox-pattern/">Reliable Microservices Data Exchange With the Outbox Pattern</a> to learn about why the outbox pattern is useful and how it works.</p>
 </div>
 <div class="paragraph">
 <p>For an example that you can run, see the  <a href="https://github.com/debezium/debezium-examples/tree/main/outbox">outbox pattern demo</a>, which is in the Debezium examples repository. It includes an example of how to configure a Debezium connector to run the outbox event router SMT.</p>
@@ -371,7 +392,7 @@ See <a href="https://debezium.io/blog/2019/02/19/reliable-microservices-data-exc
 <p>The outbox event router SMT is not compatible with the MongoDB connector.</p>
 </div>
 <div class="paragraph">
-<p>As an alternative, MongoDB users can run the <a href="mongodb-outbox-event-router.html" class="page">MongoDB outbox event router SMT</a>.</p>
+<p>MongoDB users can run the <a href="mongodb-outbox-event-router.html#mongodb-outbox-event-router" class="page">MongoDB outbox event router SMT</a>.</p>
 </div>
 </td>
 </tr>
@@ -383,7 +404,7 @@ See <a href="https://debezium.io/blog/2019/02/19/reliable-microservices-data-exc
 <h2 id="example-outbox-message"><a class="anchor" href="#example-outbox-message"></a>Example outbox message</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To learn about how to configure the Debezium outbox event router SMT, consider the following example of a Debezium outbox message:</p>
+<p>To understand how the Debezium outbox event router SMT is configured, review the following example of a Debezium outbox message:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -415,7 +436,7 @@ See <a href="https://debezium.io/blog/2019/02/19/reliable-microservices-data-exc
     "type": "OrderCreated"
   },
   "source": {
-    "version": "1.9.0.Alpha1",
+    "version": "1.9.7.Final",
     "connector": "postgresql",
     "name": "dbserver1-bare",
     "db": "orderdb",
@@ -475,7 +496,7 @@ payload       | jsonb                  |</code></pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Contains the unique ID of the event. In an outbox message, this value is a header. You can use this ID, for example, to remove duplicate messages.<br>
 <br>
-To obtain the unique ID of the event from a different outbox table column, set the <a href="#outbox-event-router-property-table-field-event-id"><code>table.field.event.id</code> SMT option</a> in the connector configuration.</p>
+To obtain the unique ID of the event from a different outbox table column, set the <a href="#outbox-event-router-property-table-field-event-id"><code>table.field.event.id</code></a>  SMT option in the connector configuration.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -491,7 +512,7 @@ In the second record, the value in the <code>aggregatetype</code> column is <cod
 The connector emits the first record to the <code>outbox.event.customers</code> topic.
 The connector emits the second record to the <code>outbox.event.orders</code> topic.<br>
 <br>
-To obtain this value from a different outbox table column, set the <a href="#outbox-event-router-property-route-by-field"><code>route.by.field</code> SMT option</a> in the connector configuration.</p>
+To obtain this value from a different outbox table column, set the <a href="#outbox-event-router-property-route-by-field"><code>route.by.field</code></a> SMT option in the connector configuration.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -517,7 +538,7 @@ By default, the Kafka message value is solely comprised of the <code>payload</co
 However, if the outbox event is configured to include additional fields, the Kafka message value contains an envelope encapsulating both payload and the additional fields, and each field is represented separately.
 For more information, see <a href="#emitting-messages-with-additional-fields">Emitting messages with additional fields</a>.<br>
 <br>
-To obtain the event payload from a different outbox table column, set the <a href="#outbox-event-router-property-table-field-event-payload"><code>table.field.event.payload</code> SMT option</a> in the connector configuration.</p>
+To obtain the event payload from a different outbox table column, set the <a href="#outbox-event-router-property-table-field-event-payload"><code>table.field.event.payload</code></a> SMT option in the connector configuration.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -546,6 +567,11 @@ One example could be a column <code>eventType</code> which conveys a user-define
 transforms.outbox.type=io.debezium.transforms.outbox.EventRouter</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<div class="title">Customizing the configuration</div>
+<p>The connector might emit many types of event messages (for example, heartbeat messages, tombstone messages, or metadata messages about transactions or schema changes).
+To apply the transformation only to events that originate in the outbox table, define <a href="#options-for-applying-the-transformation-selectively">an SMT predicate statement that selectively applies the transformation</a> to those events only.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -562,7 +588,7 @@ You can use one of the following methods to configure the connector to apply the
 <p><a href="applying-transformations-selectively.html#applying-transformation-selectively" class="page">Configure an SMT predicate for the transformation</a>.</p>
 </li>
 <li>
-<p>Use the <a href="#outbox-event-router-property-route-topic-regex">route.topic.regex</a> configuration option for the SMT.</p>
+<p>Use the <a href="#outbox-event-router-property-route-topic-regex"><code>route.topic.regex</code></a> configuration option for the SMT.</p>
 </li>
 </ul>
 </div>
@@ -616,15 +642,26 @@ If any extra configuration options are needed by the converter, they can also be
 <h2 id="emitting-messages-with-additional-fields"><a class="anchor" href="#emitting-messages-with-additional-fields"></a>Emitting messages with additional fields</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Your outbox table might contain columns whose values you want to add to the emitted outbox messages. For example, consider an outbox table that has a value of <code>purchase-order</code> in the <code>aggregatetype</code> column and another column, <code>eventType</code>, whose possible values are <code>order-created</code> and <code>order-shipped</code>.
-To emit the <code>eventType</code> column value in the outbox message header, configure the SMT like this:</p>
+<p>Your outbox table might contain columns whose values you want to add to the emitted outbox messages. For example, consider an outbox table that has a value of <code>purchase-order</code> in the <code>aggregatetype</code> column and another column, <code>eventType</code>, whose possible values are <code>order-created</code> and <code>order-shipped</code>. Additional fields can be added with the syntax <code>column:placement:alias</code>.</p>
+</div>
+<div class="paragraph">
+<p>The allowed values for <code>placement</code> are:
+- <code>header</code>
+- <code>envelope</code>
+- <code>partition</code></p>
+</div>
+<div class="paragraph">
+<p>To emit the <code>eventType</code> column value in the outbox message header, configure the SMT like this:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">transforms=outbox,...
 transforms.outbox.type=io.debezium.transforms.outbox.EventRouter
-transforms.outbox.table.fields.additional.placement=type:header:eventType</code></pre>
+transforms.outbox.table.fields.additional.placement=eventType:header:type</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>The result will be a header on the Kafka message with <code>type</code> as its key, and the value of the <code>eventType</code> column as its value.</p>
 </div>
 <div class="paragraph">
 <p>To emit the <code>eventType</code> column value in the outbox message envelope, configure the SMT like this:</p>
@@ -633,8 +670,21 @@ transforms.outbox.table.fields.additional.placement=type:header:eventType</code>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">transforms=outbox,...
 transforms.outbox.type=io.debezium.transforms.outbox.EventRouter
-transforms.outbox.table.fields.additional.placement=type:envelope:eventType</code></pre>
+transforms.outbox.table.fields.additional.placement=eventType:envelope:type</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>To control which partition the outbox message is produced on, configure the SMT like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">transforms=outbox,...
+transforms.outbox.type=io.debezium.transforms.outbox.EventRouter
+transforms.outbox.table.fields.additional.placement=partitionColumn:partition</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that for the <code>partition</code> placement, adding an alias will have no effect.</p>
 </div>
 </div>
 </div>
@@ -672,14 +722,14 @@ being deduced from the JSON document itself. That way the result in Kafka messag
 </div>
 </div>
 <div class="paragraph">
-<p>To enable this transformation, you have to set the <a href="#outbox-event-router-property-table-expand-json-payload"><code>table.expand.json.payload</code></a> to true and use the <code>StringConverter</code> like below:</p>
+<p>To enable this transformation, you have to set the <a href="#outbox-event-router-property-table-expand-json-payload"><code>table.expand.json.payload</code></a> to true and use the <code>JsonConverter</code> like below:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">transforms=outbox,...
 transforms.outbox.type=io.debezium.transforms.outbox.EventRouter
 transforms.outbox.table.expand.json.payload=true
-value.converter=org.apache.kafka.connect.storage.StringConverter</code></pre>
+value.converter=org.apache.kafka.connect.json.JsonConverter</code></pre>
 </div>
 </div>
 </div>
@@ -1034,7 +1084,7 @@ See <a href="/documentation/reference/integrations/tracing">tracing documentatio
 
 <div id="toc-rightbar"></div>    <footer class="footer">
         <div class="wrapper">
-            <div class="copyright">Copyright &copy; 2022 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/99e107c88cf406583d11da32b012488ce8363609">99e107c8</a></span>)
+            <div class="copyright">Copyright &copy; 2023 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/f81564c8ee8a4c3565648dcadaae05c42e158d70">f81564c8</a></span>)
             
         </div>
     </footer>

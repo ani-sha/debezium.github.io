@@ -4,6 +4,7 @@
         <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Debezium notifications :: Debezium Documentation</title>
+    <link rel="canonical" href="https://debezium.io/documentation/reference/stable/configuration/notification.html">
     <meta name="generator" content="Antora 3.0.0-alpha.9">
 <link rel="stylesheet" href="../../debezium-antora/css/site.css">
 <link rel="stylesheet" href="../../debezium-antora/css/debezium-antora.css">
@@ -159,6 +160,9 @@
     <a class="nav-link" href="../transformations/filtering.html">Message Filtering</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/schema-change-event-filter.html">Schema Change Event Filtering</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../transformations/content-based-routing.html">Content-Based Routing</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -253,6 +257,9 @@
           <a href="/documentation/reference/nightly/index.html">nightly</a>
         </li>
         <li class="version">
+          <a href="/documentation/reference/2.4/index.html">2.4</a>
+        </li>
+        <li class="version">
           <a href="/documentation/reference/2.3/index.html">2.3</a>
         </li>
         <li class="version">
@@ -324,7 +331,8 @@
         <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">nightly</button>
         <div class="version-menu">
                 <a class="version is-current" href="/documentation/reference/nightly/index.html">nightly</a>
-                <a class="version is-missing" href="/documentation/reference/2.3/index.html">2.3</a>
+                <a class="version" href="/documentation/reference/2.4/index.html">2.4</a>
+                <a class="version" href="/documentation/reference/2.3/index.html">2.3</a>
                 <a class="version is-missing" href="/documentation/reference/2.2/index.html">2.2</a>
                 <a class="version is-missing" href="/documentation/reference/2.1/index.html">2.1</a>
                 <a class="version is-missing" href="/documentation/reference/2.0/index.html">2.0</a>
@@ -362,10 +370,16 @@
 <div id="toctitle" class="title">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#_overview">Overview</a></li>
-<li><a href="#debezium-notification-format">Debezium notification format</a>
+<li><a href="#debezium-notification-format">Debezium notification format</a></li>
+<li><a href="#debezium-available-notifications">Available notifications</a>
 <ul class="sectlevel2">
-<li><a href="#debezium-available-notifications">Available notifications</a></li>
-<li><a href="#enabling-debezium-notifications">Enabling Debezium notifications</a></li>
+<li><a href="#debezium-notifications-about-the-status-of-an-initial-snapshot">Debezium notifications about the status of an initial snapshot</a></li>
+<li><a href="#debezium-notifications-about-the-progress-of-incremental-snapshots">Debezium notifications about the progress of incremental snapshots</a></li>
+</ul>
+</li>
+<li><a href="#enabling-debezium-notifications">Enabling Debezium notifications</a>
+<ul class="sectlevel2">
+<li><a href="#access-debezium-jmx-notifications">Access to Debezium JMX notifications</a></li>
 </ul>
 </li>
 <li><a href="#debezium-notification-custom-channel">Custom notification channels</a>
@@ -391,11 +405,15 @@ Notifications can be sent to the following channels:</p>
 <dl>
 <dt class="hdlist1">SinkNotificationChannel</dt>
 <dd>
-<p>Notifications are sent through the Connect API to a configured topic.</p>
+<p>Sends notifications through the Connect API to a configured topic.</p>
 </dd>
 <dt class="hdlist1">LogNotificationChannel</dt>
 <dd>
-<p>Notification are appended to the log.</p>
+<p>Notifications are appended to the log.</p>
+</dd>
+<dt class="hdlist1">JmxNotificationChannel</dt>
+<dd>
+<p>Notifications are exposed as an attribute in a JMX bean.</p>
 </dd>
 <dt class="hdlist1">Custom</dt>
 <dd>
@@ -443,13 +461,16 @@ For an example, see <a href="#debezium-notifications-about-the-progress-of-incre
 </tr>
 </tbody>
 </table>
-<div class="sect2">
-<h3 id="debezium-available-notifications"><a class="anchor" href="#debezium-available-notifications"></a>Available notifications</h3>
-<div class="paragraph">
-<p>Debezium notifications deliver information about the progress of <a href="#debezium-notifications-about-the-status-of-an-initial-snapshot">initial snapshots</a> or <a href="#debezium-notifications-about-the-progress-of-incremental-snapshot">incremental snapshots</a>.</p>
 </div>
-<div class="sect3">
-<h4 id="_status_of_an_initial_snapshot"><a class="anchor" href="#_status_of_an_initial_snapshot"></a>Status of an initial snapshot</h4>
+</div>
+<div class="sect1">
+<h2 id="debezium-available-notifications"><a class="anchor" href="#debezium-available-notifications"></a>Available notifications</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Debezium notifications deliver information about the progress of <a href="#debezium-notifications-about-the-status-of-an-initial-snapshot">initial snapshots</a> or <a href="#debezium-notifications-about-the-progress-of-incremental-snapshots">incremental snapshots</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="debezium-notifications-about-the-status-of-an-initial-snapshot"><a class="anchor" href="#debezium-notifications-about-the-status-of-an-initial-snapshot"></a>Debezium notifications about the status of an initial snapshot</h3>
 <div class="paragraph">
 <p>The following example shows a typical notification that provides the status of an initial snapshot:</p>
 </div>
@@ -470,6 +491,9 @@ For an example, see <a href="#debezium-notifications-about-the-progress-of-incre
 <div class="ulist">
 <ul>
 <li>
+<p><code>STARTED</code></p>
+</li>
+<li>
 <p><code>COMPLETED</code></p>
 </li>
 <li>
@@ -484,8 +508,8 @@ For an example, see <a href="#debezium-notifications-about-the-progress-of-incre
 </table>
 </div>
 </div>
-<div class="sect3">
-<h4 id="debezium-notifications-about-the-progress-of-incremental-snapshots"><a class="anchor" href="#debezium-notifications-about-the-progress-of-incremental-snapshots"></a>Debezium notifications about the progress of incremental snapshots</h4>
+<div class="sect2">
+<h3 id="debezium-notifications-about-the-progress-of-incremental-snapshots"><a class="anchor" href="#debezium-notifications-about-the-progress-of-incremental-snapshots"></a>Debezium notifications about the progress of incremental snapshots</h3>
 <div class="paragraph">
 <p>The following table shows examples of the different payloads that might be present in notifications that report the status of incremental snapshots:</p>
 </div>
@@ -593,11 +617,43 @@ For an example, see <a href="#debezium-notifications-about-the-progress-of-incre
    "type":"TABLE_SCAN_COMPLETED",
    "additional_data":{
       "connector_name":"my-connector",
-      "data_collection":"table1",
-      "total_rows_scanned":"100"
+      "data_collection":"table1, table2",
+      "scanned_collection":"table1",
+      "total_rows_scanned":"100",
+      "status":"SUCCEEDED" <i class="conum" data-value="1"></i><b>(1)</b>
    }
 }</code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The possible values are:
+<div class="ulist">
+<ul>
+<li>
+<p>EMPTY - table is empty</p>
+</li>
+<li>
+<p>NO_PRIMARY_KEY - table has no primary key necessary for snapshot</p>
+</li>
+<li>
+<p>SKIPPED - snapshot for this kind of table is not supported, check logs for details</p>
+</li>
+<li>
+<p>SQL_EXCEPTION - SQL exception caught while processing a snapshot</p>
+</li>
+<li>
+<p>SUCCEEDED - snapshot completed successfully</p>
+</li>
+<li>
+<p>UNKNOWN_SCHEMA - schema not found for table, check logs for the list of known tables</p>
+</li>
+</ul>
+</div></td>
+</tr>
+</table>
 </div></div></td>
 </tr>
 <tr>
@@ -619,8 +675,10 @@ For an example, see <a href="#debezium-notifications-about-the-progress-of-incre
 </table>
 </div>
 </div>
-<div class="sect2">
-<h3 id="enabling-debezium-notifications"><a class="anchor" href="#enabling-debezium-notifications"></a>Enabling Debezium notifications</h3>
+</div>
+<div class="sect1">
+<h2 id="enabling-debezium-notifications"><a class="anchor" href="#enabling-debezium-notifications"></a>Enabling Debezium notifications</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>To enable Debezium to emit notifications, specify a list of notification channels by setting the <code>notification.enabled.channels</code> configuration property.
 By default, the following notification channels are available:</p>
@@ -632,13 +690,61 @@ By default, the following notification channels are available:</p>
 </li>
 <li>
 <p><code>log</code></p>
-<div class="literalblock">
-<div class="content">
-<pre>To use the `sink` notification channel, you must also set the `notification.sink.topic.name` configuration property to the name of the topic where you want {prodname} to send notifications.</pre>
-</div>
-</div>
+</li>
+<li>
+<p><code>jmx</code></p>
 </li>
 </ul>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>To use the <code>sink</code> notification channel, you must also set the <code>notification.sink.topic.name</code> configuration property to the name of the topic where you want Debezium to send notifications.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="access-debezium-jmx-notifications"><a class="anchor" href="#access-debezium-jmx-notifications"></a>Access to Debezium JMX notifications</h3>
+<div class="paragraph">
+<p>To enable Debezium to report events that are exposed through JMX beans, complete the following configuration steps:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a href="../operations/monitoring.html#monitoring-debezium" class="page">Enable the JMX MBean Server</a> to expose the notification bean.</p>
+</li>
+<li>
+<p>Add <code>jmx</code> to the <code>notification.enabled.channels</code> property in the connector configuration.</p>
+</li>
+<li>
+<p>Connect your preferred JMX client to the MBean Server.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Notifications are exposed through the <code>Notifications</code> attribute of a bean with the name <code>debezium.<em>&lt;connector-type&gt;</em>.management.notifications.<em>&lt;server&gt;</em></code>.</p>
+</div>
+<div class="paragraph">
+<p>The following image shows a notification that reports the start of an incremental snapshot:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/jmx-notification-attribute.png" alt="Fields in the JMX `Notifications` attribute">
+</div>
+</div>
+<div class="paragraph">
+<p>To discard a notification, call the <code>reset</code> operation on the bean.</p>
+</div>
+<div class="paragraph">
+<p>The notifications are also exposed as a JMX notification with type <code>debezium.notification</code>.
+To enable an application to listen for the JMX notifications that an MBean emits,  <a href="https://docs.oracle.com/javase/tutorial/jmx/notifs/index.html">subscribe the application to the notifications</a>.</p>
 </div>
 </div>
 </div>
@@ -772,7 +878,7 @@ To use a custom notification channel with multiple connectors, you must place a 
 <div class="sect2">
 <h3 id="configuring-connectors-to-use-a-custom-notification-channel"><a class="anchor" href="#configuring-connectors-to-use-a-custom-notification-channel"></a>Configuring connectors to use a custom notification channel</h3>
 <div class="paragraph">
-<p>Add the name of the custom notification channel to the <code>notification.enabled.channels</code> configuration property.</p>
+<p>In the connector configuration, add the name of the custom notification channel to the <code>notification.enabled.channels</code> property.</p>
 </div>
 </div>
 </div>
@@ -785,7 +891,7 @@ To use a custom notification channel with multiple connectors, you must place a 
 
 <div id="toc-rightbar"></div>    <footer class="footer">
         <div class="wrapper">
-            <div class="copyright">Copyright &copy; 2023 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/537cc50d65ff8a47b75fe97631d2a3573bcae9a3">537cc50d</a></span>)
+            <div class="copyright">Copyright &copy; 2023 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/e74cecc538e059863a7198af287b91bd6f776454">e74cecc5</a></span>)
             
         </div>
     </footer>

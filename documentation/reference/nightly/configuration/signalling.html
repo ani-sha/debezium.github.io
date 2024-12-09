@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Sending signals to a Debezium connector :: Debezium Documentation</title>
     <link rel="canonical" href="https://debezium.io/documentation/reference/stable/configuration/signalling.html">
-    <meta name="generator" content="Antora 3.0.0-alpha.9">
+    <meta name="generator" content="Antora 3.1.7">
 <link rel="stylesheet" href="../../debezium-antora/css/site.css">
 <link rel="stylesheet" href="../../debezium-antora/css/debezium-antora.css">
 <link rel="stylesheet" href="../../debezium-antora/css/highlightjs-dark.css">
@@ -94,13 +94,16 @@
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <span class="nav-text">Connectors</span>
+    <span class="nav-text">Source Connectors</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../connectors/index.html">Overview</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../connectors/mysql.html">MySQL</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../connectors/mariadb.html">MariaDB</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../connectors/mongodb.html">MongoDB</a>
@@ -127,7 +130,19 @@
     <a class="nav-link" href="../connectors/spanner.html">Spanner</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../connectors/jdbc.html">Jdbc</a>
+    <a class="nav-link" href="../connectors/informix.html">Informix</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Sink Connectors</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../connectors/index-sink.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../connectors/jdbc.html">JDBC</a>
   </li>
 </ul>
   </li>
@@ -169,13 +184,34 @@
     <a class="nav-link" href="../transformations/applying-transformations-selectively.html">Using SMT Predicates to Selectively Apply Transformations</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../transformations/compute-partition.html">Compute Partition [Deprecated]</a>
-  </li>
-  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../transformations/partition-routing.html">Partition Routing</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../transformations/header-to-value.html">HeaderToValue</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/timezone-converter.html">Timezone Converter</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/timescaledb.html">TimescaleDB Integration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/decode-logical-decoding-message-content.html">Decode Logical Decoding Message Content</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../transformations/convert-cloudevent-to-saveable-form.html">Convert CloudEvents to Saveable Form</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Post Processors</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../post-processors/index.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../post-processors/reselect-columns.html">Reselect Columns</a>
   </li>
 </ul>
   </li>
@@ -205,7 +241,7 @@
     <a class="nav-link" href="../integrations/cloudevents.html">CloudEvents</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../integrations/tracing.html">OpenTracing</a>
+    <a class="nav-link" href="../integrations/tracing.html">OpenTelemetry</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../integrations/testcontainers.html">Integration Testing with Testcontainers</a>
@@ -232,9 +268,6 @@
     <a class="nav-link" href="../operations/openshift.html">Running on Openshift</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../operations/embedded.html">Embedding Debezium</a>
-  </li>
-  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../operations/debezium-ui.html">Debezium UI</a>
   </li>
 </ul>
@@ -257,6 +290,18 @@
           <a href="/documentation/reference/nightly/index.html">nightly</a>
         </li>
         <li class="version">
+          <a href="/documentation/reference/3.0/index.html">3.0</a>
+        </li>
+        <li class="version">
+          <a href="/documentation/reference/2.7/index.html">2.7</a>
+        </li>
+        <li class="version">
+          <a href="/documentation/reference/2.6/index.html">2.6</a>
+        </li>
+        <li class="version">
+          <a href="/documentation/reference/2.5/index.html">2.5</a>
+        </li>
+        <li class="version">
           <a href="/documentation/reference/2.4/index.html">2.4</a>
         </li>
         <li class="version">
@@ -273,39 +318,6 @@
         </li>
         <li class="version">
           <a href="/documentation/reference/1.9/index.html">1.9</a>
-        </li>
-        <li class="version">
-          <a href="/documentation/reference/1.8/index.html">1.8</a>
-        </li>
-        <li class="version">
-          <a href="/documentation/reference/1.7/index.html">1.7</a>
-        </li>
-        <li class="version">
-          <a href="/documentation/reference/1.6/index.html">1.6</a>
-        </li>
-        <li class="version">
-          <a href="/documentation/reference/1.5/index.html">1.5</a>
-        </li>
-        <li class="version">
-          <a href="/documentation/reference/1.4/index.html">1.4</a>
-        </li>
-        <li class="version">
-          <a href="/documentation/reference/1.3/index.html">1.3</a>
-        </li>
-        <li class="version">
-          <a href="/documentation/reference/1.2/index.html">1.2</a>
-        </li>
-        <li class="version">
-          <a href="/documentation/reference/1.1/index.html">1.1</a>
-        </li>
-        <li class="version">
-          <a href="/documentation/reference/1.0/index.html">1.0</a>
-        </li>
-        <li class="version">
-          <a href="/documentation/reference/0.10/index.html">0.10</a>
-        </li>
-        <li class="version">
-          <a href="/documentation/reference/0.9/index.html">0.9</a>
         </li>
       </ul>
     </li>
@@ -331,23 +343,16 @@
         <button class="version-menu-toggle versions-menu-current" title="Show other versions of page">nightly</button>
         <div class="version-menu">
                 <a class="version is-current" href="/documentation/reference/nightly/index.html">nightly</a>
+                <a class="version" href="/documentation/reference/3.0/index.html">3.0</a>
+                <a class="version" href="/documentation/reference/2.7/index.html">2.7</a>
+                <a class="version" href="/documentation/reference/2.6/index.html">2.6</a>
+                <a class="version" href="/documentation/reference/2.5/index.html">2.5</a>
                 <a class="version" href="/documentation/reference/2.4/index.html">2.4</a>
                 <a class="version" href="/documentation/reference/2.3/index.html">2.3</a>
                 <a class="version" href="/documentation/reference/2.2/index.html">2.2</a>
                 <a class="version" href="/documentation/reference/2.1/index.html">2.1</a>
                 <a class="version" href="/documentation/reference/2.0/index.html">2.0</a>
                 <a class="version" href="/documentation/reference/1.9/index.html">1.9</a>
-                <a class="version" href="/documentation/reference/1.8/index.html">1.8</a>
-                <a class="version" href="/documentation/reference/1.7/index.html">1.7</a>
-                <a class="version" href="/documentation/reference/1.6/index.html">1.6</a>
-                <a class="version" href="/documentation/reference/1.5/index.html">1.5</a>
-                <a class="version is-missing" href="/documentation/reference/1.4/index.html">1.4</a>
-                <a class="version is-missing" href="/documentation/reference/1.3/index.html">1.3</a>
-                <a class="version is-missing" href="/documentation/reference/1.2/index.html">1.2</a>
-                <a class="version is-missing" href="/documentation/reference/1.1/index.html">1.1</a>
-                <a class="version is-missing" href="/documentation/reference/1.0/index.html">1.0</a>
-                <a class="version is-missing" href="/documentation/reference/0.10/index.html">0.10</a>
-                <a class="version is-missing" href="/documentation/reference/0.9/index.html">0.9</a>
         </div>
         |
     </div>
@@ -369,7 +374,11 @@
 <div id="toc" class="toc">
 <div id="toctitle" class="title">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_overview">Overview</a></li>
+<li><a href="#debezium-signaling-overview">Overview</a>
+<ul class="sectlevel2">
+<li><a href="#debezium-signaling-error-handling">Error handling</a></li>
+</ul>
+</li>
 <li><a href="#debezium-signaling-enabling-source-signaling-channel">Enabling source signaling channel</a>
 <ul class="sectlevel2">
 <li><a href="#debezium-signaling-data-collection-structure">Structure of a signaling data collection</a></li>
@@ -384,6 +393,11 @@
 <li><a href="#debezium-signaling-enabling-jmx-signaling-channel">Enabling a JMX signaling channel</a>
 <ul class="sectlevel2">
 <li><a href="#debezium-signaling-using-a-jmx-signaling-channel-to-sends-signals">Sending JMX signals</a></li>
+</ul>
+</li>
+<li><a href="#_enabling_a_file_signal_channel">Enabling a File Signal Channel</a>
+<ul class="sectlevel2">
+<li><a href="#_message_format_2">Message format</a></li>
 </ul>
 </li>
 <li><a href="#debezium-custom-signaling-channel">Custom signaling channel</a>
@@ -411,7 +425,7 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="_overview"><a class="anchor" href="#_overview"></a>Overview</h2>
+<h2 id="debezium-signaling-overview"><a class="anchor" href="#debezium-signaling-overview"></a>Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The Debezium signaling mechanism provides a way to modify the behavior of a connector, or to trigger a one-time action, such as initiating an <a href="#debezium-signaling-ad-hoc-incremental-snapshots">ad hoc snapshot</a> of a table.
@@ -422,7 +436,8 @@ To use signals to trigger a connector to perform a specified action, you can con
 <dt class="hdlist1">SourceSignalChannel</dt>
 <dd>
 <p>You can issue a SQL command to add a signal message to a specialized signaling data collection.
-The signaling data collection, which you create on the source database, is designated exclusively for communicating with Debezium.</p>
+The signaling data collection, which you create on the source database, is designated exclusively for communicating with Debezium.
+The signaling data collection must be unique to each connector instance.</p>
 </dd>
 <dt class="hdlist1">KafkaSignalChannel</dt>
 <dd>
@@ -432,14 +447,16 @@ The signaling data collection, which you create on the source database, is desig
 <dd>
 <p>You submit signals through the JMX <code>signal</code> operation.</p>
 </dd>
+<dt class="hdlist1">FileSignalChannel</dt>
+<dd>
+<p>You can use a file to send signals.</p>
+</dd>
 <dt class="hdlist1">Custom</dt>
 <dd>
-<p>You submit signals to a <a href="#debezium-custom-signaling-channel">custom channel</a> that you implement.</p>
+<p>You submit signals to a <a href="#debezium-custom-signaling-channel">custom channel</a> that you implement.
+When Debezium detects that a new <a href="#debezium-signaling-example-of-a-logging-record">logging record</a> or <a href="#debezium-signaling-example-of-an-ad-hoc-blocking-snapshot-signal-record">ad hoc snapshot record</a> is added to the channel, it reads the signal, and initiates the requested operation.</p>
 </dd>
 </dl>
-</div>
-<div class="paragraph">
-<p>When Debezium detects that a new <a href="#debezium-signaling-example-of-a-logging-record">logging record</a> or <a href="#debezium-signaling-example-of-an-ad-hoc-blocking-snapshot-signal-record">ad hoc snapshot record</a> is added to the channel, it reads the signal, and initiates the requested operation.</p>
 </div>
 <div class="paragraph">
 <p>Signaling is available for use with the following Debezium connectors:</p>
@@ -450,7 +467,10 @@ The signaling data collection, which you create on the source database, is desig
 <p>Db2</p>
 </li>
 <li>
-<p>MongoDB (Technology Preview)</p>
+<p>MariaDB (Technology Preview)</p>
+</li>
+<li>
+<p>MongoDB</p>
 </li>
 <li>
 <p>MySQL</p>
@@ -469,6 +489,16 @@ The signaling data collection, which you create on the source database, is desig
 <div class="paragraph">
 <p>You can specify which channel is enabled by setting the <code>signal.enabled.channels</code> configuration property. The property lists the names of the channels that are enabled. By default, Debezium provides the following channels: <code>source</code>  and <code>kafka</code>.
 The <code>source</code> channel is enabled by default, because it is required for incremental snapshot signals.</p>
+</div>
+<div class="sect2">
+<h3 id="debezium-signaling-error-handling"><a class="anchor" href="#debezium-signaling-error-handling"></a>Error handling</h3>
+<div class="paragraph">
+<p>With the exception of the <code>source</code> channel, Debezium signaling channels do not implement retry policies.
+After you initiate a signal, be sure to verify whether it completes successfully.</p>
+</div>
+<div class="paragraph">
+<p>You can enable a connector to automatically report on the progress of incremental or blocking snapshots by configuring it to send <a href="notification.html" class="xref page">notifications</a>.</p>
+</div>
 </div>
 </div>
 </div>
@@ -499,11 +529,19 @@ For example, <code>signal.data.collection = inventory.debezium_signals</code>.<b
 <br>
 The format for the fully-qualified name of the signaling collection depends on the connector.<br>
 The following example shows the naming formats to use for each connector:</p>
-<div class="dlist">
+</li>
+</ol>
+</div>
+<div id="format-for-specifying-fully-qualified-names-for-data-collections" class="dlist">
+<div class="title">Fully qualified table names</div>
 <dl>
 <dt class="hdlist1">Db2</dt>
 <dd>
 <p><code><em>&lt;schemaName&gt;</em>.<em>&lt;tableName&gt;</em></code></p>
+</dd>
+<dt class="hdlist1">MariaDB (Technology Preview)</dt>
+<dd>
+<p><code><em>&lt;databaseName&gt;</em>.<em>&lt;tableName&gt;</em></code></p>
 </dd>
 <dt class="hdlist1">MongoDB</dt>
 <dd>
@@ -528,9 +566,6 @@ The following example shows the naming formats to use for each connector:</p>
 For more information about setting the <code>signal.data.collection</code> property, see the table of configuration properties for your connector.</p>
 </dd>
 </dl>
-</div>
-</li>
-</ol>
 </div>
 <div class="sect2">
 <h3 id="debezium-signaling-data-collection-structure"><a class="anchor" href="#debezium-signaling-data-collection-structure"></a>Structure of a signaling data collection</h3>
@@ -665,22 +700,25 @@ After you enable the signaling channel, a Kafka consumer is created to consume s
 <div class="title">Additional configuration available for the consumer</div>
 <ul>
 <li>
-<p><a href="../connectors/db2.html#debezium-db2-connector-kafka-signals-configuration-properties" class="page">Db2 connector Kafka signal configuration properties</a></p>
+<p><a href="../connectors/db2.html#debezium-db2-connector-kafka-signals-configuration-properties" class="xref page">Db2 connector Kafka signal configuration properties</a></p>
 </li>
 <li>
-<p><a href="../connectors/mongodb.html#debezium-mongodb-connector-kafka-signals-configuration-properties" class="page">MongoDB connector Kafka signal configuration properties</a></p>
+<p><a href="../connectors/mariadb.html#debezium-mariadb-connector-kafka-signals-configuration-properties" class="xref page">MariaDB connector Kafka signal configuration properties</a></p>
 </li>
 <li>
-<p><a href="../connectors/mysql.html#debezium-mysql-connector-kafka-signals-configuration-properties" class="page">MySQL connector Kafka signal configuration properties</a></p>
+<p><a href="../connectors/mongodb.html#debezium-mongodb-connector-kafka-signals-configuration-properties" class="xref page">MongoDB connector Kafka signal configuration properties</a></p>
 </li>
 <li>
-<p><a href="../connectors/oracle.html#debezium-oracle-connector-kafka-signals-configuration-properties" class="page">Oracle connector Kafka signal configuration properties</a></p>
+<p><a href="../connectors/mysql.html#debezium-mysql-connector-kafka-signals-configuration-properties" class="xref page">MySQL connector Kafka signal configuration properties</a></p>
 </li>
 <li>
-<p><a href="../connectors/postgresql.html#debezium-postgresql-connector-kafka-signals-configuration-properties" class="page">PostgreSQL connector Kafka signal configuration properties</a></p>
+<p><a href="../connectors/oracle.html#debezium-oracle-connector-kafka-signals-configuration-properties" class="xref page">Oracle connector Kafka signal configuration properties</a></p>
 </li>
 <li>
-<p><a href="../connectors/sqlserver.html#debezium-sqlserver-connector-kafka-signals-configuration-properties" class="page">SQL Server connector Kafka signal configuration properties</a></p>
+<p><a href="../connectors/postgresql.html#debezium-postgresql-connector-kafka-signals-configuration-properties" class="xref page">PostgreSQL connector Kafka signal configuration properties</a></p>
+</li>
+<li>
+<p><a href="../connectors/sqlserver.html#debezium-sqlserver-connector-kafka-signals-configuration-properties" class="xref page">SQL Server connector Kafka signal configuration properties</a></p>
 </li>
 </ul>
 </div>
@@ -692,8 +730,10 @@ After you enable the signaling channel, a Kafka consumer is created to consume s
 </td>
 <td class="content">
 <div class="paragraph">
-<p>To use Kafka signaling to trigger ad hoc incremental snapshots for a connector, you must first <a href="#debezium-signaling-enabling-source-signaling-channel">enable a <code>source</code> signaling channel</a> in the connector configuration.
-The source channel implements a watermarking mechanism to deduplicate events that might be captured by an incremental snapshot and then captured again after streaming resumes.</p>
+<p>To use Kafka signaling to trigger ad hoc incremental snapshots for most connectors, you must first <a href="#debezium-signaling-enabling-source-signaling-channel">enable a <code>source</code> signaling channel</a> in the connector configuration.
+The source channel implements a watermarking mechanism to deduplicate events that might be captured by an incremental snapshot and then captured again after streaming resumes.
+Enabling the source channel is not required when using a signaling channel to trigger an incremental snapshot of a read-only MySQL database that has <a href="../connectors/mysql.html#enable-mysql-gtids" class="xref page">GTIDs enabled</a>.
+For more information, see <a href="../connectors/mysql.html#mysql-read-only-incremental-snapshots" class="xref page">MySQL read only incremental snapshot</a></p>
 </div>
 </td>
 </tr>
@@ -737,30 +777,8 @@ Currently Debezium supports the <code>incremental</code> and <code>blocking</cod
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data-collections</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>N/A</em></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>An array of comma-separated regular expressions that match the fully-qualified names of the data collections to include in the snapshot.<br>
-Specify the names by using the same format as is required for the <code>signal.data.collection</code> configuration option.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><span class="line-through">additional-condition</span></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>N/A</em></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>An optional string that specifies a condition that the connector evaluates to designate a subset of records to include in a snapshot.<br>
-<br></p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>This property is deprecated and should be replaced by the <code>additional-conditions</code> property.</p>
-</div>
-</td>
-</tr>
-</table>
+<p>An array of comma-separated regular expressions that match the fully qualified names of the data collections to include in the snapshot.<br>
+The <a href="#format-for-specifying-fully-qualified-names-for-data-collections">naming format</a> depends on the database.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -775,13 +793,13 @@ You can set the following properties for each additional condition:</p>
 <dl>
 <dt class="hdlist1"><code>data-collection</code></dt>
 <dd>
-<p>The fully-qualified name of the {data-collection} that the filter applies to.
-You can apply different filters to each {data-collection}.</p>
+<p>The fully-qualified name of the data collection that the filter applies to.
+You can apply different filters to each data collection.</p>
 </dd>
 <dt class="hdlist1"><code>filter</code></dt>
 <dd>
 <p>Specifies column values that must be present in a database record for the snapshot to include it, for example,  <code>"color='blue'"</code>.<br>
-The snapshot process evaluates records in the {data-collection} against the <code>filter</code> value and captures only records that contain matching values.<br>
+The snapshot process evaluates records in the data collection against the <code>filter</code> value and captures only records that contain matching values.<br>
 <br>
 The specific values that you assign to the <code>filter</code> property depend on the type of ad hoc snapshot:</p>
 <div class="ulist">
@@ -817,7 +835,7 @@ Value = `{"type":"execute-snapshot","data": {"data-collections": ["schema1.table
 <h2 id="debezium-signaling-enabling-jmx-signaling-channel"><a class="anchor" href="#debezium-signaling-enabling-jmx-signaling-channel"></a>Enabling a JMX signaling channel</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>You can enable the JMX signaling by adding <code>jmx</code> to the <code>signal.enabled.channels</code> property in the connector configuration, and then <a href="../operations/monitoring.html#monitoring-debezium" class="page">enabling the JMX MBean Server</a> to expose the signaling bean.</p>
+<p>You can enable the JMX signaling by adding <code>jmx</code> to the <code>signal.enabled.channels</code> property in the connector configuration, and then <a href="../operations/monitoring.html#monitoring-debezium" class="xref page">enabling the JMX MBean Server</a> to expose the signaling bean.</p>
 </div>
 <div class="sect2">
 <h3 id="debezium-signaling-using-a-jmx-signaling-channel-to-sends-signals"><a class="anchor" href="#debezium-signaling-using-a-jmx-signaling-channel-to-sends-signals"></a>Sending JMX signals</h3>
@@ -877,29 +895,7 @@ Currently Debezium supports the <code>incremental</code> and <code>blocking</cod
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data-collections</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>N/A</em></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>An array of comma-separated regular expressions that match the fully-qualified names of the tables to include in the snapshot.<br>
-Specify the names by using the same format as is required for the <a href="#debezium-property-signal-data-collection">signal.data.collection</a> configuration option.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><span class="line-through">additional-condition</span></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>N/A</em></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>An optional string that specifies a condition that the connector evaluates to designate a subset of records to include in a snapshot.<br></p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>This property is deprecated and should be replaced by the <code>additional-conditions</code> property.</p>
-</div>
-</td>
-</tr>
-</table>
+<p>An array of comma-separated regular expressions that match the <a href="#format-for-specifying-fully-qualified-names-for-data-collections">fully-qualified names of the tables</a> to include in the snapshot.<br></p>
 </div></div></td>
 </tr>
 <tr>
@@ -914,13 +910,13 @@ You can set the following properties for each additional condition:</p>
 <dl>
 <dt class="hdlist1"><code>data-collection</code></dt>
 <dd>
-<p>The fully-qualified name of the {data-collection} that the filter applies to.
-You can apply different filters to each {data-collection}.</p>
+<p>The fully-qualified name of the data collection that the filter applies to.
+You can apply different filters to each data collection.</p>
 </dd>
 <dt class="hdlist1"><code>filter</code></dt>
 <dd>
 <p>Specifies column values that must be present in a database record for the snapshot to include it, for example,  <code>"color='blue'"</code>.<br>
-The snapshot process evaluates records in the {data-collection} against the <code>filter</code> value and captures only records that contain matching values.<br>
+The snapshot process evaluates records in the data collection against the <code>filter</code> value and captures only records that contain matching values.<br>
 <br>
 The specific values that you assign to the <code>filter</code> property depend on the type of ad hoc snapshot:</p>
 <div class="ulist">
@@ -948,6 +944,106 @@ The specific values that you assign to the <code>filter</code> property depend o
 <div class="imageblock">
 <div class="content">
 <img src="../_images/jmx-signal-operation.png" alt="Using JConsole to send an `execute-snapshot` signal">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_enabling_a_file_signal_channel"><a class="anchor" href="#_enabling_a_file_signal_channel"></a>Enabling a File Signal Channel</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can enable the File signaling channel by adding <code>file</code> to the <code>signal.enabled.channels</code> property in the connector configuration.
+After you enable the signaling channel, you must configure the connector to read signals from a file.
+By default, the signals file is created in the root of the connector&#8217;s classpath, and has the name <code>file-signals.txt</code>.
+If you want to use a different file, set the <code>signal.file</code> property in the connector configuration, and specify the file name and path.
+The file path must be available to the connector environment.</p>
+</div>
+<div class="sect2">
+<h3 id="_message_format_2"><a class="anchor" href="#_message_format_2"></a>Message format</h3>
+<div class="paragraph">
+<p>Signals in the signal file are expressed as JSON objects that are composed of <code>id</code>, <code>type</code>, and <code>data</code> fields.</p>
+</div>
+<div class="paragraph">
+<p>The <code>id</code> field is a unique identifier for the signal, usually a UUID string.</p>
+</div>
+<div class="paragraph">
+<p>When the signal type is set to <code>execute-snapshot</code>, the <code>data</code> field must include the fields that are listed in the following table:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. Execute snapshot data fields</caption>
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 60%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Field</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>incremental</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>The type of the snapshot to run.
+Currently Debezium supports the <code>incremental</code> and <code>blocking</code> types.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data-collections</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>N/A</em></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>An array of comma-separated regular expressions that match the fully qualified names of the data collections to include in the snapshot.<br>
+The <a href="#format-for-specifying-fully-qualified-names-for-data-collections">naming format</a> depends on the database.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>additional-conditions</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>N/A</em></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>An optional array that specifies a set of additional conditions that the connector evaluates to determine the subset of records to include in a snapshot.<br>
+Each additional condition is an object that specifies the criteria for filtering the data that an ad hoc snapshot captures.
+You can set the following properties for each additional condition:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>data-collection</code></dt>
+<dd>
+<p>The fully-qualified name of the data collection that the filter applies to.
+You can apply different filters to each data collection.</p>
+</dd>
+<dt class="hdlist1"><code>filter</code></dt>
+<dd>
+<p>Specifies column values that must be present in a database record for the snapshot to include it, for example,  <code>"color='blue'"</code>.<br>
+The snapshot process evaluates records in the data collection against the <code>filter</code> value and captures only records that contain matching values.<br>
+<br>
+The specific values that you assign to the <code>filter</code> property depend on the type of ad hoc snapshot:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>For incremental snapshots, you specify a search condition fragment, such as <code>"color='blue'"</code>, that the snapshot appends to the condition clause of a query.</p>
+</li>
+<li>
+<p>For blocking snapshots, you specify a full <code>SELECT</code> statement, such as the one that you might set in the <code>snapshot.select.statement.overrides</code> property.</p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The following example shows a typical <code>execute-snapshot</code> message in the file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>{"id":"d139b9b7-7777-4547-917d-111111111111", "type":"execute-snapshot", "data":{"data-collections": ["public.MyFirstTable", "public.MySecondTable"]}}</pre>
 </div>
 </div>
 </div>
@@ -1130,7 +1226,7 @@ After processing the signal, the connector prints the specified message to the l
 Optionally, you can configure the signal so that the resulting message includes the streaming coordinates.</p>
 </div>
 <table id="debezium-signaling-example-of-a-logging-record" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. Example of a signaling record for adding a log message</caption>
+<caption class="title">Table 5. Example of a signaling record for adding a log message</caption>
 <colgroup>
 <col style="width: 5.2631%;">
 <col style="width: 47.3684%;">
@@ -1186,6 +1282,9 @@ You can initiate ad hoc snapshots at any time.</p>
 <p>Db2</p>
 </li>
 <li>
+<p>MariaDB (Technology Preview)</p>
+</li>
+<li>
 <p>MongoDB</p>
 </li>
 <li>
@@ -1203,7 +1302,7 @@ You can initiate ad hoc snapshots at any time.</p>
 </ul>
 </div>
 <table id="debezium-signaling-example-of-an-ad-hoc-signal-record" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. Example of an ad hoc snapshot signal record</caption>
+<caption class="title">Table 6. Example of an ad hoc snapshot signal record</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 90%;">
@@ -1234,7 +1333,7 @@ You can initiate ad hoc snapshots at any time.</p>
 </tbody>
 </table>
 <table id="debezium-signaling-example-of-an-ad-hoc-signal-message" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. Example of an ad hoc snapshot signal message</caption>
+<caption class="title">Table 7. Example of an ad hoc snapshot signal message</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 90%;">
@@ -1250,7 +1349,7 @@ You can initiate ad hoc snapshots at any time.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">test_connector</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{"type":"execute-snapshot","data": {"data-collections": ["public.MyFirstTable"], "type": "INCREMENTAL", "additional-conditions":[{"data-collection": "public.MyFirstTable", "filter":"color='blue' AND brand='MyBrand'"]}}</code></pre>
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{"type":"execute-snapshot","data": {"data-collections": ["public.MyFirstTable"], "type": "INCREMENTAL", "additional-conditions":[{"data-collection": "public.MyFirstTable", "filter":"color='blue' AND brand='MyBrand'"}]}}</code></pre>
 </div>
 </div></div></td>
 </tr>
@@ -1263,22 +1362,22 @@ You can initiate ad hoc snapshots at any time.</p>
 <div class="title">Additional resources</div>
 <ul>
 <li>
-<p><a href="../connectors/db2.html#db2-ad-hoc-snapshots" class="page">Db2 connector ad hoc snapshots</a></p>
+<p><a href="../connectors/db2.html#debezium-db2-incremental-snapshots" class="xref page">Db2 connector incremental snapshots</a></p>
 </li>
 <li>
-<p><a href="../connectors/mongodb.html#mongodb-ad-hoc-snapshots" class="page">MongoDB connector ad hoc snapshots</a></p>
+<p><a href="../connectors/mongodb.html#debezium-mongodb-incremental-snapshots" class="xref page">MongoDB connector incremental snapshots</a></p>
 </li>
 <li>
-<p><a href="../connectors/mysql.html#mysql-ad-hoc-snapshots" class="page">MySQL connector ad hoc snapshots</a></p>
+<p><a href="../connectors/mysql.html#debezium-mysql-incremental-snapshots" class="xref page">MySQL connector incremental snapshots</a></p>
 </li>
 <li>
-<p><a href="../connectors/oracle.html#oracle-ad-hoc-snapshots" class="page">Oracle connector ad hoc snapshots</a></p>
+<p><a href="../connectors/oracle.html#debezium-oracle-incremental-snapshots" class="xref page">Oracle connector incremental snapshots</a></p>
 </li>
 <li>
-<p><a href="../connectors/postgresql.html#postgresql-ad-hoc-snapshots" class="page">PostgreSQL connector ad hoc snapshots</a></p>
+<p><a href="../connectors/postgresql.html#debezium-postgresql-incremental-snapshots" class="xref page">PostgreSQL connector incremental snapshots</a></p>
 </li>
 <li>
-<p><a href="../connectors/sqlserver.html#sqlserver-ad-hoc-snapshots" class="page">SQL Server connector ad hoc snapshots</a></p>
+<p><a href="../connectors/sqlserver.html#debezium-sqlserver-incremental-snapshots" class="xref page">SQL Server connector incremental snapshots</a></p>
 </li>
 </ul>
 </div>
@@ -1298,6 +1397,9 @@ After processing the signal, the connector will stop the current in-progress sna
 <p>Db2</p>
 </li>
 <li>
+<p>MariaDB (Technology Preview)</p>
+</li>
+<li>
 <p>MongoDB</p>
 </li>
 <li>
@@ -1315,7 +1417,7 @@ After processing the signal, the connector will stop the current in-progress sna
 </ul>
 </div>
 <table id="debezium-signaling-example-of-a-stop-ad-hoc-signal-record" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. Example of a stop ad hoc snapshot signal record</caption>
+<caption class="title">Table 8. Example of a stop ad hoc snapshot signal record</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 90%;">
@@ -1393,6 +1495,9 @@ Therefor it&#8217;s not possible to specify the data collection as the snapshot 
 <p>Db2</p>
 </li>
 <li>
+<p>MariaDB (Technology Preview)</p>
+</li>
+<li>
 <p>MongoDB</p>
 </li>
 <li>
@@ -1410,7 +1515,7 @@ Therefor it&#8217;s not possible to specify the data collection as the snapshot 
 </ul>
 </div>
 <table id="debezium-signaling-example-of-a-pause-incremental-signal-record" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 8. Example of a pause incremental snapshot signal record</caption>
+<caption class="title">Table 9. Example of a pause incremental snapshot signal record</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 90%;">
@@ -1452,6 +1557,9 @@ After processing the signal, the connector will resume previously paused snapsho
 <p>Db2</p>
 </li>
 <li>
+<p>MariaDB (Technology Preview)</p>
+</li>
+<li>
 <p>MongoDB</p>
 </li>
 <li>
@@ -1469,7 +1577,7 @@ After processing the signal, the connector will resume previously paused snapsho
 </ul>
 </div>
 <table id="debezium-signaling-example-of-a-resume-incremental-signal-record" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 9. Example of a resume incremental snapshot signal record</caption>
+<caption class="title">Table 10. Example of a resume incremental snapshot signal record</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 90%;">
@@ -1502,22 +1610,22 @@ The <code>data</code> field is ignored.</p>
 <div class="title">Additional resources</div>
 <ul>
 <li>
-<p><a href="../connectors/db2.html#db2-incremental-snapshots" class="page">Db2 connector incremental snapshots</a></p>
+<p><a href="../connectors/db2.html#debezium-db2-incremental-snapshots" class="xref page">Db2 connector incremental snapshots</a></p>
 </li>
 <li>
-<p><a href="../connectors/mongodb.html#mongodb-incremental-snapshots" class="page">MongoDB connector incremental snapshots</a></p>
+<p><a href="../connectors/mongodb.html#debezium-mongodb-incremental-snapshots" class="xref page">MongoDB connector incremental snapshots</a></p>
 </li>
 <li>
-<p><a href="../connectors/mysql.html#mysql-incremental-snapshots" class="page">MySQL connector incremental snapshots</a></p>
+<p><a href="../connectors/mysql.html#debezium-mysql-incremental-snapshots" class="xref page">MySQL connector incremental snapshots</a></p>
 </li>
 <li>
-<p><a href="../connectors/oracle.html#oracle-incremental-snapshots" class="page">Oracle connector incremental snapshots</a></p>
+<p><a href="../connectors/oracle.html#debezium-oracle-incremental-snapshots" class="xref page">Oracle connector incremental snapshots</a></p>
 </li>
 <li>
-<p><a href="../connectors/postgresql.html#postgresql-incremental-snapshots" class="page">PostgreSQL connector incremental snapshots</a></p>
+<p><a href="../connectors/postgresql.html#debezium-postgresql-incremental-snapshots" class="xref page">PostgreSQL connector incremental snapshots</a></p>
 </li>
 <li>
-<p><a href="../connectors/sqlserver.html#sqlserver-incremental-snapshots" class="page">SQL Server connector incremental snapshots</a></p>
+<p><a href="../connectors/sqlserver.html#debezium-sqlserver-incremental-snapshots" class="xref page">SQL Server connector incremental snapshots</a></p>
 </li>
 </ul>
 </div>
@@ -1542,6 +1650,9 @@ You can initiate ad hoc blocking snapshots at any time.</p>
 <p>Db2</p>
 </li>
 <li>
+<p>MariaDB (Technology Preview)</p>
+</li>
+<li>
 <p>MongoDB</p>
 </li>
 <li>
@@ -1559,7 +1670,7 @@ You can initiate ad hoc blocking snapshots at any time.</p>
 </ul>
 </div>
 <table id="debezium-signaling-example-of-an-ad-hoc-blocking-snapshot-signal-record" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 10. Example of a blocking snapshot signal record</caption>
+<caption class="title">Table 11. Example of a blocking snapshot signal record</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 90%;">
@@ -1590,7 +1701,7 @@ You can initiate ad hoc blocking snapshots at any time.</p>
 </tbody>
 </table>
 <table id="debezium-signaling-example-of-an-ad-hoc-blocking-snapshot-signal-message" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 11. Example of a blocking snapshot signal message</caption>
+<caption class="title">Table 12. Example of a blocking snapshot signal message</caption>
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 90%;">
@@ -1619,22 +1730,22 @@ You can initiate ad hoc blocking snapshots at any time.</p>
 <div class="title">Additional resources</div>
 <ul>
 <li>
-<p><a href="../connectors/db2.html#db2-blocking-snapshots" class="page">Db2 connector ad hoc blocking snapshots</a></p>
+<p><a href="../connectors/db2.html#db2-blocking-snapshots" class="xref page">Db2 connector ad hoc blocking snapshots</a></p>
 </li>
 <li>
-<p><a href="../connectors/mongodb.html#mongodb-blocking-snapshots" class="page">MongoDB connector ad hoc blocking snapshots</a></p>
+<p><a href="../connectors/mongodb.html#mongodb-blocking-snapshots" class="xref page">MongoDB connector ad hoc blocking snapshots</a></p>
 </li>
 <li>
-<p><a href="../connectors/mysql.html#mysql-blocking-snapshots" class="page">MySQL connector ad hoc blocking snapshots</a></p>
+<p><a href="../connectors/mysql.html#mysql-blocking-snapshots" class="xref page">MySQL connector ad hoc blocking snapshots</a></p>
 </li>
 <li>
-<p><a href="../connectors/oracle.html#oracle-blocking-snapshots" class="page">Oracle connector ad hoc blocking snapshots</a></p>
+<p><a href="../connectors/oracle.html#oracle-blocking-snapshots" class="xref page">Oracle connector ad hoc blocking snapshots</a></p>
 </li>
 <li>
-<p><a href="../connectors/postgresql.html#postgresql-blocking-snapshots" class="page">PostgreSQL connector ad hoc blocking snapshots</a></p>
+<p><a href="../connectors/postgresql.html#postgresql-blocking-snapshots" class="xref page">PostgreSQL connector ad hoc blocking snapshots</a></p>
 </li>
 <li>
-<p><a href="../connectors/sqlserver.html#sqlserver-blocking-snapshots" class="page">SQL Server connector ad hoc blocking snapshots</a></p>
+<p><a href="../connectors/sqlserver.html#sqlserver-blocking-snapshots" class="xref page">SQL Server connector ad hoc blocking snapshots</a></p>
 </li>
 </ul>
 </div>
@@ -1759,7 +1870,7 @@ To use a custom action with multiple connectors, you must place a copy of the cu
 
 <div id="toc-rightbar"></div>    <footer class="footer">
         <div class="wrapper">
-            <div class="copyright">Copyright &copy; 2023 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/e74cecc538e059863a7198af287b91bd6f776454">e74cecc5</a></span>)
+            <div class="copyright">Copyright &copy; 2024 Debezium Community (Rev: <span class="truncated"><a href="https://github.com/debezium/debezium/commit/f4953c5016c30377102c0005040cb7d00e76e653">f4953c50</a></span>)
             
         </div>
     </footer>
